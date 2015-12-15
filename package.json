@@ -1,0 +1,17 @@
+{
+  "name": "",
+  "version": "0.0.1",
+  "description": "rot.js terminal game",
+  "homepage": "",
+  "bugs": "",
+  "author": "Sean O'Donohue <sean.e.odonohue@gmail.com>",
+  "files": [
+    "game.js",
+    "package.json",
+    "README.md"
+  ],
+  "dependencies": {
+    "keypress": "0.2.1",
+    "rot-js": "0.6.0",
+  }
+}
