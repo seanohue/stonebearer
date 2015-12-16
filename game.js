@@ -149,42 +149,42 @@ Player.prototype.handleEvent = function (ch, key) {
     }
 
     if (name === "space") {
-        this.endTurn();
+        process.stdin.removeListener("keypress", this.handleEvent);
+        Game.engine.unlock();
+        return;
     }
 
-    handlePlayerMovement();
+    var keyMap = {};
+    keyMap["up"] = 0;
+    keyMap["pageup"] = 1;
+    keyMap["right"] = 2;
+    keyMap["pagedown"] = 3;
+    keyMap["down"] = 4;
+    keyMap["end"] = 5;
+    keyMap["left"] = 6;
+    keyMap["home"] = 7;
 
-    function handlePlayerMovement() {
-        var keyMap = {};
-        keyMap["up"] = 0;
-        keyMap["pageup"] = 1;
-        keyMap["right"] = 2;
-        keyMap["pagedown"] = 3;
-        keyMap["down"] = 4;
-        keyMap["end"] = 5;
-        keyMap["left"] = 6;
-        keyMap["home"] = 7;
-
-        if (!(name in keyMap)) {
-            return;
-        }
-
-        var dir = ROT.DIRS[8][keyMap[name]];
-        var newX = this._x + dir[0];
-        var newY = this._y + dir[1];
-
-        var newKey = newX + "," + newY;
-        if (!(newKey in Game.map)) {
-            return;
-        }
-
-        Game.display.draw(this._x, this._y, Game.map[this._x + "," + this._y]);
-        this._x = newX;
-        this._y = newY;
-        this._draw();
-
-        this.endTurn();
+    if (!(name in keyMap)) {
+        return;
     }
+
+    var dir = ROT.DIRS[8][keyMap[name]];
+    var newX = this._x + dir[0];
+    var newY = this._y + dir[1];
+
+    var newKey = newX + "," + newY;
+    if (!(newKey in Game.map)) {
+        return;
+    }
+
+    Game.display.draw(this._x, this._y, Game.map[this._x + "," + this._y]);
+    this._x = newX;
+    this._y = newY;
+    this._draw();
+
+    process.stdin.removeListener("keypress", this.handleEvent);
+    Game.engine.unlock();
+
 
 }
 
@@ -200,20 +200,14 @@ Player.prototype._checkBox = function () {
         // TODO: add handling for loot here. 
         // also, player inventory?
         Game.showMessage("Hooray! You found an ananas and won this game.");
-        Game.engine.lock();
-        process.stdin.removeListener("keypress", this.handleEvent);
         setTimeout(function () {
             process.exit(0);
         }, 750);
     } else {
-        Game.showMessage("This box is empty :-(");
+        Game.showMessage("This box is empty.");
     }
 }
 
-player.prototype.endTurn = function () {
-    process.stdin.removeListener("keypress", this.handleEvent);
-    Game.engine.unlock();
-}
 
 var Assassin = function (x, y) {
     this._x = x;
@@ -261,7 +255,7 @@ Assassin.prototype.act = function () {
 }
 
 Assassin.prototype._draw = function () {
-    Game.display.draw(this._x, this._y, "P", "red");
+    Game.display.draw(this._x, this._y, "A", "red");
 }
 
 function handleExit() {
