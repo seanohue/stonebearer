@@ -30,18 +30,28 @@ var lootRarityTable = {
 
 var lootInventory = {
     'flashlight': {
-        name: 'a flashlight'
+        name: 'a flashlight',
+        location: 'held',
+        symbol: '\`'
     },
     'armored vest': {
-        name: 'an armored vest'
+        name: 'an armored vest',
+        location: 'body',
+        symbol: '"'
     },
     'miner\'s helmet': {
-        name: 'a miner\'s helmet'
+        name: 'a miner\'s helmet',
+        location: 'head',
+        symbol: '^'
     },
     'pickaxe': {
-        name: 'a pickaxe'
+        name: 'a pickaxe',
+        location: 'held',
+        symbol: '!'
     },
     'jumpsuit': {
-        name: 'a jumpsuit'
+        name: 'a jumpsuit',
+        location: 'body',
+        symbol: '%'
     }
 };

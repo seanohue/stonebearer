@@ -1,16 +1,17 @@
+// This is built on the node roguelike tutorial found at http://www.roguebasin.com/index.php?title=Rot.js_tutorial
+// Thanks to its author, 'blinkdog'
+
 var ROT = require('rot-js');
 var keypress = require('keypress');
 var Player = require('./player.js');
 var lootGenerator = require('./loot.js');
+var inquirer = require("inquirer");
 
 process.on("exit", function () {
     handleExit();
 });
 
 setupKeypress();
-
-// This is built on the node roguelike tutorial found at http://www.roguebasin.com/index.php?title=Rot.js_tutorial
-// Thanks to its author, 'blinkdog'
 
 var Game = module.exports = {
     display: null,
@@ -177,7 +178,11 @@ Player.prototype._checkForItem = function () {
     } else if (item === "*") {
         // generate loot from chest
         var loot = lootGenerator.getLoot();
-        Game.showMessage("You found " + loot.name);
+        var message = Game.player.addToInventory(loot);
+        if (message === "There is no room for " + loot.name + " so you leave it behind.") {
+            Game.map[key] = item.symbol;
+        }
+        Game.showMessage(message);
     } else {
         // check for various items based on the map icon
         // this could probably be merged with the above statement once implemented.

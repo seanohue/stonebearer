@@ -1,17 +1,38 @@
 {
-  "name": "",
-  "version": "0.0.1",
-  "description": "rot.js terminal game",
-  "homepage": "",
-  "bugs": "",
-  "author": "Sean O'Donohue <sean.e.odonohue@gmail.com>",
-  "files": [
-    "game.js",
-    "package.json",
-    "README.md"
-  ],
+  "name": "stonebearer",
+  "version": "0.0.2",
+  "description": "A roguelike game written using ROT.js and node, to be played in the terminal.",
+  "main": "game.js",
   "dependencies": {
-    "keypress": "0.2.1",
-    "rot-js": "0.6.0",
-  }
+    "inquirer": "^0.11.0",
+    "keypress": "^0.2.1",
+    "rot-js": "^0.6.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "node game.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/seanohue/stonebearer.git"
+  },
+  "keywords": [
+    "rogue",
+    "roguelike",
+    "game",
+    "nethack",
+    "terminal",
+    "game",
+    "ascii",
+    "rpg",
+    "adventure",
+    "game",
+    "engine"
+  ],
+  "author": "Sean O'Donohue",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/seanohue/stonebearer/issues"
+  },
+  "homepage": "https://github.com/seanohue/stonebearer#readme"
 }

@@ -36,6 +36,10 @@ Player.prototype.getInventory = function (key) {
 }
 
 Player.prototype.addToInventory = function (item) {
+    if(!item.location) {
+        throw "ERROR: Item has no set location...";
+    }
+
     if (!this.inventory[item.location]) {
         this.inventory[item.location] = item;
         return "You equip " + item.name + ".";
@@ -43,6 +47,7 @@ Player.prototype.addToInventory = function (item) {
         this.inventory.backpack = item;
         return "You put " + item.name + " in your backpack.";
     } else {
+        return "There is no room for " + item.name + " so you leave it behind.";
         // do a thing where you ask if they want to swap it?
         // if backpack is empty, ask if they want to store it there (one item at a time)
     }
