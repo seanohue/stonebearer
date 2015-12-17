@@ -1,4 +1,7 @@
-var Player = function (x, y) {
+
+var Player = module.exports = {};
+
+Player = function (x, y) {
     // keypress handler will always treat the Player as the 'this' object
     this.handleEvent = this.handleEvent.bind(this);
     this._x = x;
