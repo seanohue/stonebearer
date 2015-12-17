@@ -12,7 +12,7 @@ setupKeypress();
 // This is built on the node roguelike tutorial found at http://www.roguebasin.com/index.php?title=Rot.js_tutorial
 // Thanks to its author, 'blinkdog'
 
-var Game = {
+var Game = module.exports = {
     display: null,
     map: {},
     engine: null,
@@ -112,29 +112,6 @@ var Game = {
     }
 };
 
-var Player = function (x, y) {
-    // keypress handler will always treat the Player as the 'this' object
-    this.handleEvent = this.handleEvent.bind(this);
-    this._x = x;
-    this._y = y;
-    this._draw();
-}
-
-Player.prototype.getSpeed = function () {
-    return 100;
-}
-Player.prototype.getX = function () {
-    return this._x;
-}
-Player.prototype.getY = function () {
-    return this._y;
-}
-
-Player.prototype.act = function () {
-    Game.engine.lock();
-    process.stdin.on("keypress", this.handleEvent);
-}
-
 Player.prototype.handleEvent = function (ch, key) {
     if (typeof key === "undefined" || key === null) {
         return;
@@ -186,8 +163,6 @@ Player.prototype.handleEvent = function (ch, key) {
 
     process.stdin.removeListener("keypress", this.handleEvent);
     Game.engine.unlock();
-
-
 }
 
 Player.prototype._draw = function () {
@@ -210,6 +185,10 @@ Player.prototype._checkBox = function () {
     }
 }
 
+Player.prototype.act = function () {
+    Game.engine.lock();
+    process.stdin.on("keypress", this.handleEvent);
+}
 
 var Assassin = function (x, y) {
     this._x = x;
