@@ -98,8 +98,6 @@ var Game = module.exports = {
             var index = Math.floor(ROT.RNG.getUniform() * freeCells.length);
             var key = freeCells.splice(index, 1)[0];
             this.map[key] = "*";
-            // TODO: add loot to boxes
-
         }
     },
 
@@ -124,7 +122,7 @@ Player.prototype.handleEvent = function (ch, key) {
     }
 
     if (name === "return") {
-        this._checkBox();
+        this._checkForItem();
         return;
     }
 
@@ -170,20 +168,21 @@ Player.prototype._draw = function () {
     Game.display.draw(this._x, this._y, "@", "#ff0");
 }
 
-Player.prototype._checkBox = function () {
+Player.prototype._checkForItem = function () {
     var key = this._x + "," + this._y;
-    if (Game.map[key] != "*") {
-        Game.showMessage("There is no box here!");
-    } else if (key == Game.ananas) {
-        // TODO: add handling for loot here. 
-        // also, player inventory?
-        // If player chooses not to pick it up, it should persist.
-        Game.showMessage("Hooray! You found an ananas and won this game.");
-        setTimeout(function () {
-            process.exit(0);
-        }, 750);
+    var item = Game.map[key];
+
+    if (item === ".") {
+        Game.showMessage("There are no items here");
+    } else if (item === "*") {
+        // generate loot from chest
+        var loot = lootGenerator.getLoot();
+        Game.showMessage("You found " + loot.name);
     } else {
-        Game.showMessage("This box is empty.");
+        // check for various items based on the map icon
+        // this could probably be merged with the above statement once implemented.
+        // for now there is essentially this error message:
+        Game.showMessage("That's useless.");
     }
 }
 

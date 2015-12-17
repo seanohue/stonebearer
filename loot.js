@@ -19,7 +19,7 @@ var lootRarityTable = {
         'armored vest': 2,
         'miner\'s helmet': 1,
         'pickaxe': 4,
-        'nothing': 3
+        'jumpsuit': 3
     },
 };
 
@@ -29,9 +29,19 @@ var lootRarityTable = {
  */
 
 var lootInventory = {
-	'flashlight': {},
-	'armored vest': {},
-	'miner\'s helmet': {},
-	'pickaxe': {},
-	'nothing': null
+    'flashlight': {
+        name: 'a flashlight'
+    },
+    'armored vest': {
+        name: 'an armored vest'
+    },
+    'miner\'s helmet': {
+        name: 'a miner\'s helmet'
+    },
+    'pickaxe': {
+        name: 'a pickaxe'
+    },
+    'jumpsuit': {
+        name: 'a jumpsuit'
+    }
 };
