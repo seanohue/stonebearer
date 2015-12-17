@@ -1,6 +1,5 @@
 var ROT = require('rot-js');
 var keypress = require('keypress');
-var EventEmitter = require('events');
 var Player = require('./player.js');
 var lootGenerator = require('./loot.js');
 
