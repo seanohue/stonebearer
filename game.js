@@ -2,6 +2,7 @@ var ROT = require('rot-js');
 var keypress = require('keypress');
 var EventEmitter = require('events');
 var Player = require('./player.js');
+var lootGenerator = require('./loot.js');
 
 process.on("exit", function () {
     handleExit();
@@ -99,6 +100,7 @@ var Game = module.exports = {
             var key = freeCells.splice(index, 1)[0];
             this.map[key] = "*";
             // TODO: add loot to boxes
+
         }
     },
 
@@ -176,6 +178,7 @@ Player.prototype._checkBox = function () {
     } else if (key == Game.ananas) {
         // TODO: add handling for loot here. 
         // also, player inventory?
+        // If player chooses not to pick it up, it should persist.
         Game.showMessage("Hooray! You found an ananas and won this game.");
         setTimeout(function () {
             process.exit(0);
