@@ -176,12 +176,16 @@ Player.prototype._checkForItem = function () {
     if (item === ".") {
         Game.showMessage("There are no items here");
     } else if (item === "*") {
+        
         // generate loot from chest
         var loot = lootGenerator.getLoot();
         var message = Game.player.addToInventory(loot);
         if (message === "There is no room for " + loot.name + " so you leave it behind.") {
-            Game.map[key] = item.symbol;
+            Game.map[key] = loot.symbol;
+        } else {
+            Game.map[key] = '.'
         }
+
         Game.showMessage(message);
     } else {
         // check for various items based on the map icon
