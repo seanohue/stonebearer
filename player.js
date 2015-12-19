@@ -32,11 +32,22 @@ Player.prototype.getY = function () {
 
 Player.prototype.getInventory = function (key) {
     if (key) return this.inventory[key];
-    return this.inventory;
+    return this.prettifiedInventory();
+}
+
+Player.prototype.prettifiedInventory = function () {
+    var inventoryString = "Inventory: \n";
+    for (location in this.inventory) {
+        var item = this.inventory[location];
+        if (item && location !== 'stones') {
+            inventoryString += location + ": " + item.name + "\n";
+        }
+    }
+    return inventoryString;
 }
 
 Player.prototype.addToInventory = function (item) {
-    if(!item.location) {
+    if (!item.location) {
         throw "ERROR: Item has no set location...";
     }
 

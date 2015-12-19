@@ -133,6 +133,11 @@ Player.prototype.handleEvent = function (ch, key) {
         return;
     }
 
+    if (name === "i") {
+        Game.showMessage(Game.player.getInventory());
+        return;
+    }
+
     var keyMap = {};
     keyMap["up"] = 0;
     keyMap["pageup"] = 1;
@@ -185,9 +190,12 @@ Player.prototype._checkForItem = function () {
         } else {
             Game.map[key] = '.'
         }
-
         Game.showMessage(message);
     } else {
+        
+        // implement this
+        // var loot = lootGenerator.getLootBySymbol(item);
+        
         // check for various items based on the map icon
         // this could probably be merged with the above statement once implemented.
         // for now there is essentially this error message:
