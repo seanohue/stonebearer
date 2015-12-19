@@ -103,9 +103,9 @@ var Game = {
     _createBeing: function (being, freeCells) {
         var index = Math.floor(ROT.RNG.getUniform() * freeCells.length);
         var key = freeCells.splice(index, 1)[0];
-        var parts = key.split(",");
-        var x = parseInt(parts[0]);
-        var y = parseInt(parts[1]);
+        var coords = key.split(",");
+        var x = parseInt(coords[0]);
+        var y = parseInt(coords[1]);
         return new being(x, y);
     },
 
