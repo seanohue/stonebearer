@@ -44,7 +44,7 @@ var Game = {
         this._entities.map(function (entity) {
             scheduler.add(entity, true);
         });
-        
+
         this.engine = new ROT.Engine(scheduler);
         this.engine.start();
     },
@@ -70,6 +70,7 @@ var Game = {
     _generateMap: function () {
         var width = process.stdout.columns;
         var height = process.stdout.rows;
+
         var levelOptions = {
             roomWidth: [2, 20],
             roomHeight: [2, 20],
@@ -78,6 +79,7 @@ var Game = {
             timeLimit: 1500
         };
         var digger = new ROT.Map.Digger(width, height, levelOptions);
+
         var freeCells = [];
 
         var digCallback = function (x, y, value) {
@@ -94,7 +96,7 @@ var Game = {
         this._generateLoot(freeCells);
         this._drawWholeMap();
 
-        // TODO: Refactor to be more extensible
+        // TODO: an entity creation factory function
         this.player = this._createBeing(Player, freeCells);
         this._entities.push(this.player);
         this._entities.push(this._createBeing(Assassin, freeCells));
@@ -206,26 +208,34 @@ Player.prototype._checkForItem = function () {
 
     if (item === ".") {
         Game.showMessage("There are no items here");
-    } else if (item === "*") {
+        return;
+    }
+
+    if (item === "*") {
 
         // generate loot from chest
         var newLoot = Loot.getRandomLoot();
-        var message = Game.player.addToInventory(newLoot);
-        if (message === "There is no room for " + newLoot.name + " so you leave it behind.") {
-            Game.map[key] = newLoot.symbol;
-        } else {
-            Game.map[key] = '.'
-        }
-        Game.showMessage(message);
-    } else {
-        // implement this
-        // var loot = Loot.getLootBySymbol(item);
+        pickUpOrLeave(newLoot);
 
+    } else {
+        var droppedLoot = Loot.getLootBySymbol(item);
+        pickUpOrLeave(droppedLoot);
         // check for various items based on the map icon
         // this could probably be merged with the above statement once implemented.
         // for now there is this error message:
         Game.showMessage("That's useless.");
     }
+
+    function pickUpOrLeave(item) {
+        var message = Game.player.addToInventory(item);
+        if (message === "There is no room for " + item.name + " so you leave it behind.") {
+            Game.map[key] = item.symbol;
+        } else {
+            Game.map[key] = '.'
+        }
+        Game.showMessage(message);
+    }
+
 }
 
 Player.prototype.act = function () {
