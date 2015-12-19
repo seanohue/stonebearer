@@ -1,16 +1,27 @@
 // This is built on the node roguelike tutorial found at http://www.roguebasin.com/index.php?title=Rot.js_tutorial
 // Thanks to its author, 'blinkdog'
 
+/*
+ * NPM modules
+ */
+
 var ROT = require('rot-js');
 var keypress = require('keypress');
 var inquirer = require("inquirer");
+
+/*
+ * Game modules
+ */
 
 var Player = require('./player.js');
 var Entity = require('./entity.js');
 var Loot = require('./loot.js');
 
+/*
+* Game engine/scheduler, methods, and main loop
+*/
 
-var Game = module.exports = {
+var Game = {
     display: null,
     map: {},
     engine: null,
@@ -79,6 +90,7 @@ var Game = module.exports = {
         this._generateLoot(freeCells);
         this._drawWholeMap();
 
+        // TODO: Refactor to be more extensible
         this.player = this._createBeing(Player, freeCells);
         this.assassin = this._createBeing(Assassin, freeCells);
     },
@@ -201,13 +213,12 @@ Player.prototype._checkForItem = function () {
         }
         Game.showMessage(message);
     } else {
-
         // implement this
         // var loot = Loot.getLootBySymbol(item);
 
         // check for various items based on the map icon
         // this could probably be merged with the above statement once implemented.
-        // for now there is essentially this error message:
+        // for now there is this error message:
         Game.showMessage("That's useless.");
     }
 }
@@ -292,10 +303,6 @@ var Pathing = {
  *   Basic keypress set up
  */
 
-function handleExit() {
-    process.stdout.write("\x1b[" + (process.stdout.rows + 1) + ";1H");
-    process.stdout.write("\x1b[?25h");
-}
 
 function setupKeypress() {
     process.stdout.write("\x1b[?25l");
@@ -304,18 +311,28 @@ function setupKeypress() {
     process.stdin.resume();
 
     process.stdin.on("keypress", exitIfEscapeChars);
+
     function exitIfEscapeChars(ch, key) {
         if (ch === "\u0003" || ch === "\u001b") {
             process.exit(0);
         }
     }
+
+    process.on("exit", function () {
+        handleExit();
+    });
+
+    function handleExit() {
+        process.stdout.write("\x1b[" + (process.stdout.rows + 1) + ";1H");
+        process.stdout.write("\x1b[?25h");
+    }
 }
 
 
-process.on("exit", function () {
-    handleExit();
-});
+
+/*
+ *   Set up necessary handlers and begin game loop
+ */
 
 setupKeypress();
-
 Game.init();
