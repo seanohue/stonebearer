@@ -20,7 +20,7 @@ var Entity = module.exports = function (x, y, draw, options) {
     this._name = options.name;
     this.act = options.action;
     this.attr = options.attr;
-    
+
     this._sym = options.symbol;
     this._col = options.color;
     this._draw = draw;

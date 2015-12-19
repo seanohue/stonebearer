@@ -303,9 +303,7 @@ function setupKeypress() {
     process.stdin.setRawMode(true);
     process.stdin.resume();
 
-    // Exit listener for ctrl+c or ESC
     process.stdin.on("keypress", exitIfEscapeChars);
-
     function exitIfEscapeChars(ch, key) {
         if (ch === "\u0003" || ch === "\u001b") {
             process.exit(0);
