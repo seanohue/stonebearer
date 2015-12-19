@@ -3,9 +3,12 @@
 
 var ROT = require('rot-js');
 var keypress = require('keypress');
-var Player = require('./player.js');
-var loot = require('./loot.js');
 var inquirer = require("inquirer");
+
+var Player = require('./player.js');
+var Entity = require('./entity.js');
+var Loot = require('./loot.js');
+
 
 process.on("exit", function () {
     handleExit();
@@ -140,7 +143,7 @@ Player.prototype.handleEvent = function (ch, key) {
     }
 
     if (name === "s") {
-        Game.showMessage(Game.player.getAttributes(), 3500); 
+        Game.showMessage(Game.player.getAttributes(), 3500);
         return;
     }
 
@@ -187,9 +190,9 @@ Player.prototype._checkForItem = function () {
     if (item === ".") {
         Game.showMessage("There are no items here");
     } else if (item === "*") {
-        
+
         // generate loot from chest
-        var newLoot = loot.getRandomLoot();
+        var newLoot = Loot.getRandomLoot();
         var message = Game.player.addToInventory(newLoot);
         if (message === "There is no room for " + newLoot.name + " so you leave it behind.") {
             Game.map[key] = newLoot.symbol;
@@ -198,10 +201,10 @@ Player.prototype._checkForItem = function () {
         }
         Game.showMessage(message);
     } else {
-        
+
         // implement this
-        // var loot = loot.getLootBySymbol(item);
-        
+        // var loot = Loot.getLootBySymbol(item);
+
         // check for various items based on the map icon
         // this could probably be merged with the above statement once implemented.
         // for now there is essentially this error message:
@@ -215,16 +218,15 @@ Player.prototype.act = function () {
 }
 
 var Assassin = function (x, y) {
-    this._x = x;
-    this._y = y;
-    this._draw();
+    var draw = function drawAssassin() {
+        return Game.display.draw(this._x, this._y, "A", "red");
+    };
+    return new Entity(x, y, "Assassin", draw, entityMovesToPlayer);
 }
 
-Assassin.prototype.getSpeed = function () {
-    return 100;
-}
+// TODO: extract to AI/scripting module
 
-Assassin.prototype.act = function () {
+function entityMovesToPlayer() {
     var x = Game.player.getX();
     var y = Game.player.getY();
 
@@ -242,7 +244,10 @@ Assassin.prototype.act = function () {
     astar.compute(this._x, this._y, pathCallback);
 
     path.shift();
-    // <=, in case the player jumps into assassin's arms (path.length === 0)
+
+    // TODO: make this part less crappy and more generic.
+    // but also allow for custom combat messages/scripting
+    // <=, in case the player jumps into Entity's arms (path.length === 0)
     if (path.length <= 1) {
         Game.engine.lock();
         Game.showMessage("%c{red}Game over - you were captured by assassin!");
@@ -259,10 +264,6 @@ Assassin.prototype.act = function () {
     }
 }
 
-Assassin.prototype._draw = function () {
-    Game.display.draw(this._x, this._y, "A", "red");
-}
-
 function handleExit() {
     process.stdout.write("\x1b[" + (process.stdout.rows + 1) + ";1H");
     process.stdout.write("\x1b[?25h");
@@ -273,6 +274,7 @@ function setupKeypress() {
     keypress(process.stdin);
     process.stdin.setRawMode(true);
     process.stdin.resume();
+
     // Exit listener for ctrl+c or ESC
     process.stdin.on("keypress", function (ch, key) {
         if (ch === "\u0003" || ch === "\u001b") {
