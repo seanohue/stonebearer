@@ -4,7 +4,7 @@
 var ROT = require('rot-js');
 var keypress = require('keypress');
 var Player = require('./player.js');
-var lootGenerator = require('./loot.js');
+var loot = require('./loot.js');
 var inquirer = require("inquirer");
 
 process.on("exit", function () {
@@ -43,7 +43,8 @@ var Game = module.exports = {
     },
 
     // display a message for the user
-    showMessage: function (message) {
+    showMessage: function (message, duration) {
+        duration = duration || 1000;
         // draw the message in the upper left corner, in yellow
         this.display.drawText(0, 1, ("%c{#ff0}" + message));
         setTimeout((function () {
@@ -134,7 +135,7 @@ Player.prototype.handleEvent = function (ch, key) {
     }
 
     if (name === "i") {
-        Game.showMessage(Game.player.getInventory());
+        Game.showMessage(Game.player.getInventory(), 3500);
         return;
     }
 
@@ -183,10 +184,10 @@ Player.prototype._checkForItem = function () {
     } else if (item === "*") {
         
         // generate loot from chest
-        var loot = lootGenerator.getLoot();
-        var message = Game.player.addToInventory(loot);
-        if (message === "There is no room for " + loot.name + " so you leave it behind.") {
-            Game.map[key] = loot.symbol;
+        var newLoot = loot.getRandomLoot();
+        var message = Game.player.addToInventory(newLoot);
+        if (message === "There is no room for " + newLoot.name + " so you leave it behind.") {
+            Game.map[key] = newLoot.symbol;
         } else {
             Game.map[key] = '.'
         }
@@ -194,7 +195,7 @@ Player.prototype._checkForItem = function () {
     } else {
         
         // implement this
-        // var loot = lootGenerator.getLootBySymbol(item);
+        // var loot = loot.getLootBySymbol(item);
         
         // check for various items based on the map icon
         // this could probably be merged with the above statement once implemented.

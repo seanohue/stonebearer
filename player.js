@@ -5,15 +5,37 @@ var Player = module.exports = function (x, y) {
     this._y = y;
     this._draw();
 
+    this.attributes = {
+        sight: 6,
+        defense: 2,
+        damage: 2,
+        health: 10,
+        speed: 100
+    };
+
     this.inventory = {
         backpack: null,
         held: {
             name: 'a torch',
-            location: 'held'
+            location: 'held',
+            onEquip: function () {
+                this.attributes.sight += 5;
+            },
+            onRemove: function () {
+                this.attributes.sight -= 5;
+            }
         },
         body: {
             name: 'some rags',
-            location: 'body'
+            location: 'body',
+            onEquip: function () {
+                this.attributes.defense += 1;
+                this.attributes.speed -= 5;
+            },
+            onRemove: function () {
+                this.attributes.defense += 1;
+                this.attributes.speed += 5;
+            }
         },
         head: null,
         stones: []
@@ -21,7 +43,7 @@ var Player = module.exports = function (x, y) {
 }
 
 Player.prototype.getSpeed = function () {
-    return 100;
+    return this.attributes.speed;
 }
 Player.prototype.getX = function () {
     return this._x;
