@@ -10,12 +10,6 @@ var Entity = require('./entity.js');
 var Loot = require('./loot.js');
 
 
-process.on("exit", function () {
-    handleExit();
-});
-
-setupKeypress();
-
 var Game = module.exports = {
     display: null,
     map: {},
@@ -115,6 +109,10 @@ var Game = module.exports = {
         }
     }
 };
+
+/*
+* Player scripting
+*/
 
 Player.prototype.handleEvent = function (ch, key) {
     if (typeof key === "undefined" || key === null) {
@@ -217,52 +215,66 @@ Player.prototype.act = function () {
     process.stdin.on("keypress", this.handleEvent);
 }
 
+/*
+ *   Non-player Entities
+ */
+
 var Assassin = function (x, y) {
     var draw = function drawAssassin() {
         return Game.display.draw(this._x, this._y, "A", "red");
     };
-    return new Entity(x, y, "Assassin", draw, entityMovesToPlayer);
+    return new Entity(x, y, "Assassin", draw, Pathing.movesToPlayer);
 }
 
-// TODO: extract to AI/scripting module
+/*
+ *   Entity scripting
+ */
 
-function entityMovesToPlayer() {
-    var x = Game.player.getX();
-    var y = Game.player.getY();
+var Pathing = {
 
-    var passableCallback = function (x, y) {
-        return (x + "," + y in Game.map);
-    }
-    var astar = new ROT.Path.AStar(x, y, passableCallback, {
-        topology: 4
-    });
+    movesToPlayer: function () {
 
-    var path = [];
-    var pathCallback = function (x, y) {
-        path.push([x, y]);
-    }
-    astar.compute(this._x, this._y, pathCallback);
+        var x = Game.player.getX();
+        var y = Game.player.getY();
 
-    path.shift();
+        var passableCallback = function (x, y) {
+            return (x + "," + y in Game.map);
+        }
+        var astar = new ROT.Path.AStar(x, y, passableCallback, {
+            topology: 4
+        });
 
-    // TODO: make this part less crappy and more generic.
-    // but also allow for custom combat messages/scripting
-    // <=, in case the player jumps into Entity's arms (path.length === 0)
-    if (path.length <= 1) {
-        Game.engine.lock();
-        Game.showMessage("%c{red}Game over - you were captured by assassin!");
-        setTimeout(function () {
-            process.exit(0);
-        }, 750);
-    } else {
-        x = path[0][0];
-        y = path[0][1];
-        Game.display.draw(this._x, this._y, Game.map[this._x + "," + this._y]);
-        this._x = x;
-        this._y = y;
-        this._draw();
+        var path = [];
+        var pathCallback = function (x, y) {
+            path.push([x, y]);
+        }
+        astar.compute(this._x, this._y, pathCallback);
+
+        path.shift();
+
+        // TODO: make this part less crappy and more generic.
+        // but also allow for custom combat messages/scripting
+        // <=, in case the player jumps into Entity's arms (path.length === 0)
+        if (path.length <= 1) {
+            Game.engine.lock();
+            Game.showMessage("%c{red}Game over - you were captured by assassin!");
+            setTimeout(function () {
+                process.exit(0);
+            }, 750);
+        } else {
+            x = path[0][0];
+            y = path[0][1];
+            Game.display.draw(this._x, this._y, Game.map[this._x + "," + this._y]);
+            this._x = x;
+            this._y = y;
+            this._draw();
+        }
     }
 }
+
+/*
+ *   Basic keypress set up and event handling
+ */
 
 function handleExit() {
     process.stdout.write("\x1b[" + (process.stdout.rows + 1) + ";1H");
@@ -282,5 +294,12 @@ function setupKeypress() {
         }
     });
 }
+
+
+process.on("exit", function () {
+    handleExit();
+});
+
+setupKeypress();
 
 Game.init();
