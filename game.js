@@ -110,9 +110,11 @@ var Game = module.exports = {
     }
 };
 
+
+
 /*
-* Player scripting
-*/
+ * Player scripting
+ */
 
 Player.prototype.handleEvent = function (ch, key) {
     if (typeof key === "undefined" || key === null) {
@@ -215,22 +217,34 @@ Player.prototype.act = function () {
     process.stdin.on("keypress", this.handleEvent);
 }
 
+
+
 /*
  *   Non-player Entities
  */
 
 var Assassin = function (x, y) {
-    var draw = function drawAssassin() {
-        return Game.display.draw(this._x, this._y, "A", "red");
-    };
-    return new Entity(x, y, "Assassin", draw, Pathing.movesToPlayer);
+    var options = {
+        name: "assassin",
+        symbol: "A",
+        color: "red",
+        action: Pathing.movesToPlayer
+    }
+    return new Entity(x, y, draw, options);
 }
+
+function draw(sym, col) {
+    return Game.display.draw(this._x, this._y, this._sym, this._col);
+};
+
 
 /*
  *   Entity scripting
  */
 
 var Pathing = {
+
+    none: function () {},
 
     movesToPlayer: function () {
 
@@ -272,8 +286,10 @@ var Pathing = {
     }
 }
 
+
+
 /*
- *   Basic keypress set up and event handling
+ *   Basic keypress set up
  */
 
 function handleExit() {
@@ -288,11 +304,13 @@ function setupKeypress() {
     process.stdin.resume();
 
     // Exit listener for ctrl+c or ESC
-    process.stdin.on("keypress", function (ch, key) {
+    process.stdin.on("keypress", exitIfEscapeChars);
+
+    function exitIfEscapeChars(ch, key) {
         if (ch === "\u0003" || ch === "\u001b") {
             process.exit(0);
         }
-    });
+    }
 }
 
 
