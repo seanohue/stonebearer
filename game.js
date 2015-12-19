@@ -18,8 +18,8 @@ var Entity = require('./entity.js');
 var Loot = require('./loot.js');
 
 /*
-* Game engine/scheduler, methods, and main loop
-*/
+ * Game engine/scheduler, methods, and main loop
+ */
 
 var Game = {
     display: null,
@@ -27,11 +27,9 @@ var Game = {
     engine: null,
     player: null,
     assassin: null,
+    player: null,
 
-    entities: [
-        this.player,
-        this.assassin
-    ],
+    _entities: [],
 
     init: function () {
         this.display = new ROT.Display({
@@ -43,23 +41,29 @@ var Game = {
         this._generateMap();
 
         var scheduler = new ROT.Scheduler.Simple();
-        scheduler.add(this.player, true);
-        scheduler.add(this.assassin, true);
-
+        this._entities.map(function (entity) {
+            scheduler.add(entity, true);
+        });
+        
         this.engine = new ROT.Engine(scheduler);
         this.engine.start();
     },
 
-    // display a message for the user
-    showMessage: function (message, duration) {
+    showMessage: function (message, duration, color) {
+        color = color || "%c{#ff0}";
         duration = duration || 1000;
-        // draw the message in the upper left corner, in yellow
         this.display.drawText(0, 1, ("%c{#ff0}" + message));
         setTimeout((function () {
             this.display.clear();
             this._drawWholeMap();
-            this.player._draw();
-            this.assassin._draw();
+            this._entities.map(function (entity) {
+                try {
+                    entity._draw();
+                } catch (e) {
+                    console.log("Entity: ", entity);
+                    console.log("Exception: ", e);
+                }
+            });
         }).bind(this), 1000);
     },
 
@@ -92,7 +96,8 @@ var Game = {
 
         // TODO: Refactor to be more extensible
         this.player = this._createBeing(Player, freeCells);
-        this.assassin = this._createBeing(Assassin, freeCells);
+        this._entities.push(this.player);
+        this._entities.push(this._createBeing(Assassin, freeCells));
     },
 
     _createBeing: function (being, freeCells) {
