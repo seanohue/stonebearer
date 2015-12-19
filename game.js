@@ -139,6 +139,11 @@ Player.prototype.handleEvent = function (ch, key) {
         return;
     }
 
+    if (name === "s") {
+        Game.showMessage(Game.player.getAttributes(), 3500); 
+        return;
+    }
+
     var keyMap = {};
     keyMap["up"] = 0;
     keyMap["pageup"] = 1;

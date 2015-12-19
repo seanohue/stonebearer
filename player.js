@@ -1,3 +1,5 @@
+var loot = require('./loot.js');
+
 var Player = module.exports = function (x, y) {
     // keypress handler will always treat the Player as the 'this' object
     this.handleEvent = this.handleEvent.bind(this);
@@ -15,28 +17,8 @@ var Player = module.exports = function (x, y) {
 
     this.inventory = {
         backpack: null,
-        held: {
-            name: 'a torch',
-            location: 'held',
-            onEquip: function () {
-                this.attributes.sight += 5;
-            },
-            onRemove: function () {
-                this.attributes.sight -= 5;
-            }
-        },
-        body: {
-            name: 'some rags',
-            location: 'body',
-            onEquip: function () {
-                this.attributes.defense += 1;
-                this.attributes.speed -= 5;
-            },
-            onRemove: function () {
-                this.attributes.defense += 1;
-                this.attributes.speed += 5;
-            }
-        },
+        held: loot.getSpecificLoot('torch'),
+        body: loot.getSpecificLoot('rags'),
         head: null,
         stones: []
     }
@@ -68,6 +50,22 @@ Player.prototype.prettifiedInventory = function () {
     return inventoryString;
 }
 
+Player.prototype.getAttributes = function (attr) {
+    if (attr) return this.attributes(attr);
+    return this.prettifiedAttributes();
+}
+
+Player.prototype.prettifiedAttributes = function () {
+    var attrString = "Attributes: \n";
+    for (attr in this.attributes) {
+        var stat = this.attributes[attr];
+        if (stat) {
+            attrString += attr + ": " + stat + "\n";
+        }
+    }
+    return attrString;
+}
+
 Player.prototype.addToInventory = function (item) {
     if (!item.location) {
         throw "ERROR: Item has no set location...";
@@ -75,6 +73,7 @@ Player.prototype.addToInventory = function (item) {
 
     if (!this.inventory[item.location]) {
         this.inventory[item.location] = item;
+        loot.onEquip(this, item);
         return "You equip " + item.name + ".";
     } else if (!this.inventory.backpack) {
         this.inventory.backpack = item;
