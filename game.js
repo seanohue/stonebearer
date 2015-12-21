@@ -53,7 +53,9 @@ var Game = {
         duration = duration || 1000;
         this.display.drawText(0, 1, ("%c{#ff0}" + message));
         setTimeout((function () {
-            this.display.clear();
+
+            //TODO: Use stuff like this for making menus cleaner
+            this.display.clear();   
             this._drawWholeMap();
             this._entities.map(function (entity) {
                 try {
@@ -77,8 +79,8 @@ var Game = {
             dugPercentage: 0.5,
             timeLimit: 1500
         };
+        
         var digger = new ROT.Map.Digger(width, height, levelOptions);
-
         var freeCells = [];
 
         var digCallback = function (x, y, value) {
@@ -95,7 +97,6 @@ var Game = {
         this._generateLoot(freeCells);
         this._drawWholeMap();
 
-        // TODO: an entity creation factory function
         this.player = this._createBeing(Player, freeCells);
         this._entities.push(this.player);
         this._generateBeings("mine", freeCells, 10)
