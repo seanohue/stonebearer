@@ -26,7 +26,6 @@ var Game = {
     map: {},
     engine: null,
     player: null,
-    assassin: null,
     player: null,
 
     _entities: [],
@@ -44,7 +43,7 @@ var Game = {
         this._entities.map(function (entity) {
             scheduler.add(entity, true);
         });
-        
+
         this.engine = new ROT.Engine(scheduler);
         this.engine.start();
     },
@@ -54,7 +53,9 @@ var Game = {
         duration = duration || 1000;
         this.display.drawText(0, 1, ("%c{#ff0}" + message));
         setTimeout((function () {
-            this.display.clear();
+
+            //TODO: Use stuff like this for making menus cleaner
+            this.display.clear();   
             this._drawWholeMap();
             this._entities.map(function (entity) {
                 try {
@@ -70,6 +71,7 @@ var Game = {
     _generateMap: function () {
         var width = process.stdout.columns;
         var height = process.stdout.rows;
+
         var levelOptions = {
             roomWidth: [2, 20],
             roomHeight: [2, 20],
@@ -77,6 +79,7 @@ var Game = {
             dugPercentage: 0.5,
             timeLimit: 1500
         };
+        
         var digger = new ROT.Map.Digger(width, height, levelOptions);
         var freeCells = [];
 
@@ -94,18 +97,28 @@ var Game = {
         this._generateLoot(freeCells);
         this._drawWholeMap();
 
-        // TODO: Refactor to be more extensible
         this.player = this._createBeing(Player, freeCells);
         this._entities.push(this.player);
-        this._entities.push(this._createBeing(Assassin, freeCells));
+        this._generateBeings("mine", freeCells, 10)
+    },
+
+    _generateBeings: function (floor, freeCells, quantity) {
+        floor = floor || "mine";
+        while (quantity) {
+            var chosenBeing = ROT.RNG.getWeightedValue(entityRarityTable[floor]);
+            var being = Entities[chosenBeing];
+
+            this._entities.push(this._createBeing(being, freeCells));
+            quantity--;
+        }
     },
 
     _createBeing: function (being, freeCells) {
         var index = Math.floor(ROT.RNG.getUniform() * freeCells.length);
         var key = freeCells.splice(index, 1)[0];
-        var parts = key.split(",");
-        var x = parseInt(parts[0]);
-        var y = parseInt(parts[1]);
+        var coords = key.split(",");
+        var x = parseInt(coords[0]);
+        var y = parseInt(coords[1]);
         return new being(x, y);
     },
 
@@ -206,26 +219,33 @@ Player.prototype._checkForItem = function () {
 
     if (item === ".") {
         Game.showMessage("There are no items here");
-    } else if (item === "*") {
+        return;
+    }
+
+    if (item === "*") {
 
         // generate loot from chest
         var newLoot = Loot.getRandomLoot();
-        var message = Game.player.addToInventory(newLoot);
-        if (message === "There is no room for " + newLoot.name + " so you leave it behind.") {
-            Game.map[key] = newLoot.symbol;
+        pickUp(newLoot);
+
+    } else {
+        var droppedLoot = Loot.getLootBySymbol(item);
+        pickUp(droppedLoot);
+
+        // Unimplemented, for now there is this error message:
+        Game.showMessage("That's useless.");
+    }
+
+    function pickUp(item) {
+        var message = Game.player.addToInventory(item);
+        if (message === "There is no room for " + item.name + " so you leave it behind.") {
+            Game.map[key] = item.symbol;
         } else {
             Game.map[key] = '.'
         }
         Game.showMessage(message);
-    } else {
-        // implement this
-        // var loot = Loot.getLootBySymbol(item);
-
-        // check for various items based on the map icon
-        // this could probably be merged with the above statement once implemented.
-        // for now there is this error message:
-        Game.showMessage("That's useless.");
     }
+
 }
 
 Player.prototype.act = function () {
@@ -239,17 +259,38 @@ Player.prototype.act = function () {
  *   Non-player Entities
  */
 
-var Assassin = function (x, y) {
+var Entities = {};
+
+Entities.Assassin = function (x, y) {
     var options = {
         name: "assassin",
         symbol: "A",
         color: "red",
         action: Pathing.movesToPlayer
     }
-    return new Entity(x, y, draw, options);
-}
+    return new Entity(x, y, drawEntity, options);
+};
 
-function draw(sym, col) {
+Entities.Strangler = function (x, y) {
+    var options = {
+        name: "strangler",
+        symbol: "S",
+        color: "red",
+        action: Pathing.movesToPlayer,
+        speed: 25
+    }
+    return new Entity(x, y, drawEntity, options);
+};
+
+entityRarityTable = {
+    "mine": {
+        "Assassin": 1,
+        "Strangler": 15
+    }
+};
+
+
+function drawEntity(sym, col) {
     return Game.display.draw(this._x, this._y, this._sym, this._col);
 };
 
@@ -287,7 +328,7 @@ var Pathing = {
         // <=, in case the player jumps into Entity's arms (path.length === 0)
         if (path.length <= 1) {
             Game.engine.lock();
-            Game.showMessage("%c{red}Game over - you were captured by assassin!");
+            Game.showMessage("%c{red}Game over - you were captured!");
             setTimeout(function () {
                 process.exit(0);
             }, 750);
