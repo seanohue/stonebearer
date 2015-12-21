@@ -26,7 +26,6 @@ var Game = {
     map: {},
     engine: null,
     player: null,
-    assassin: null,
     player: null,
 
     _entities: [],
@@ -105,8 +104,9 @@ var Game = {
     _generateBeings: function (floor, freeCells, quantity) {
         floor = floor || "mine";
         while (quantity) {
-            var chosenBeing = RNG.getWeightedValue(entityRarityTable[floor]);
-            var being = Entities[being];
+            var chosenBeing = ROT.RNG.getWeightedValue(entityRarityTable[floor]);
+            var being = Entities[chosenBeing];
+
             this._entities.push(this._createBeing(being, freeCells));
             quantity--;
         }
@@ -225,7 +225,7 @@ Player.prototype._checkForItem = function () {
 
         // generate loot from chest
         var newLoot = Loot.getRandomLoot();
-        pickUpOrLeave(newLoot);
+        pickUp(newLoot);
 
     } else {
         var droppedLoot = Loot.getLootBySymbol(item);
@@ -258,36 +258,39 @@ Player.prototype.act = function () {
  *   Non-player Entities
  */
 
-Entities = {};
+var Entities = {
+
+    "Assassin": function (x, y) {
+        var options = {
+            name: "assassin",
+            symbol: "A",
+            color: "red",
+            action: Pathing.movesToPlayer
+        }
+        return new Entity(x, y, drawEntity, options);
+    },
+
+    "Strangler": function (x, y) {
+        var options = {
+            name: "strangler",
+            symbol: "S",
+            color: "red",
+            action: Pathing.movesToPlayer
+        }
+        return new Entity(x, y, drawEntity, options);
+    },
+
+};
 
 entityRarityTable = {
     "mine": {
-        Assassin: 15,
-        Strangler: 4
+        "Assassin": 1,
+        "Strangler": 15
     }
 };
 
-Entities.Assassin = function (x, y) {
-    var options = {
-        name: "assassin",
-        symbol: "A",
-        color: "red",
-        action: Pathing.movesToPlayer
-    }
-    return new Entity(x, y, draw, options);
-}
 
-Entities.Strangler = function (x, y) {
-    var options = {
-        name: "strangler",
-        symbol: "S",
-        color: "red",
-        action: Pathing.movesToPlayer
-    }
-    return new Entity(x, y, draw, options);
-}
-
-function draw(sym, col) {
+function drawEntity(sym, col) {
     return Game.display.draw(this._x, this._y, this._sym, this._col);
 };
 
