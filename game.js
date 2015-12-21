@@ -102,6 +102,14 @@ var Game = {
         this._entities.push(this._createBeing(Assassin, freeCells));
     },
 
+    _generateBeings: function (floor, freeCells, quantity) {
+        floor = floor || "mine";
+        while (quantity) {
+            var chosenBeing = RNG.getWeightedValue(entityRarityTable[floor]);
+            this._entities.push(this._createBeing(chosenBeing, freeCells));
+        }
+    },
+
     _createBeing: function (being, freeCells) {
         var index = Math.floor(ROT.RNG.getUniform() * freeCells.length);
         var key = freeCells.splice(index, 1)[0];
@@ -219,14 +227,13 @@ Player.prototype._checkForItem = function () {
 
     } else {
         var droppedLoot = Loot.getLootBySymbol(item);
-        pickUpOrLeave(droppedLoot);
-        // check for various items based on the map icon
-        // this could probably be merged with the above statement once implemented.
-        // for now there is this error message:
+        pickUp(droppedLoot);
+
+        // Unimplemented, for now there is this error message:
         Game.showMessage("That's useless.");
     }
 
-    function pickUpOrLeave(item) {
+    function pickUp(item) {
         var message = Game.player.addToInventory(item);
         if (message === "There is no room for " + item.name + " so you leave it behind.") {
             Game.map[key] = item.symbol;
@@ -253,6 +260,16 @@ var Assassin = function (x, y) {
     var options = {
         name: "assassin",
         symbol: "A",
+        color: "red",
+        action: Pathing.movesToPlayer
+    }
+    return new Entity(x, y, draw, options);
+}
+
+var Strangler = function (x, y) {
+    var options = {
+        name: "strangler",
+        symbol: "S",
         color: "red",
         action: Pathing.movesToPlayer
     }
