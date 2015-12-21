@@ -267,7 +267,7 @@ entityRarityTable = {
     }
 };
 
-Entites.Assassin = function (x, y) {
+Entities.Assassin = function (x, y) {
     var options = {
         name: "assassin",
         symbol: "A",
