@@ -99,14 +99,16 @@ var Game = {
         // TODO: an entity creation factory function
         this.player = this._createBeing(Player, freeCells);
         this._entities.push(this.player);
-        this._entities.push(this._createBeing(Assassin, freeCells));
+        this._generateBeings("mine", freeCells, 10)
     },
 
     _generateBeings: function (floor, freeCells, quantity) {
         floor = floor || "mine";
         while (quantity) {
             var chosenBeing = RNG.getWeightedValue(entityRarityTable[floor]);
-            this._entities.push(this._createBeing(chosenBeing, freeCells));
+            var being = Entities[being];
+            this._entities.push(this._createBeing(being, freeCells));
+            quantity--;
         }
     },
 
@@ -256,7 +258,16 @@ Player.prototype.act = function () {
  *   Non-player Entities
  */
 
-var Assassin = function (x, y) {
+Entities = {};
+
+entityRarityTable = {
+    "mine": {
+        Assassin: 15,
+        Strangler: 4
+    }
+};
+
+Entites.Assassin = function (x, y) {
     var options = {
         name: "assassin",
         symbol: "A",
@@ -266,7 +277,7 @@ var Assassin = function (x, y) {
     return new Entity(x, y, draw, options);
 }
 
-var Strangler = function (x, y) {
+Entities.Strangler = function (x, y) {
     var options = {
         name: "strangler",
         symbol: "S",
