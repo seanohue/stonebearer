@@ -258,28 +258,27 @@ Player.prototype.act = function () {
  *   Non-player Entities
  */
 
-var Entities = {
+var Entities = {};
 
-    "Assassin": function (x, y) {
-        var options = {
-            name: "assassin",
-            symbol: "A",
-            color: "red",
-            action: Pathing.movesToPlayer
-        }
-        return new Entity(x, y, drawEntity, options);
-    },
+Entities.Assassin = function (x, y) {
+    var options = {
+        name: "assassin",
+        symbol: "A",
+        color: "red",
+        action: Pathing.movesToPlayer
+    }
+    return new Entity(x, y, drawEntity, options);
+};
 
-    "Strangler": function (x, y) {
-        var options = {
-            name: "strangler",
-            symbol: "S",
-            color: "red",
-            action: Pathing.movesToPlayer
-        }
-        return new Entity(x, y, drawEntity, options);
-    },
-
+Entities.Strangler = function (x, y) {
+    var options = {
+        name: "strangler",
+        symbol: "S",
+        color: "red",
+        action: Pathing.movesToPlayer,
+        speed: 25
+    }
+    return new Entity(x, y, drawEntity, options);
 };
 
 entityRarityTable = {
