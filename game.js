@@ -261,6 +261,8 @@ Player.prototype.act = function () {
 
 var Entities = {};
 
+// When it comes to speed, higher numbers = less moves per turn.
+
 Entities.Assassin = function (x, y) {
     var options = {
         name: "assassin",
@@ -277,12 +279,12 @@ Entities.Strangler = function (x, y) {
         symbol: "S",
         color: "red",
         action: Pathing.movesToPlayer,
-        speed: 25
+        speed: 50
     }
     return new Entity(x, y, drawEntity, options);
 };
 
-entityRarityTable = {
+var entityRarityTable = {
     "mine": {
         "Assassin": 1,
         "Strangler": 15

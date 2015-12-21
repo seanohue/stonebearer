@@ -67,9 +67,7 @@ Player.prototype.prettifiedAttributes = function () {
 }
 
 Player.prototype.addToInventory = function (item) {
-    if (!item.location) {
-        throw "ERROR: Item has no set location...";
-    }
+    item.location = item.location || 'backpack';
 
     if (!this.inventory[item.location]) {
         this.inventory[item.location] = item;
