@@ -327,7 +327,7 @@ var Pathing = {
         // <=, in case the player jumps into Entity's arms (path.length === 0)
         if (path.length <= 1) {
             Game.engine.lock();
-            Game.showMessage("%c{red}Game over - you were captured by assassin!");
+            Game.showMessage("%c{red}Game over - you were captured!");
             setTimeout(function () {
                 process.exit(0);
             }, 750);
