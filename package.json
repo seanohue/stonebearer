@@ -8,7 +8,9 @@
     "keypress": "^0.2.1",
     "rot-js": "^0.6.2"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "jasmine-node": "^1.14.5"
+  },
   "scripts": {
     "test": "node game.js"
   },
