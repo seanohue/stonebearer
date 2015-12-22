@@ -7,7 +7,7 @@ var loot = module.exports = {};
  *   Optional param "floor" can be used to change which floor/level of the dungeon the loot comes from. 
  */
 
-loot.getRandomLoot = function (floor) {
+loot.getRandomLoot = function(floor) {
     floor = floor || 'mine';
     var chosenLoot = RNG.getWeightedValue(lootRarityTable[floor]);
     return lootInventory[chosenLoot];
@@ -37,12 +37,12 @@ var lootRarityTable = {
  *   Defaults to returning undefined upon error, basically.
  */
 
-loot.getSpecificLoot = function (name) {
+loot.getSpecificLoot = function(name) {
     if (!name) return;
     return lootInventory[name];
 }
 
-loot.getLootBySymbol = function (symbol) {
+loot.getLootBySymbol = function(symbol) {
     if (!symbol) return;
     for (loot in lootInventory) {
         if (loot.hasOwnProperty(symbol) &&
@@ -53,10 +53,10 @@ loot.getLootBySymbol = function (symbol) {
 }
 
 /*
-*   Helper functions to add/remove status effects when equipping and removing items.
-*/
+ *   Helper functions to add/remove status effects when equipping and removing items.
+ */
 
-loot.onEquip = function (player, item) {
+loot.onEquip = function(player, item) {
     if (item.hasOwnProperty('effects')) {
 
         for (effect in item.effects) {
@@ -65,7 +65,7 @@ loot.onEquip = function (player, item) {
     }
 };
 
-loot.onRemove = function (player, item) {
+loot.onRemove = function(player, item) {
     if (item.hasOwnProperty('effects')) {
         for (effect in item.effects) {
             player.attributes[effect] -= item.effects[effect];

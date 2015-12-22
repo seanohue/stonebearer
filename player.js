@@ -1,6 +1,6 @@
 var loot = require('./loot.js');
 
-var Player = module.exports = function (x, y) {
+var Player = module.exports = function(x, y) {
     // keypress handler will always treat the Player as the 'this' object
     this.handleEvent = this.handleEvent.bind(this);
     this._x = x;
@@ -24,22 +24,22 @@ var Player = module.exports = function (x, y) {
     }
 }
 
-Player.prototype.getSpeed = function () {
+Player.prototype.getSpeed = function() {
     return this.attributes.speed;
 }
-Player.prototype.getX = function () {
+Player.prototype.getX = function() {
     return this._x;
 }
-Player.prototype.getY = function () {
+Player.prototype.getY = function() {
     return this._y;
 }
 
-Player.prototype.getInventory = function (key) {
+Player.prototype.getInventory = function(key) {
     if (key) return this.inventory[key];
     return this.prettifiedInventory();
 }
 
-Player.prototype.prettifiedInventory = function () {
+Player.prototype.prettifiedInventory = function() {
     var inventoryString = "Inventory: \n";
     for (location in this.inventory) {
         var item = this.inventory[location];
@@ -50,12 +50,12 @@ Player.prototype.prettifiedInventory = function () {
     return inventoryString;
 }
 
-Player.prototype.getAttributes = function (attr) {
+Player.prototype.getAttributes = function(attr) {
     if (attr) return this.attributes(attr);
     return this.prettifiedAttributes();
 }
 
-Player.prototype.prettifiedAttributes = function () {
+Player.prototype.prettifiedAttributes = function() {
     var attrString = "Attributes: \n";
     for (attr in this.attributes) {
         var stat = this.attributes[attr];
@@ -66,7 +66,7 @@ Player.prototype.prettifiedAttributes = function () {
     return attrString;
 }
 
-Player.prototype.addToInventory = function (item) {
+Player.prototype.addToInventory = function(item) {
     item.location = item.location || 'backpack';
 
     if (!this.inventory[item.location]) {

@@ -30,7 +30,7 @@ var Game = {
 
     _entities: [],
 
-    init: function () {
+    init: function() {
         this.display = new ROT.Display({
             width: process.stdout.columns,
             height: process.stdout.rows,
@@ -39,8 +39,8 @@ var Game = {
 
         this._generateMap();
 
-        var scheduler = new ROT.Scheduler.Simple();
-        this._entities.map(function (entity) {
+        var scheduler = new ROT.Scheduler.Speed();
+        this._entities.map(function(entity) {
             scheduler.add(entity, true);
         });
 
@@ -48,16 +48,16 @@ var Game = {
         this.engine.start();
     },
 
-    showMessage: function (message, duration, color) {
+    showMessage: function(message, duration, color) {
         color = color || "%c{#ff0}";
         duration = duration || 1000;
         this.display.drawText(0, 1, ("%c{#ff0}" + message));
-        setTimeout((function () {
+        setTimeout((function() {
 
             //TODO: Use stuff like this for making menus cleaner
-            this.display.clear();   
+            this.display.clear();
             this._drawWholeMap();
-            this._entities.map(function (entity) {
+            this._entities.map(function(entity) {
                 try {
                     entity._draw();
                 } catch (e) {
@@ -68,7 +68,7 @@ var Game = {
         }).bind(this), 1000);
     },
 
-    _generateMap: function () {
+    _generateMap: function() {
         var width = process.stdout.columns;
         var height = process.stdout.rows;
 
@@ -79,11 +79,11 @@ var Game = {
             dugPercentage: 0.5,
             timeLimit: 1500
         };
-        
+
         var digger = new ROT.Map.Digger(width, height, levelOptions);
         var freeCells = [];
 
-        var digCallback = function (x, y, value) {
+        var digCallback = function(x, y, value) {
             if (value) {
                 return;
             }
@@ -102,7 +102,7 @@ var Game = {
         this._generateBeings("mine", freeCells, 10)
     },
 
-    _generateBeings: function (floor, freeCells, quantity) {
+    _generateBeings: function(floor, freeCells, quantity) {
         floor = floor || "mine";
         while (quantity) {
             var chosenBeing = ROT.RNG.getWeightedValue(entityRarityTable[floor]);
@@ -113,7 +113,7 @@ var Game = {
         }
     },
 
-    _createBeing: function (being, freeCells) {
+    _createBeing: function(being, freeCells) {
         var index = Math.floor(ROT.RNG.getUniform() * freeCells.length);
         var key = freeCells.splice(index, 1)[0];
         var coords = key.split(",");
@@ -122,7 +122,7 @@ var Game = {
         return new being(x, y);
     },
 
-    _generateLoot: function (freeCells) {
+    _generateLoot: function(freeCells) {
         for (var i = 0; i < 10; i++) {
             var index = Math.floor(ROT.RNG.getUniform() * freeCells.length);
             var key = freeCells.splice(index, 1)[0];
@@ -130,7 +130,7 @@ var Game = {
         }
     },
 
-    _drawWholeMap: function () {
+    _drawWholeMap: function() {
         for (var key in this.map) {
             var parts = key.split(",");
             var x = parseInt(parts[0]);
@@ -146,7 +146,7 @@ var Game = {
  * Player scripting
  */
 
-Player.prototype.handleEvent = function (ch, key) {
+Player.prototype.handleEvent = function(ch, key) {
     if (typeof key === "undefined" || key === null) {
         return;
     }
@@ -209,11 +209,11 @@ Player.prototype.handleEvent = function (ch, key) {
     Game.engine.unlock();
 }
 
-Player.prototype._draw = function () {
+Player.prototype._draw = function() {
     Game.display.draw(this._x, this._y, "@", "#ff0");
 }
 
-Player.prototype._checkForItem = function () {
+Player.prototype._checkForItem = function() {
     var key = this._x + "," + this._y;
     var item = Game.map[key];
 
@@ -248,7 +248,7 @@ Player.prototype._checkForItem = function () {
 
 }
 
-Player.prototype.act = function () {
+Player.prototype.act = function() {
     Game.engine.lock();
     process.stdin.on("keypress", this.handleEvent);
 }
@@ -261,9 +261,7 @@ Player.prototype.act = function () {
 
 var Entities = {};
 
-// When it comes to speed, higher numbers = less moves per turn.
-
-Entities.Assassin = function (x, y) {
+Entities.Assassin = function(x, y) {
     var options = {
         name: "assassin",
         symbol: "A",
@@ -273,13 +271,15 @@ Entities.Assassin = function (x, y) {
     return new Entity(x, y, drawEntity, options);
 };
 
-Entities.Strangler = function (x, y) {
+Entities.Strangler = function(x, y) {
     var options = {
         name: "strangler",
         symbol: "S",
         color: "red",
         action: Pathing.movesToPlayer,
-        speed: 50
+        attr: {
+            speed: 30
+        }
     }
     return new Entity(x, y, drawEntity, options);
 };
@@ -303,14 +303,14 @@ function drawEntity(sym, col) {
 
 var Pathing = {
 
-    none: function () {},
+    none: function() {},
 
-    movesToPlayer: function () {
+    movesToPlayer: function() {
 
         var x = Game.player.getX();
         var y = Game.player.getY();
 
-        var passableCallback = function (x, y) {
+        var passableCallback = function(x, y) {
             return (x + "," + y in Game.map);
         }
         var astar = new ROT.Path.AStar(x, y, passableCallback, {
@@ -318,7 +318,7 @@ var Pathing = {
         });
 
         var path = [];
-        var pathCallback = function (x, y) {
+        var pathCallback = function(x, y) {
             path.push([x, y]);
         }
         astar.compute(this._x, this._y, pathCallback);
@@ -331,7 +331,7 @@ var Pathing = {
         if (path.length <= 1) {
             Game.engine.lock();
             Game.showMessage("%c{red}Game over - you were captured!");
-            setTimeout(function () {
+            setTimeout(function() {
                 process.exit(0);
             }, 750);
         } else {
@@ -366,7 +366,7 @@ function setupKeypress() {
         }
     }
 
-    process.on("exit", function () {
+    process.on("exit", function() {
         handleExit();
     });
 
