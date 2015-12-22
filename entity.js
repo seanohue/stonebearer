@@ -1,44 +1,43 @@
 var Entity = module.exports = function(x, y, draw, options) {
 
-  var defaultOptions = {
-    name: "beast",
+    var defaultOptions = {
+        name: "beast",
 
-    attr: {
-      speed: 100,
-    },
-    symbol: "&",
-    color: "red",
+        attr: {
+            speed: 100,
+        },
+        symbol: "&",
+        color: "red",
 
-    action: function() {},
-  };
+        action: function() {},
+    };
 
-  options = extend(options, defaultOptions);
-  console.log(options);
-  this._x = x;
-  this._y = y;
+    options = extend(options, defaultOptions);
 
-  this._name = options.name;
-  this.act = options.action;
-  this.attr = options.attr;
+    this._x = x;
+    this._y = y;
 
-  this._sym = options.symbol;
-  this._col = options.color;
-  this._draw = draw;
-  this._draw();
+    this._name = options.name;
+    this.act = options.action;
+    this.attr = options.attr;
 
-  this.getSpeed = function
+    this._sym = options.symbol;
+    this._col = options.color;
+    this._draw = draw;
+    this._draw();
+
 }
 
 Entity.prototype.getSpeed = function() {
-  return this.attr.speed;
+    return this.attr.speed;
 }
 
 function extend(obj, extension) {
-  for (extra in extension) {
-    if (!obj.hasOwnProperty(extra)) {
-      console.log("changing");
-      obj[extra] = extension[extra];
+    for (extra in extension) {
+        if (!obj.hasOwnProperty(extra)) {
+            console.log("changing");
+            obj[extra] = extension[extra];
+        }
     }
-  }
-  return obj;
+    return obj;
 }
