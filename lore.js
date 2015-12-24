@@ -14,39 +14,43 @@ Lore.pickupMsg = function(item, openInventorySpot) {
     var dropMessage = randomDropMsg(item);
     var ending = "You " + placeMsg[openInventorySpot] + " " + item.name + ".";
 
-    dropMessage.msg += ending;
-    dropMessage.duration = dropMessage.duration || 1000;
-
-    return dropMessage;
+    return finalizeLootEncounter(dropMessage, ending);
 }
 
 Lore.abandonMsg = function(item) {
     var dropMessage = randomDropMsg(item);
     var ending = "You abandon " + item.name + ".";
-    dropMessage.msg += ending;
 
-    console.log(dropMessage);
+    return finalizeLootEncounter(dropMessage, ending);
+}
 
-    return dropMessage;
+function finalizeLootEncounter(msg, ending) {
+    msg.text = msg.text + ending;
+    msg.duration = msg.duration || 2000;
+    return msg;
 }
 
 
 
 // Picks a message to describe a random loot encounter.
 function randomDropMsg(item) {
+    var defaultLoot = FlavorText.loot['box'](item);
+
     if (item && item.name) {
         var msgTitle = RNG.getWeightedValue(FlavorText.loot.rarity);
-        var defaultLoot = FlavorText.loot['box'](item);
         return FlavorText.loot[msgTitle](item) || defaultLoot;
     }
 
-    return "You find an object has materialized in your hands, inexplicably.";
+    return defaultLoot;
 }
 
+
+
+// Messages for random encounters
 var FlavorText = {
     loot: {
         rarity: {
-            'box': 5,
+            'box': 1,
             'miner_corpse': 4,
             'rubble_pile': 7
         },
@@ -55,22 +59,22 @@ var FlavorText = {
 
         'box': function(item) {
             return {
-                text: "You find a box with " + item.name + "in it.",
-                duration: 1000
+                text: "You find a box with " + item.name + " in it.",
+                duration: 3000
             }
         },
 
         'miner_corpse': function(item) {
             return {
                 text: "You find the corpse of a miner, its face a puffy blue, and limbs stiff with rigor mortis. You pry " + item.name + " from their stiff, cold hands.",
-                duration: 3200
+                duration: 5000
             }
         },
 
         'rubble_pile': function(item) {
             return {
-                text: "You see " + item.name + "peeking from under a pile of bloodstained rubble. A quick tug is all it takes to unearth the artifact.",
-                duration: 3200
+                text: "You see " + item.name + " peeking from under a pile of bloodstained rubble. A quick tug is all it takes to unearth the artifact.",
+                duration: 5000
             }
         },
     }

@@ -99,7 +99,7 @@ var Game = {
         }
         digger.create(digCallback.bind(this));
 
-        this._generateLoot(freeCells);
+        this._generateLoot(freeCells, 45);
         this._drawWholeMap();
 
         this.player = this._createBeing(Player, freeCells);
@@ -127,8 +127,10 @@ var Game = {
         return new being(x, y);
     },
 
-    _generateLoot: function(freeCells) {
-        for (var i = 0; i < 10; i++) {
+    _generateLoot: function(freeCells, lootQuantity) {
+        lootQuantity = lootQuantity || 10;
+
+        for (var i = 0; i < lootQuantity; i++) {
             var index = Math.floor(ROT.RNG.getUniform() * freeCells.length);
             var key = freeCells.splice(index, 1)[0];
             this.map[key] = "*";
@@ -251,14 +253,13 @@ Player.prototype._checkForItem = function() {
         if (openInventory) {
             message = Lore.pickupMsg(item, openInventory);
             Game.map[key] = '.';
-        
+
         } else {
             message = Lore.abandonMsg(item);
             Game.map[key] = item.symbol;
-        
+
         }
-        console.log(message);
-        
+
         Game.showMessage(message.text, message.duration);
     }
 
