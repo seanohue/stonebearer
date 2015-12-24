@@ -22,7 +22,7 @@ var Player = module.exports = function(x, y) {
         held: loot.getSpecificLoot('torch'),
         body: loot.getSpecificLoot('rags'),
         head: null,
-        stones: []
+        stone: null
     };
 }
 
@@ -85,28 +85,14 @@ Player.prototype.prettifiedInventory = function() {
 
 
 /*
- * Handles adding new items of any kind to the player's inventory.
+ * Handles adding and removing items of any kind to/from the player's inventory.
+ * Adds the item, or not, and returns a string to be displayed 
+ * or
+ * Removes the item in the location passed in as a string, or displays a message.
  */
 
 Player.prototype.addToInventory = function(item) {
     item.location = item.location || 'backpack';
-
-    if (item.location === 'stones') {
-        console.log("item is ", item);
-        var heldStones = this.inventory.stones;
-        console.log("heldStones: ", heldStones);
-        if (heldStones.length && heldStones.reduce(isInStones).length) {
-            console.log("Already there, holmes");
-            return;
-        }
-
-        this.inventory.stones.push(item);
-        return;
-
-        function isInStones(heldStone) {
-            return heldStone.name === item.name;
-        }
-    }
 
     if (!this.inventory[item.location]) {
         this.inventory[item.location] = item;
@@ -120,4 +106,10 @@ Player.prototype.addToInventory = function(item) {
     } else {
         return "There is no room for " + item.name + " so you leave it behind.";
     }
+}
+
+
+
+Player.prototype.removeFromInventory = function(location) {
+
 }
