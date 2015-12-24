@@ -10,11 +10,11 @@ This game's story will be based on [this reddit post](https://www.reddit.com/r/r
 
 #####TODO:
 * Unit tests
-* Scoring/high scores
-* Save/load games
 * Dynamic lighting based on stats/equipment.
 * Ability to manage inventory
 * Combat
 * Main Menu
+* Scoring/high scores
+* Save/load games
 * Character Creation
 * Procedurally-generated Story
