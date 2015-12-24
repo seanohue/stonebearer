@@ -15,3 +15,6 @@ This game's story will be based on [this reddit post](https://www.reddit.com/r/r
 * Dynamic lighting based on stats/equipment.
 * Ability to manage inventory
 * Combat
+* Main Menu
+* Character Creation
+* Procedurally-generated Story
