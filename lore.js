@@ -12,21 +12,21 @@ Lore.pickupMsg = function(item, openInventorySpot) {
     };
 
     var dropMessage = randomDropMsg(item);
-    var ending = "You " + placeMsg[openInventorySpot] + " " + item.name + ".";
+    var ending = "\n\nYou " + placeMsg[openInventorySpot] + " " + item.name + "";
 
     return finalizeLootEncounter(dropMessage, ending);
 }
 
 Lore.abandonMsg = function(item) {
     var dropMessage = randomDropMsg(item);
-    var ending = "You abandon " + item.name + ".";
+    var ending = "\n\nYou abandon " + item.name + ".";
 
     return finalizeLootEncounter(dropMessage, ending);
 }
 
 function finalizeLootEncounter(msg, ending) {
     msg.text = msg.text + ending;
-    msg.duration = msg.duration || 2000;
+    msg.duration = msg.duration || 5000;
     return msg;
 }
 
@@ -60,21 +60,21 @@ var FlavorText = {
         'box': function(item) {
             return {
                 text: "You find a box with " + item.name + " in it.",
-                duration: 3000
+                duration: 5000
             }
         },
 
         'miner_corpse': function(item) {
             return {
                 text: "You find the corpse of a miner, its face a puffy blue, and limbs stiff with rigor mortis. You pry " + item.name + " from their stiff, cold hands.",
-                duration: 5000
+                duration: 8000
             }
         },
 
         'rubble_pile': function(item) {
             return {
                 text: "You see " + item.name + " peeking from under a pile of bloodstained rubble. A quick tug is all it takes to unearth the artifact.",
-                duration: 5000
+                duration: 8000
             }
         },
     }

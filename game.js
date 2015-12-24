@@ -56,7 +56,7 @@ var Game = {
     showMessage: function(message, duration, color) {
         color = color || "%c{#ff0}";
         duration = duration || 1000;
-        this.display.drawText(0, 1, ("%c{#ff0}" + message));
+        this.display.drawText(0, 1, (color + message));
         setTimeout((function() {
 
             //TODO: Use stuff like this for making menus cleaner
@@ -70,7 +70,7 @@ var Game = {
                     console.log("Exception: ", e);
                 }
             });
-        }).bind(this), 1000);
+        }).bind(this), duration);
     },
 
     _generateMap: function() {
