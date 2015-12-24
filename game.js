@@ -244,16 +244,20 @@ Player.prototype._checkForItem = function() {
             text: "That's useless.",
             duration: 1000
         }
-        var message = Game.player.addToInventory(item); // TODO: change to return boolean.
 
-        if (playerCanPickUp) {
-            message = Lore.pickupMsg(item);
+        var openInventory = Game.player.addToInventory(item); // TODO: change to return boolean.
+
+        if (openInventory) {
+            message = Lore.pickupMsg(item, openInventory);
             Game.map[key] = '.';
+        
         } else {
             message = Lore.abandonMsg(item);
             Game.map[key] = item.symbol;
+        
         }
-        Game.showMessage(message);
+        
+        Game.showMessage(message.text, message.duration);
     }
 
 }
