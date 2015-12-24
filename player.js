@@ -75,7 +75,7 @@ Player.prototype.prettifiedInventory = function() {
     var inventoryString = "Inventory: \n";
     for (location in this.inventory) {
         var item = this.inventory[location];
-        if (item && location !== 'stones') {
+        if (item) {
             inventoryString += location + ": " + item.name + "\n";
         }
     }

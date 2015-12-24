@@ -31,7 +31,7 @@ var lootRarityTable = {
         'torch': 3,
         'rags': 3,
         'goggles': 2,
-        'glow-stone': 17,
+        'glow-stone': 1,
         'workboots': 2
     },
 };
