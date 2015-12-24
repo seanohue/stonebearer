@@ -11,9 +11,9 @@ Lore.pickupMsg = function(item, openInventorySpot) {
         'undefined': 'contemplate your existence while staring at'
     };
 
+    var dropMessage = randomDropMsg(item);
     var ending = "You " + placeMsg[openInventorySpot] + " " + item.name + ".";
 
-    var dropMessage = randomDropMsg(item);
     dropMessage.msg += ending;
     dropMessage.duration = dropMessage.duration || 1000;
 
@@ -21,9 +21,11 @@ Lore.pickupMsg = function(item, openInventorySpot) {
 }
 
 Lore.abandonMsg = function(item) {
-    var ending = "You abandon " + item.name + ".";
     var dropMessage = randomDropMsg(item);
+    var ending = "You abandon " + item.name + ".";
     dropMessage.msg += ending;
+
+    console.log(dropMessage);
 
     return dropMessage;
 }
@@ -53,21 +55,21 @@ var FlavorText = {
 
         'box': function(item) {
             return {
-                msg: "You find a box with " + item.name + "in it.",
+                text: "You find a box with " + item.name + "in it.",
                 duration: 1000
             }
         },
 
         'miner_corpse': function(item) {
             return {
-                msg: "You find the corpse of a miner, its face a puffy blue, and limbs stiff with rigor mortis. You pry " + item.name + " from their stiff, cold hands.",
+                text: "You find the corpse of a miner, its face a puffy blue, and limbs stiff with rigor mortis. You pry " + item.name + " from their stiff, cold hands.",
                 duration: 3200
             }
         },
 
         'rubble_pile': function(item) {
             return {
-                msg: "You see " + item.name + "peeking from under a pile of bloodstained rubble. A quick tug is all it takes to unearth the artifact.",
+                text: "You see " + item.name + "peeking from under a pile of bloodstained rubble. A quick tug is all it takes to unearth the artifact.",
                 duration: 3200
             }
         },

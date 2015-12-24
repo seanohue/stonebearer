@@ -257,6 +257,7 @@ Player.prototype._checkForItem = function() {
             Game.map[key] = item.symbol;
         
         }
+        console.log(message);
         
         Game.showMessage(message.text, message.duration);
     }
