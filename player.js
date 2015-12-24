@@ -18,6 +18,7 @@ var Player = module.exports = function(x, y) {
 
     this.inventory = {
         backpack: null,
+        feet: loot.getSpecificLoot('sandals'),
         held: loot.getSpecificLoot('torch'),
         body: loot.getSpecificLoot('rags'),
         head: null,
@@ -91,7 +92,7 @@ Player.prototype.addToInventory = function(item) {
     } else if (!this.inventory.backpack) {
         this.inventory.backpack = item;
         return "You put " + item.name + " in your backpack.";
-        
+
     } else {
         return "There is no room for " + item.name + " so you leave it behind.";
     }

@@ -88,6 +88,16 @@ loot.onRemove = function(player, item) {
  */
 
 var lootInventory = {
+    'sandals': {
+        name: 'a pair of sandals',
+        location: 'feet',
+        symbol: '=',
+
+        effects: {
+            speed: 5,
+            defense: 1
+        }
+    }
     'goggles': {
         name: 'some goggles',
         location: 'head',
