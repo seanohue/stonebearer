@@ -23,7 +23,7 @@ var Player = module.exports = function(x, y) {
         body: loot.getSpecificLoot('rags'),
         head: null,
         stones: []
-    }
+    };
 }
 
 Player.prototype.getX = function() {
@@ -35,7 +35,8 @@ Player.prototype.getY = function() {
 
 
 
-/* Attributes/Inventory:
+/* 
+ * Attributes/Inventory:
  * getAttributes and getInventory work similarly:
  * you can pass in a specific attribute/inventory item
  * to get that object back, if it exists.
@@ -81,8 +82,31 @@ Player.prototype.prettifiedInventory = function() {
     return inventoryString;
 }
 
+
+
+/*
+ * Handles adding new items of any kind to the player's inventory.
+ */
+
 Player.prototype.addToInventory = function(item) {
     item.location = item.location || 'backpack';
+
+    if (item.location === 'stones') {
+        console.log("item is ", item);
+        var heldStones = this.inventory.stones;
+        console.log("heldStones: ", heldStones);
+        if (heldStones.length && heldStones.reduce(isInStones).length) {
+            console.log("Already there, holmes");
+            return;
+        }
+
+        this.inventory.stones.push(item);
+        return;
+
+        function isInStones(heldStone) {
+            return heldStone.name === item.name;
+        }
+    }
 
     if (!this.inventory[item.location]) {
         this.inventory[item.location] = item;

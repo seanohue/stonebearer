@@ -23,14 +23,16 @@ loot.getRandomLoot = function(floor) {
 
 var lootRarityTable = {
     'mine': {
-        'flashlight': 5,
-        'armored vest': 2,
-        'miner\'s helmet': 1,
-        'pickaxe': 4,
+        'flashlight': 2,
+        'armored vest': 3,
+        'miner\'s helmet': 2,
+        'pickaxe': 3,
         'jumpsuit': 3,
         'torch': 3,
         'rags': 3,
-        'goggles': 2
+        'goggles': 2,
+        'glow-stone': 17,
+        'workboots': 2
     },
 };
 
@@ -88,16 +90,35 @@ loot.onRemove = function(player, item) {
  */
 
 var lootInventory = {
+    'glow-stone': {
+        name: 'a glowing stone',
+        location: 'stones',
+        symbol: ',',
+
+        effects: {
+            sight: 2
+        }
+    },
     'sandals': {
         name: 'a pair of sandals',
         location: 'feet',
         symbol: '=',
 
         effects: {
-            speed: 5,
+            speed: 10,
             defense: 1
         }
-    }
+    },
+    'workboots': {
+        name: 'a pair of heavy work boots',
+        location: 'feet',
+        symbol: 'b',
+
+        effects: {
+            speed: 5,
+            defense: 2
+        }
+    },
     'goggles': {
         name: 'some goggles',
         location: 'head',
