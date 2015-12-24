@@ -28,6 +28,7 @@ var Entity = module.exports = function(x, y, draw, options) {
 
 }
 
+// Helper function for the speed-based ROT.Scheduler
 Entity.prototype.getSpeed = function() {
     return this.attr.speed;
 }

@@ -1,6 +1,7 @@
 var RNG = require('rot-js').RNG;
-
 var loot = module.exports = {};
+
+
 
 /* 
  *   Gets loot based on weighted value in rarity table and returns the corresponding item.
@@ -12,6 +13,8 @@ loot.getRandomLoot = function(floor) {
     var chosenLoot = RNG.getWeightedValue(lootRarityTable[floor]);
     return lootInventory[chosenLoot];
 };
+
+
 
 /*
  *  Lower numbers = rarer loot.
@@ -30,6 +33,8 @@ var lootRarityTable = {
         'goggles': 2
     },
 };
+
+
 
 /*
  *   These functions are for getting a specific kind of loot for 
@@ -52,6 +57,8 @@ loot.getLootBySymbol = function(symbol) {
     }
 }
 
+
+
 /*
  *   Helper functions to add/remove status effects when equipping and removing items.
  */
@@ -72,6 +79,8 @@ loot.onRemove = function(player, item) {
         }
     }
 };
+
+
 
 /*
  *  The actual stats for each item. The key must match the

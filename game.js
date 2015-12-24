@@ -9,6 +9,8 @@ var ROT = require('rot-js');
 var keypress = require('keypress');
 var inquirer = require("inquirer");
 
+
+
 /*
  * Game modules
  */
@@ -16,6 +18,8 @@ var inquirer = require("inquirer");
 var Player = require('./player.js');
 var Entity = require('./entity.js');
 var Loot = require('./loot.js');
+
+
 
 /*
  * Game engine/scheduler, methods, and main loop
@@ -295,6 +299,7 @@ var entityRarityTable = {
 function drawEntity(sym, col) {
     return Game.display.draw(this._x, this._y, this._sym, this._col);
 };
+
 
 
 /*
