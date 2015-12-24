@@ -236,16 +236,22 @@ Player.prototype._checkForItem = function() {
         var droppedLoot = Loot.getLootBySymbol(item);
         pickUp(droppedLoot);
 
-        // Unimplemented, for now there is this error message:
         Game.showMessage("That's useless.");
     }
 
     function pickUp(item) {
-        var message = Game.player.addToInventory(item);
-        if (message === "There is no room for " + item.name + " so you leave it behind.") {
-            Game.map[key] = item.symbol;
+        var message = {
+            text: "That's useless.",
+            duration: 1000
+        }
+        var message = Game.player.addToInventory(item); // TODO: change to return boolean.
+
+        if (playerCanPickUp) {
+            message = Lore.pickupMsg(item);
+            Game.map[key] = '.';
         } else {
-            Game.map[key] = '.'
+            message = Lore.abandonMsg(item);
+            Game.map[key] = item.symbol;
         }
         Game.showMessage(message);
     }
