@@ -18,6 +18,7 @@ var inquirer = require("inquirer");
 var Player = require('./player.js');
 var Entity = require('./entity.js');
 var Loot = require('./loot.js');
+var Lore = require('./lore.js');
 
 
 
