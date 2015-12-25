@@ -92,20 +92,22 @@ Player.prototype.prettifiedInventory = function() {
  */
 
 Player.prototype.addToInventory = function(item) {
-    item.location = item.location || 'backpack';
+    if (item) {
+        item.location = item.location || 'backpack';
 
-    if (!this.inventory[item.location]) {
-        this.inventory[item.location] = item;
-        loot.onEquip(this, item);
-        return 'equip';
+        if (!this.inventory[item.location]) {
+            this.inventory[item.location] = item;
+            loot.onEquip(this, item);
+            return 'equip';
 
-    } else if (!this.inventory.backpack) {
-        this.inventory.backpack = item;
-        return 'backpack';
-    
-    } else {
-        return false;
+        } else if (!this.inventory.backpack) {
+            this.inventory.backpack = item;
+            return 'backpack';
+        }
     }
+
+    return false;
+
 }
 
 Player.prototype.removeFromInventory = function(location) {
