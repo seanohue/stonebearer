@@ -208,7 +208,8 @@ Player.prototype.handleEvent = function(ch, key) {
         var item = Game.player.getInventory(location);
         if (item && noItemInSpot()) {
             Game.player.removeFromInventory(location);
-            Game.showMessage("You remove the " + item.name + " from your " + location + " and drop it.");
+            Game.showMessage("You remove " + item.name + " from your " + location + " and drop it.");
+            addToSpot(item.symbol);
 
         } else if (noItemInSpot()) {
             Game.showMessage("You have no item equipped as " + location + ".");
@@ -218,6 +219,12 @@ Player.prototype.handleEvent = function(ch, key) {
         }
 
         return;
+
+        function addToSpot(symbol) {
+            console.log(symbol);
+            var key = this._x + "," + this._y;
+            Game.map[key] = symbol;
+        }
 
         function noItemInSpot() {
             var key = this._x + "," + this._y;
