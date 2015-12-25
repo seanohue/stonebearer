@@ -12,7 +12,7 @@ Lore.pickupMsg = function(item, openInventorySpot) {
     };
 
     var dropMessage = randomDropMsg(item);
-    var ending = "\n\nYou " + placeMsg[openInventorySpot] + " " + item.name + "";
+    var ending = "\n\nYou " + placeMsg[openInventorySpot] + " " + item.name + ".";
 
     return finalizeLootEncounter(dropMessage, ending);
 }
