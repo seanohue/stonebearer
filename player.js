@@ -97,14 +97,14 @@ Player.prototype.addToInventory = function(item) {
     if (!this.inventory[item.location]) {
         this.inventory[item.location] = item;
         loot.onEquip(this, item);
-        return "You equip " + item.name + ".";
+        return 'equip';
 
     } else if (!this.inventory.backpack) {
         this.inventory.backpack = item;
-        return "You put " + item.name + " in your backpack.";
-
+        return 'backpack';
+    
     } else {
-        return "There is no room for " + item.name + " so you leave it behind.";
+        return false;
     }
 }
 

@@ -18,6 +18,7 @@ var inquirer = require("inquirer");
 var Player = require('./player.js');
 var Entity = require('./entity.js');
 var Loot = require('./loot.js');
+var Lore = require('./lore.js');
 
 
 
@@ -55,7 +56,7 @@ var Game = {
     showMessage: function(message, duration, color) {
         color = color || "%c{#ff0}";
         duration = duration || 1000;
-        this.display.drawText(0, 1, ("%c{#ff0}" + message));
+        this.display.drawText(0, 1, (color + message));
         setTimeout((function() {
 
             //TODO: Use stuff like this for making menus cleaner
@@ -69,7 +70,7 @@ var Game = {
                     console.log("Exception: ", e);
                 }
             });
-        }).bind(this), 1000);
+        }).bind(this), duration);
     },
 
     _generateMap: function() {
@@ -98,7 +99,7 @@ var Game = {
         }
         digger.create(digCallback.bind(this));
 
-        this._generateLoot(freeCells);
+        this._generateLoot(freeCells, 45);
         this._drawWholeMap();
 
         this.player = this._createBeing(Player, freeCells);
@@ -126,8 +127,10 @@ var Game = {
         return new being(x, y);
     },
 
-    _generateLoot: function(freeCells) {
-        for (var i = 0; i < 10; i++) {
+    _generateLoot: function(freeCells, lootQuantity) {
+        lootQuantity = lootQuantity || 10;
+
+        for (var i = 0; i < lootQuantity; i++) {
             var index = Math.floor(ROT.RNG.getUniform() * freeCells.length);
             var key = freeCells.splice(index, 1)[0];
             this.map[key] = "*";
@@ -236,18 +239,28 @@ Player.prototype._checkForItem = function() {
         var droppedLoot = Loot.getLootBySymbol(item);
         pickUp(droppedLoot);
 
-        // Unimplemented, for now there is this error message:
         Game.showMessage("That's useless.");
     }
 
     function pickUp(item) {
-        var message = Game.player.addToInventory(item);
-        if (message === "There is no room for " + item.name + " so you leave it behind.") {
-            Game.map[key] = item.symbol;
-        } else {
-            Game.map[key] = '.'
+        var message = {
+            text: "That's useless.",
+            duration: 1000
         }
-        Game.showMessage(message);
+
+        var openInventory = Game.player.addToInventory(item); // TODO: change to return boolean.
+
+        if (openInventory) {
+            message = Lore.pickupMsg(item, openInventory);
+            Game.map[key] = '.';
+
+        } else {
+            message = Lore.abandonMsg(item);
+            Game.map[key] = item.symbol;
+
+        }
+
+        Game.showMessage(message.text, message.duration);
     }
 
 }
