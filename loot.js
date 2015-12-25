@@ -40,52 +40,6 @@ var lootRarityTable = {
 
 
 /*
- *   These functions are for getting a specific kind of loot for 
- *   hardcoded drops and for picking up dropped items.
- *   Defaults to returning undefined upon error, basically.
- */
-
-loot.getSpecificLoot = function(name) {
-    if (!name) return;
-    return lootInventory[name];
-}
-
-loot.getLootBySymbol = function(symbol) {
-    if (!symbol) return;
-    for (loot in lootInventory) {
-        if (loot.hasOwnProperty(symbol) &&
-            loot.symbol === symbol) {
-            return loot;
-        }
-    }
-}
-
-
-
-/*
- *   Helper functions to add/remove status effects when equipping and removing items.
- */
-
-loot.onEquip = function(player, item) {
-    if (item.hasOwnProperty('effects')) {
-
-        for (effect in item.effects) {
-            player.attributes[effect] += item.effects[effect];
-        }
-    }
-};
-
-loot.onRemove = function(player, item) {
-    if (item.hasOwnProperty('effects')) {
-        for (effect in item.effects) {
-            player.attributes[effect] -= item.effects[effect];
-        }
-    }
-};
-
-
-
-/*
  *  The actual stats for each item. The key must match the
  *  key of the rarity table. 
  */
@@ -215,3 +169,51 @@ var lootInventory = {
         }
     }
 };
+
+
+
+/*
+ *   These functions are for getting a specific kind of loot for 
+ *   hardcoded drops and for picking up dropped items.
+ *   Defaults to returning undefined upon error, basically.
+ */
+
+loot.getSpecificLoot = function(name) {
+    if (!name) return;
+    return lootInventory[name];
+}
+
+loot.getLootBySymbol = function(symbol) {
+    if (!symbol) return;
+    for (loot in lootInventory) {
+        if (loot.hasOwnProperty(symbol) &&
+            loot.symbol === symbol) {
+            console.log("LOOT FOUND");
+            return loot;
+        }
+    }
+}
+
+
+
+/*
+ *   Helper functions to add/remove status effects when equipping and removing items.
+ */
+
+loot.onEquip = function(player, item) {
+    if (item.hasOwnProperty('effects')) {
+
+        for (effect in item.effects) {
+            player.attributes[effect] += item.effects[effect];
+        }
+    }
+};
+
+loot.onRemove = function(player, item) {
+    if (item.hasOwnProperty('effects')) {
+        for (effect in item.effects) {
+            player.attributes[effect] -= item.effects[effect];
+        }
+    }
+};
+

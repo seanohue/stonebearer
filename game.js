@@ -291,9 +291,10 @@ Player.prototype._checkForItem = function() {
 
     } else {
         var droppedLoot = Loot.getLootBySymbol(item);
-        pickUp(droppedLoot);
-
-        Game.showMessage("That's useless.");
+        console.log(droppedLoot);
+        Game.player.addToInventory(droppedLoot);
+        var name = droppedLoot ? droppedLoot.name : "item";
+        Game.showMessage("You pick up the " + name + " from the floor.");
     }
 
     function pickUp(item) {
