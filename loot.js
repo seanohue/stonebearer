@@ -184,9 +184,10 @@ loot.getSpecificLoot = function(name) {
 }
 
 loot.getLootBySymbol = function(symbol) {
+    console.log(symbol);
     if (!symbol) return;
     for (loot in lootInventory) {
-        if (loot.hasOwnProperty(symbol) &&
+        if (loot.hasOwnProperty('symbol') &&
             loot.symbol === symbol) {
             console.log("LOOT FOUND");
             return loot;
