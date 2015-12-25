@@ -153,6 +153,8 @@ var Game = {
  * Player scripting
  */
 
+// TODO: Break handleEvent into various functions.
+
 Player.prototype.handleEvent = function(ch, key) {
     if (typeof key === "undefined" || key === null) {
         return;
@@ -222,13 +224,15 @@ Player.prototype.handleEvent = function(ch, key) {
 
         function addToSpot(symbol) {
             console.log(symbol);
-            var key = this._x + "," + this._y;
+            var key = Game.player._x + "," + Game.player._y;
             Game.map[key] = symbol;
         }
 
         function noItemInSpot() {
-            var key = this._x + "," + this._y;
-            return Game.map[key] !== '.';
+            var key = Game.player._x + "," + Game.player._y;
+            console.log("Spot is ", Game.map[key]);
+            console.log("No item? ", Game.map[key] == '.');
+            return Game.map[key] == '.';
         }
     }
 
