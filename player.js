@@ -114,7 +114,7 @@ Player.prototype.removeFromInventory = function(location) {
     location = location || 'backpack';
     var item = this.inventory[location];
     if (item) {
-        this.inventory.location = null;
+        this.inventory[location] = null;
         return item.symbol;
     }
 }
