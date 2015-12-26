@@ -36,7 +36,6 @@ Entity.prototype.getSpeed = function() {
 function extend(obj, extension) {
     for (extra in extension) {
         if (!obj.hasOwnProperty(extra)) {
-            console.log("changing");
             obj[extra] = extension[extra];
         }
     }

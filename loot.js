@@ -23,63 +23,18 @@ loot.getRandomLoot = function(floor) {
 
 var lootRarityTable = {
     'mine': {
-        'flashlight': 2,
+        'flashlight': 4,
         'armored vest': 3,
         'miner\'s helmet': 2,
         'pickaxe': 3,
         'jumpsuit': 3,
-        'torch': 3,
+        'torch': 1,
         'rags': 3,
         'goggles': 2,
         'glow-stone': 1,
-        'workboots': 2
+        'workboots': 2,
+        'shovel': 5
     },
-};
-
-
-
-/*
- *   These functions are for getting a specific kind of loot for 
- *   hardcoded drops and for picking up dropped items.
- *   Defaults to returning undefined upon error, basically.
- */
-
-loot.getSpecificLoot = function(name) {
-    if (!name) return;
-    return lootInventory[name];
-}
-
-loot.getLootBySymbol = function(symbol) {
-    if (!symbol) return;
-    for (loot in lootInventory) {
-        if (loot.hasOwnProperty(symbol) &&
-            loot.symbol === symbol) {
-            return loot;
-        }
-    }
-}
-
-
-
-/*
- *   Helper functions to add/remove status effects when equipping and removing items.
- */
-
-loot.onEquip = function(player, item) {
-    if (item.hasOwnProperty('effects')) {
-
-        for (effect in item.effects) {
-            player.attributes[effect] += item.effects[effect];
-        }
-    }
-};
-
-loot.onRemove = function(player, item) {
-    if (item.hasOwnProperty('effects')) {
-        for (effect in item.effects) {
-            player.attributes[effect] -= item.effects[effect];
-        }
-    }
 };
 
 
@@ -90,6 +45,17 @@ loot.onRemove = function(player, item) {
  */
 
 var lootInventory = {
+    'shovel': {
+        name: 'a rusty shovel',
+        location: 'held',
+        symbol: '?',
+
+        effects: {
+            speed: -10,
+            defense: 1,
+            damage: 4
+        }
+    },
     'glow-stone': {
         name: 'a glowing stone',
         location: 'stones',
@@ -136,7 +102,7 @@ var lootInventory = {
 
         effects: {
             sight: 5,
-            damage: 1,
+            damage: 2,
             speed: -5
         }
     },
@@ -200,6 +166,52 @@ var lootInventory = {
 
         effects: {
             defense: 3
+        }
+    }
+};
+
+
+
+/*
+ *   These functions are for getting a specific kind of loot for 
+ *   hardcoded drops and for picking up dropped items.
+ *   Defaults to returning undefined upon error, basically.
+ */
+
+loot.getSpecificLoot = function(name) {
+    if (!name) return;
+    return lootInventory[name];
+}
+
+loot.getLootBySymbol = function(symbol) {
+    if (symbol) {
+        for (item in lootInventory) {
+            if (lootInventory[item].symbol === symbol) {
+                return lootInventory[item];
+            }
+        }
+    }
+}
+
+
+
+/*
+ *   Helper functions to add/remove status effects when equipping and removing items.
+ */
+
+loot.onEquip = function(player, item) {
+    if (item.hasOwnProperty('effects')) {
+
+        for (effect in item.effects) {
+            player.attributes[effect] += item.effects[effect];
+        }
+    }
+};
+
+loot.onRemove = function(player, item) {
+    if (item.hasOwnProperty('effects')) {
+        for (effect in item.effects) {
+            player.attributes[effect] -= item.effects[effect];
         }
     }
 };

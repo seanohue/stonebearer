@@ -153,6 +153,8 @@ var Game = {
  * Player scripting
  */
 
+// TODO: Break handleEvent into various functions.
+
 Player.prototype.handleEvent = function(ch, key) {
     if (typeof key === "undefined" || key === null) {
         return;
@@ -184,21 +186,70 @@ Player.prototype.handleEvent = function(ch, key) {
         return;
     }
 
-    var keyMap = {};
-    keyMap["up"] = 0;
-    keyMap["pageup"] = 1;
-    keyMap["right"] = 2;
-    keyMap["pagedown"] = 3;
-    keyMap["down"] = 4;
-    keyMap["end"] = 5;
-    keyMap["left"] = 6;
-    keyMap["home"] = 7;
+    // Item removal hotkeys
 
-    if (!(name in keyMap)) {
+    if (name === "b") {
+        removeItemFrom('body');
         return;
     }
 
-    var dir = ROT.DIRS[8][keyMap[name]];
+    if (name === "p") {
+        removeItemFrom('backpack');
+    }
+
+    if (name === "h") {
+        removeItemFrom('held');
+    }
+
+    if (name === "f") {
+        removeItemFrom('feet');
+    }
+
+    function removeItemFrom(location) {
+
+        var item = Game.player.getInventory(location);
+        if (item && noItemInSpot()) {
+            Game.player.removeFromInventory(location);
+            Game.showMessage("You remove " + item.name + " from your " + location + " and drop it.");
+            addToSpot(item.symbol);
+
+        } else if (noItemInSpot()) {
+            Game.showMessage("You have no item equipped as " + location + ".");
+
+        } else {
+            Game.showMessage("There is already an item here, taking up space.");
+        }
+
+        return;
+
+        function addToSpot(symbol) {
+            var key = Game.player._x + "," + Game.player._y;
+            Game.map[key] = symbol;
+        }
+
+        function noItemInSpot() {
+            var key = Game.player._x + "," + Game.player._y;
+            return Game.map[key] == '.';
+        }
+    }
+
+
+
+    var dirMap = {};
+    dirMap["up"] = 0;
+    dirMap["pageup"] = 1;
+    dirMap["right"] = 2;
+    dirMap["pagedown"] = 3;
+    dirMap["down"] = 4;
+    dirMap["end"] = 5;
+    dirMap["left"] = 6;
+    dirMap["home"] = 7;
+
+    if (!(name in dirMap)) {
+        return;
+    }
+
+    var dir = ROT.DIRS[8][dirMap[name]];
     var newX = this._x + dir[0];
     var newY = this._y + dir[1];
 
@@ -237,22 +288,24 @@ Player.prototype._checkForItem = function() {
 
     } else {
         var droppedLoot = Loot.getLootBySymbol(item);
-        pickUp(droppedLoot);
-
-        Game.showMessage("That's useless.");
+        pickUp(droppedLoot, true);
     }
 
-    function pickUp(item) {
+    function pickUp(item, wasDropped) {
         var message = {
             text: "That's useless.",
             duration: 1000
         }
 
-        var openInventory = Game.player.addToInventory(item); // TODO: change to return boolean.
+        var openInventory = Game.player.addToInventory(item);
 
-        if (openInventory) {
+        if (openInventory && !wasDropped) {
             message = Lore.pickupMsg(item, openInventory);
             Game.map[key] = '.';
+
+        } else if (wasDropped) {
+            Game.map[key] = '.';
+            message.text= "You pick up " + item.name + " from the ground.";
 
         } else {
             message = Lore.abandonMsg(item);
