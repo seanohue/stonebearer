@@ -184,13 +184,11 @@ loot.getSpecificLoot = function(name) {
 }
 
 loot.getLootBySymbol = function(symbol) {
-    console.log(symbol);
-    if (!symbol) return;
-    for (loot in lootInventory) {
-        if (loot.hasOwnProperty('symbol') &&
-            loot.symbol === symbol) {
-            console.log("LOOT FOUND");
-            return loot;
+    if (symbol) {
+        for (item in lootInventory) {
+            if (lootInventory[item].symbol === symbol) {
+                return lootInventory[item];
+            }
         }
     }
 }
@@ -217,4 +215,3 @@ loot.onRemove = function(player, item) {
         }
     }
 };
-

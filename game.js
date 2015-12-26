@@ -291,22 +291,25 @@ Player.prototype._checkForItem = function() {
 
     } else {
         var droppedLoot = Loot.getLootBySymbol(item);
-        Game.player.addToInventory(droppedLoot);
-        var name = droppedLoot ? droppedLoot.name : "item";
-        Game.showMessage("You pick up the " + name + " from the floor.");
+        console.log("DROPPED LOOT IS ", droppedLoot);
+        pickUp(droppedLoot, true);
     }
 
-    function pickUp(item) {
+    function pickUp(item, wasDropped) {
         var message = {
             text: "That's useless.",
             duration: 1000
         }
 
-        var openInventory = Game.player.addToInventory(item); // TODO: change to return boolean.
+        var openInventory = Game.player.addToInventory(item);
 
-        if (openInventory) {
+        if (openInventory && !wasDropped) {
             message = Lore.pickupMsg(item, openInventory);
             Game.map[key] = '.';
+
+        } else if (wasDropped) {
+            Game.map[key] = '.';
+            message.text= "You pick up " + item.name + " from the ground.";
 
         } else {
             message = Lore.abandonMsg(item);
