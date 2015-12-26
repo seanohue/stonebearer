@@ -223,15 +223,12 @@ Player.prototype.handleEvent = function(ch, key) {
         return;
 
         function addToSpot(symbol) {
-            console.log(symbol);
             var key = Game.player._x + "," + Game.player._y;
             Game.map[key] = symbol;
         }
 
         function noItemInSpot() {
             var key = Game.player._x + "," + Game.player._y;
-            console.log("Spot is ", Game.map[key]);
-            console.log("No item? ", Game.map[key] == '.');
             return Game.map[key] == '.';
         }
     }
@@ -291,7 +288,6 @@ Player.prototype._checkForItem = function() {
 
     } else {
         var droppedLoot = Loot.getLootBySymbol(item);
-        console.log("DROPPED LOOT IS ", droppedLoot);
         pickUp(droppedLoot, true);
     }
 
