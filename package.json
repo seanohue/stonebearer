@@ -8,7 +8,10 @@
     "keypress": "^0.2.1",
     "rot-js": "^0.6.2"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "chai": "^3.4.1",
+    "mocha": "^2.3.4"
+  },
   "scripts": {
     "test": "node game.js"
   },
