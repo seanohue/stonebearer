@@ -1,14 +1,4 @@
-console.log("I BE HELPIN'.");
-
-
-
-function importTest(name, path) {
-    describe(name, function () {
-        require(path);
-    });
-}
-
-// var common = require("./common");
+var common = require("./common");
 
 describe("Stonebearer Unit Tests ->", function () {
     beforeEach(function () {
@@ -22,3 +12,9 @@ describe("Stonebearer Unit Tests ->", function () {
     after(function () {
     });
 });
+
+function importTest(name, path) {
+    describe(name, function () {
+        require(path);
+    });
+}

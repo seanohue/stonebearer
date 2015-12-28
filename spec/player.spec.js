@@ -8,7 +8,7 @@ beforeEach(function() {
     testPlayer = new Player(42, 420);
 });
 
-describe("Getting X and Y coords", function() {
+describe("Getting player location", function() {
     it("Gets the original setting of the x and y coordinates", function() {
         expect(testPlayer.getX()).equals(42);
         expect(testPlayer.getY()).equals(420);
@@ -43,5 +43,20 @@ describe("Inventory", function() {
 
         expect(inv).to.eql(expectedInv);
     });
+
+    it("Returns the item in one specific inventory spot if there is a key passed in", function() {
+        var inv = testPlayer.getInventory('body');
+        var expectedBodyItem = {
+            name: 'some rags',
+            location: 'body',
+            symbol: '#',
+            effects: {
+                defense: 1,
+                speed: -5
+            }
+        }
+        
+        expect(inv).to.eql(expectedBodyItem);
+    })
 
 });
