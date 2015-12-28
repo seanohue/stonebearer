@@ -33,9 +33,6 @@ describe("Attributes", function() {
 });
 
 describe("Inventory", function() {
-    beforeEach(function() {
-
-    });
 
     it("Returns all of the inventory if there are no arguments", function() {
         var inv = testPlayer.getInventory();
@@ -57,38 +54,66 @@ describe("Inventory", function() {
         }
 
         expect(inv).to.eql(expectedBodyItem);
-    })
+    });
 
-});
+    describe("Adding items to inventory -- or not", function() {
 
-describe("Adding items to inventory -- or not", function() {
+        describe("Happy path of inventory transactions", function() {
 
-    describe("Happy path of inventory transactions", function() {
+            it("Will add item to the correct equipment location if the location is open", function() {
+                var sampleHelmet = {
+                    name: 'a goofy helmet',
+                    location: 'head'
+                };
 
-        it("Will add item to the correct equipment location if the location is open", function() {
-            var sampleHelmet = {
-                name: 'a goofy helmet',
-                location: 'head'
-            };
+                testPlayer.addToInventory(sampleHelmet);
 
-            testPlayer.addToInventory(sampleHelmet);
+                expect(testPlayer.getInventory('head')).to.eql(sampleHelmet);
+            });
 
-            expect(testPlayer.getInventory('head')).to.eql(sampleHelmet);
+            it("Will add item to backpack if equipped spot is full but backpack is empty", function() {
+                var sampleShirt = {
+                    name: 'a tee shirt with a burrito on it',
+                    location: 'body'
+                };
+
+                testPlayer.addToInventory(sampleShirt);
+
+                expect(testPlayer.getInventory('backpack')).to.eql(sampleShirt);
+            });
+
+            it("Will remove an item from the inventory location and return its symbol", function() {
+                var symbolOfRemovedItem = testPlayer.removeFromInventory('body');
+                var itemRemaining = testPlayer.getInventory('body');
+
+                expect(itemRemaining).to.equal(null);
+                expect(symbolOfRemovedItem).to.equal('#');
+            })
         });
 
-        it("Will add item to backpack if equipped spot is full but backpack is empty", function() {
+        describe("Sad path of inventory transactions", function() {
             var sampleShirt = {
                 name: 'a tee shirt with a burrito on it',
-                location: 'body'
+                location: 'body',
+                symbol: '$'
             };
 
-            testPlayer.addToInventory(sampleShirt);
-            
-            expect(testPlayer.getInventory('backpack')).to.eql(sampleShirt);
+            it("Returns false if both inventory spot and backpack are full", function() {
+                var sampleShirt = {
+                    name: 'a tee shirt with a burrito on it',
+                    location: 'body'
+                };
+                testPlayer.addToInventory(sampleShirt);
+                var canWeAddAnother = testPlayer.addToInventory(sampleShirt);
+                expect(canWeAddAnother).to.equal(false);
+            });
+
+            it("Uses the backpack as the default location for removeFromInventory", function() {
+
+                testPlayer.addToInventory(sampleShirt);
+                expect(testPlayer.removeFromInventory()).to.equal(sampleShirt.symbol);
+            });
+
         });
     });
-
-    describe("Sad path of inventory transactions", function() {
-
-    });
-})
+});
