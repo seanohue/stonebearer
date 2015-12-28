@@ -2,6 +2,8 @@
 Clone this repo.
 In the repo's directory, run `npm install` then `node game.js` to play the demo.
 
+`source ./launch.sh` will launch the game after running the unit tests.
+
 ###Game Engine
 This game is built on node and rot.js.
 
