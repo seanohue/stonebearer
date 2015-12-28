@@ -6,7 +6,13 @@ var testPlayer;
 
 beforeEach(function() {
     testPlayer = new Player(42, 420);
-    console.log(testPlayer);
+});
+
+describe("Getting X and Y coords", function() {
+    it("Gets the original setting of the x and y coordinates", function() {
+        expect(testPlayer.getX()).equals(42);
+        expect(testPlayer.getY()).equals(420);
+    });
 });
 
 describe("Attributes", function() {

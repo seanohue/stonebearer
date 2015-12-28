@@ -1,5 +1,7 @@
 console.log("I BE HELPIN'.");
 
+
+
 function importTest(name, path) {
     describe(name, function () {
         require(path);
@@ -8,18 +10,15 @@ function importTest(name, path) {
 
 // var common = require("./common");
 
-describe("top", function () {
+describe("Stonebearer Unit Tests ->", function () {
     beforeEach(function () {
-       console.log("running something before each test");
     });
     
-    importTest("Player module", './spec/player.spec.js');
+    importTest("Player module ->", './spec/player.spec.js');
 
     it("does stuff", function() {
-    	console.log("things.");
     })
 
     after(function () {
-        console.log("after all tests");
     });
 });
