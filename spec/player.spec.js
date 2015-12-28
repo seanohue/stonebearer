@@ -55,8 +55,40 @@ describe("Inventory", function() {
                 speed: -5
             }
         }
-        
+
         expect(inv).to.eql(expectedBodyItem);
     })
 
 });
+
+describe("Adding items to inventory -- or not", function() {
+
+    describe("Happy path of inventory transactions", function() {
+
+        it("Will add item to the correct equipment location if the location is open", function() {
+            var sampleHelmet = {
+                name: 'a goofy helmet',
+                location: 'head'
+            };
+
+            testPlayer.addToInventory(sampleHelmet);
+
+            expect(testPlayer.getInventory('head')).to.eql(sampleHelmet);
+        });
+
+        it("Will add item to backpack if equipped spot is full but backpack is empty", function() {
+            var sampleShirt = {
+                name: 'a tee shirt with a burrito on it',
+                location: 'body'
+            };
+
+            testPlayer.addToInventory(sampleShirt);
+            
+            expect(testPlayer.getInventory('backpack')).to.eql(sampleShirt);
+        });
+    });
+
+    describe("Sad path of inventory transactions", function() {
+
+    });
+})
