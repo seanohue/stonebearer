@@ -46,7 +46,7 @@ Player.prototype.getY = function() {
  */
 
 Player.prototype.getAttributes = function(attr) {
-    if (attr) return this.attributes(attr);
+    if (attr) return this.attributes[attr];
     return this.prettifiedAttributes();
 }
 

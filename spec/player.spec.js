@@ -10,14 +10,17 @@ describe("Attributes", function() {
         console.log(testPlayer);
     });
 
-    it("Returns a stringified version of the attributes if there are no arguments", function() {
+    it("Returns all of the attributes if there are no arguments", function() {
         var attr = testPlayer.getAttributes();
         var expectedAttr = "Attributes: \nsight: 6\ndefense: 2\ndamage: 2\nhealth: 10\nspeed: 100\n";
+
         expect(attr).to.eql(
             expectedAttr);
     });
-});
 
-it("Returns a single attribute when the key to that attribute is passed in.", function() {
+    it("Returns an integer attribute when the key to that attribute is passed in.", function() {
+        var attr = testPlayer.getAttributes('defense');
+        expect(attr).to.eql(2);
+    });
 
 });
