@@ -5,6 +5,8 @@ var Lore = module.exports = {};
 
 Lore.pickupMsg = function(item, openInventorySpot) {
 
+    if (!item) return;
+
     var placeMsg = {
         'equip': 'equip',
         'backpack': 'use your pack to carry',
