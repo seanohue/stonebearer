@@ -15,8 +15,6 @@ Use `mocha .` in the project directory to run tests.
 
 
 #####TODO:
-* Unit tests
-* Istanbul coverage reporter
 * Task runner
 * Dynamic lighting based on stats/equipment.
 * Ability to manage inventory

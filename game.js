@@ -19,6 +19,7 @@ var Player = require('./player.js');
 var Entity = require('./entity.js');
 var Loot = require('./loot.js');
 var Lore = require('./lore.js');
+var Combat = require('./combat.js');
 
 
 
@@ -30,7 +31,6 @@ var Game = {
     display: null,
     map: {},
     engine: null,
-    player: null,
     player: null,
 
     _entities: [],
@@ -305,7 +305,7 @@ Player.prototype._checkForItem = function() {
 
         } else if (wasDropped) {
             Game.map[key] = '.';
-            message.text= "You pick up " + item.name + " from the ground.";
+            message.text = "You pick up " + item.name + " from the ground.";
 
         } else {
             message = Lore.abandonMsg(item);
@@ -336,6 +336,10 @@ Entities.Assassin = function(x, y) {
         name: "assassin",
         symbol: "A",
         color: "red",
+        attributes: {
+            defense: 5,
+            damage: 5
+        },
         action: Pathing.movesToPlayer
     }
     return new Entity(x, y, drawEntity, options);
@@ -347,8 +351,10 @@ Entities.Strangler = function(x, y) {
         symbol: "S",
         color: "red",
         action: Pathing.movesToPlayer,
-        attr: {
-            speed: 30
+        attributes: {
+            defense: 2,
+            speed: 30,
+            damage: 4
         }
     }
     return new Entity(x, y, drawEntity, options);
@@ -396,15 +402,9 @@ var Pathing = {
 
         path.shift();
 
-        // TODO: make this part less crappy and more generic.
-        // but also allow for custom combat messages/scripting
-        // <=, in case the player jumps into Entity's arms (path.length === 0)
         if (path.length <= 1) {
-            Game.engine.lock();
-            Game.showMessage("%c{red}Game over - you were captured!");
-            setTimeout(function() {
-                process.exit(0);
-            }, 750);
+            var combatResult = new Combat(Game.player, this, Game.showMessage);
+            Game.showMessage(combatResult.text, combatResult.duration);
         } else {
             x = path[0][0];
             y = path[0][1];

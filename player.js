@@ -110,6 +110,11 @@ Player.prototype.addToInventory = function(item) {
 
 }
 
+Player.prototype.damage = function(amount){
+    this.attributes.health -= amount;
+    return this.attributes.health;
+};
+
 Player.prototype.removeFromInventory = function(location) {
     location = location || 'backpack';
     var item = this.inventory[location];

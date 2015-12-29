@@ -3,8 +3,11 @@ var Entity = module.exports = function(x, y, draw, options) {
     var defaultOptions = {
         name: "beast",
 
-        attr: {
+        attributes: {
             speed: 100,
+            health: 10,
+            damage: 2,
+            defense: 2
         },
         symbol: "&",
         color: "red",
@@ -19,7 +22,7 @@ var Entity = module.exports = function(x, y, draw, options) {
 
     this._name = options.name;
     this.act = options.action;
-    this.attr = options.attr;
+    this.attributes = options.attributes;
 
     this._sym = options.symbol;
     this._col = options.color;
@@ -30,8 +33,15 @@ var Entity = module.exports = function(x, y, draw, options) {
 
 // Helper function for the speed-based ROT.Scheduler
 Entity.prototype.getSpeed = function() {
-    return this.attr.speed;
+    return this.attributes.speed;
 }
+
+Entity.prototype.damage = function(amount) {
+    this.attributes.health -= amount;
+    return this.attributes.health;
+}
+
+
 
 function extend(obj, extension) {
     obj = obj || {};
