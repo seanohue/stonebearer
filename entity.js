@@ -24,8 +24,8 @@ var Entity = module.exports = function(x, y, draw, options) {
     this.act = options.action;
     this.attributes = options.attributes;
 
-    this._sym = options.symbol;
-    this._col = options.color;
+    this._symbol = options.symbol;
+    this._color = options.color;
     this._draw = draw;
     this._draw();
 

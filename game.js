@@ -369,7 +369,7 @@ var entityRarityTable = {
 
 
 function drawEntity(sym, col) {
-    return Game.display.draw(this._x, this._y, this._sym, this._col);
+    return Game.display.draw(this._x, this._y, this._symbol, this._color);
 };
 
 
