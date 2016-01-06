@@ -200,7 +200,7 @@ loot.getLootBySymbol = function(symbol) {
  */
 
 loot.onEquip = function(player, item) {
-    if (item.hasOwnProperty('effects')) {
+    if (item && item.effects) {
 
         for (effect in item.effects) {
             player.attributes[effect] += item.effects[effect];
@@ -209,7 +209,7 @@ loot.onEquip = function(player, item) {
 };
 
 loot.onRemove = function(player, item) {
-    if (item.hasOwnProperty('effects')) {
+    if (item && item.effects) {
         for (effect in item.effects) {
             player.attributes[effect] -= item.effects[effect];
         }
