@@ -7,7 +7,9 @@ var RNG = require('rot-js').RNG;
 var Combat = module.exports = function(player, enemy) {
     var combatResults = {
         text: "%c{red}You are attacked by a " + enemy._name + "!\nYou defend yourself.",
-        duration: 6000
+        duration: 6000,
+        victory: false,
+        death: false
     };
 
     var defendingString = calculateEnemyAttackResult();
@@ -30,6 +32,7 @@ var Combat = module.exports = function(player, enemy) {
 
         function checkForPlayerDeath(playerHealth) {
             if (playerHealth < 1) {
+                combatResults.death = true;
                 return "You were killed by the " + enemy._name + ".";
             }
         }
@@ -44,6 +47,7 @@ var Combat = module.exports = function(player, enemy) {
 
         function checkForEnemyDeath(enemyHealth) {
             if (enemyHealth < 1) {
+                combatResults.victory = true;
                 return "You killed the " + enemy._name + ".";
             }
         }
@@ -53,6 +57,7 @@ var Combat = module.exports = function(player, enemy) {
         var damage = attacker.attributes.damage || 1;
         var defense = defender.attributes.defense || 1;
         var averageDamage = 1 + damage - defense;
+        
         with(Math) {
             return ceil(max(RNG.getNormal(averageDamage)));
         }
