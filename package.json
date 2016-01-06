@@ -16,7 +16,8 @@
     "sinon-chai": "^2.8.0"
   },
   "scripts": {
-    "test": "node game.js"
+    "test": "mocha .",
+    "play": "node game.js"
   },
   "repository": {
     "type": "git",
