@@ -1,30 +1,27 @@
 var RNG = require('rot-js').RNG;
 
 /*
-*	Returns a message object with the results of combat.
-*/
+ *  Returns a message object with the results of combat.
+ */
 
-var Combat = module.exports = function(player, enemy) { 
+var Combat = module.exports = function(player, enemy) {
     var combatResults = {
         text: "%c{red}You are attacked by a " + enemy._name + "!\nYou defend yourself.",
         duration: 6000
     };
 
-    var attackedString = calculateEnemyAttackResult();
+    var defendingString = calculateEnemyAttackResult();
     var attackingString = calculatePlayerAttackResult();
 
-    combatResults.text = combatResults.text + attackedString + attackingString;
+    combatResults.text = combatResults.text + defendingString + attackingString;
 
     return combatResults;
 
     /// Helper functions
 
     function calculateEnemyAttackResult() {
-        var enemyDamageRoll =
-            Math.ceil(
-                Math.max(
-                    RNG.getNormal(
-                        1 + enemy.attributes.damage - player.attributes.defense, 1), 0));
+        var enemyDamageRoll = rollForDamage(enemy, player);
+
         var playerHealth = player.damage(enemyDamageRoll);
         var dead = checkForPlayerDeath(playerHealth);
 
@@ -39,11 +36,8 @@ var Combat = module.exports = function(player, enemy) {
     }
 
     function calculatePlayerAttackResult() {
-        var playerDamageRoll =
-            Math.ceil(
-                Math.max(
-                    RNG.getNormal(
-                        1 + player.attributes.damage - enemy.attributes.defense, 1), 0));
+        var playerDamageRoll = rollForDamage(player, enemy);
+
         var enemyHealth = enemy.damage(playerDamageRoll);
         var killed = checkForEnemyDeath(enemyHealth);
         return killed || "\nYou deal " + playerDamageRoll + " to the " + enemy._name + ".";
@@ -54,4 +48,14 @@ var Combat = module.exports = function(player, enemy) {
             }
         }
     }
+
+    function rollForDamage(attacker, defender) {
+        var damage = attacker.attributes.damage || 1;
+        var defense = defender.attributes.defense || 1;
+        var averageDamage = 1 + damage - defense;
+        with(Math) {
+            return ceil(max(RNG.getNormal(averageDamage)));
+        }
+    }
+
 }
