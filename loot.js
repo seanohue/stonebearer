@@ -5,12 +5,12 @@ var loot = module.exports = {};
 
 /* 
  *   Gets loot based on weighted value in rarity table and returns the corresponding item.
- *   Optional param "floor" can be used to change which floor/level of the dungeon the loot comes from. 
+ *   Optional param "level" can be used to change which level of the dungeon the loot comes from. 
  */
 
-loot.getRandomLoot = function(floor) {
-    floor = floor || 'mine';
-    var chosenLoot = RNG.getWeightedValue(lootRarityTable[floor]);
+loot.getRandomLoot = function(level) {
+    level = level || 'mine';
+    var chosenLoot = RNG.getWeightedValue(lootRarityTable[level]);
     return lootInventory[chosenLoot];
 };
 
@@ -18,7 +18,7 @@ loot.getRandomLoot = function(floor) {
 
 /*
  *  Lower numbers = rarer loot.
- *  Sorted by dungeon floor.
+ *  Sorted by dungeon level.
  */
 
 var lootRarityTable = {

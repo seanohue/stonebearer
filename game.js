@@ -20,7 +20,7 @@ var Entity = require('./entity.js');
 var Loot = require('./loot.js');
 var Lore = require('./lore.js');
 var Combat = require('./combat.js');
-
+var common = require('./common.js');
 
 
 /*
@@ -107,10 +107,10 @@ var Game = {
         this._generateBeings("mine", freeCells, 10)
     },
 
-    _generateBeings: function(floor, freeCells, quantity) {
-        floor = floor || "mine";
+    _generateBeings: function(level, freeCells, quantity) {
+        level = level || "mine";
         while (quantity) {
-            var chosenBeing = ROT.RNG.getWeightedValue(entityRarityTable[floor]);
+            var chosenBeing = ROT.RNG.getWeightedValue(entityRarityTable[level]);
             var being = Entities[chosenBeing];
 
             this._entities.push(this._createBeing(being, freeCells));

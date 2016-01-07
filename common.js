@@ -11,3 +11,6 @@ exports.sinon = sinon;
 
 exports.assert = chai.assert;
 exports.expect = chai.expect;
+
+// Different levels or floors or whatnot go here, too.
+exports.levels = ['mine'];
