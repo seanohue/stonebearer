@@ -1,4 +1,4 @@
-var extend = common.extend;
+var extend = require('./common.js').extend;
 
 var Entity = module.exports = function(x, y, draw, options) {
 
@@ -41,16 +41,4 @@ Entity.prototype.getSpeed = function() {
 Entity.prototype.damage = function(amount) {
     this.attributes.health -= amount;
     return this.attributes.health;
-}
-
-
-
-function extend(obj, extension) {
-    obj = obj || {};
-    for (extra in extension) {
-        if (!obj.hasOwnProperty(extra)) {
-            obj[extra] = extension[extra];
-        }
-    }
-    return obj;
 }
