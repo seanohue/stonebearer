@@ -14,3 +14,13 @@ exports.expect = chai.expect;
 
 // Different levels or floors or whatnot go here, too.
 exports.levels = ['mine'];
+
+exports.extend = function extend(obj, extension) {
+    obj = obj || {};
+    for (extra in extension) {
+        if (!obj.hasOwnProperty(extra)) {
+            obj[extra] = extension[extra];
+        }
+    }
+    return obj;
+}

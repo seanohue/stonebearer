@@ -1,3 +1,5 @@
+var extend = common.extend;
+
 var Entity = module.exports = function(x, y, draw, options) {
 
     var defaultOptions = {
