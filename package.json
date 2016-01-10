@@ -11,6 +11,8 @@
   "devDependencies": {
     "chai": "^3.4.1",
     "gulp": "^3.9.0",
+    "gulp-load-plugins": "^1.2.0",
+    "gulp-todo": "^4.0.0",
     "istanbul": "^0.4.1",
     "mocha": "^2.3.4",
     "sinon": "^1.17.2",
