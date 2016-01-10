@@ -1,12 +1,18 @@
 var gulp = require('gulp');
-var $ = rquire('gulp-load-plugins')();
+var $ = require('gulp-load-plugins')();
 
-gulp.task('default', function(){
-	console.log("GULP");
+var options = {
+    todo: {
+        absolute: true
+    }
+};
+
+gulp.task('default', function() {
+    console.log("GULP");
 });
 
 gulp.task('todo', function() {
     gulp.src('js/**/*.js')
-        .pipe($.todo())
+        .pipe($.todo(options.todo))
         .pipe(gulp.dest('./'));
 });
