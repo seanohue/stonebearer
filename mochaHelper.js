@@ -3,6 +3,8 @@ var common = require("./common");
 describe("Stonebearer Unit Tests ->", function() {
     beforeEach(function() {});
 
+    importTest("Game module ->", './spec/game.spec.js');
+
     importTest("Player module ->", './spec/player.spec.js');
 
     importTest("Loot module ->", './spec/loot.spec.js');
