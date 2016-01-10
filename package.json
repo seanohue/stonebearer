@@ -1,6 +1,6 @@
 {
   "name": "stonebearer",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A roguelike game written using ROT.js and node, to be played in the terminal.",
   "main": "game.js",
   "dependencies": {
