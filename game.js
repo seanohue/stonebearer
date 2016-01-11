@@ -131,14 +131,22 @@ var Game = module.exports = {
         lootQuantity = lootQuantity || 10;
 
         for (var i = 0; i < lootQuantity; i++) {
+            placeLoot.call(this);
+        }
+
+        function placeLoot() {
             var index = Math.floor(ROT.RNG.getUniform() * freeCells.length);
             var key = freeCells.splice(index, 1)[0];
             this.map[key] = "*";
-        }
+        };
     },
 
     _drawWholeMap: function() {
         for (var key in this.map) {
+            drawMapTile.call(this, key);
+        }
+
+        function drawMapTile(key) {
             var parts = key.split(",");
             var x = parseInt(parts[0]);
             var y = parseInt(parts[1]);

@@ -37,13 +37,22 @@ describe("Game initialization station", function() {
     });
 });
 
-describe("ShowMessage method", function(){
+
+
+// For now, these are all kind of indirectly tested by the game.init function. 
+
+
+xdescribe("ShowMessage method", function(){
 	it("does message stuff", function(){});
 });
 
-describe("Map generation station", function(){
+xdescribe("Map generation station", function(){
 	it("creates a map", function(){});
 });
+
+describe("Being generation station", function(){
+
+})
 
 
 
