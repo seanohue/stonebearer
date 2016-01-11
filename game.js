@@ -27,7 +27,7 @@ var common = require('./common.js');
  * Game engine/scheduler, methods, and main loop
  */
 
-var Game = {
+var Game = module.exports = {
     display: null,
     map: {},
     engine: null,

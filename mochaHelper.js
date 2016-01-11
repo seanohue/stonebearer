@@ -15,7 +15,7 @@ describe("Stonebearer Unit Tests ->", function() {
 
     importTest("Combat module ->", './spec/combat.spec.js');
 
-    it("does stuff", function() {});
+    it("Importing Tests...", function() {});
 
     after(function() {});
 });
