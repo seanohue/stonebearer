@@ -4,6 +4,9 @@ var $ = require('gulp-load-plugins')();
 var options = {
     todo: {
         absolute: true
+    },
+    jshint: {
+        reporter: 'default'
     }
 };
 
@@ -23,7 +26,10 @@ function defaultTask() {
 
 function jsHintTask() {
     gulp.src(paths.js)
-        .pipe($.jshint());
+        .pipe($.jshint())
+        .pipe($.jshint.reporter(
+            options.jshint.reporter
+        ));
 }
 
 function toDoTask() {
@@ -31,4 +37,3 @@ function toDoTask() {
         .pipe($.todo(options.todo))
         .pipe(gulp.dest(paths.src));
 }
-
