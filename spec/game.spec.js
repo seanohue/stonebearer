@@ -7,7 +7,7 @@ var Lore = require('../lore');
 var ROT = require('rot-js');
 var expect = common.expect;
 
-beforeEach(Game.init);
+Game.init();
 
 describe("Game initialization station", function() {
 
@@ -41,11 +41,9 @@ describe("ShowMessage method", function(){
 	it("does message stuff", function(){
 
 	});
-})
+});
 
 
 
     // TODO: find a way to mock keypress events (stdin?)
     // TODO: add sinon to stub out methonds like stdout to see if they are called as needed.
-
-});
