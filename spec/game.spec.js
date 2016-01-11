@@ -38,9 +38,11 @@ describe("Game initialization station", function() {
 });
 
 describe("ShowMessage method", function(){
-	it("does message stuff", function(){
+	it("does message stuff", function(){});
+});
 
-	});
+describe("Map generation station", function(){
+	it("creates a map", function(){});
 });
 
 
