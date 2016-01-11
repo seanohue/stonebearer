@@ -37,4 +37,4 @@ describe("Initialization of entity", function() {
 
     });
 
-})
+});

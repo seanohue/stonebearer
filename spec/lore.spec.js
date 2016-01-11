@@ -20,7 +20,7 @@ describe("Random item encounter ->", function() {
     it("Returns a message object if openInventorySpot is undefined", function() {
         testMsg = Lore.pickupMsg({
             name: "a potato cannon"
-        })
+        });
 
         expect(testMsg).to.have.ownProperty('text');
         expect(testMsg).to.have.ownProperty('duration');

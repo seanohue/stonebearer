@@ -13,7 +13,7 @@ describe("getting randomized loot", function() {
             'symbol': '',
             'effects': ''
         };
-        for (prop in typicalLootProperty) {
+        for (var prop in typicalLootProperty) {
             expect(testLoot[prop]).to.exist;
         }
     });

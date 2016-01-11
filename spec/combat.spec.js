@@ -55,6 +55,6 @@ describe("Various combat scenarios", function() {
 
 
         expect(result.victory).to.be.true;
-    })
+    });
 
 });

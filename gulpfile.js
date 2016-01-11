@@ -12,7 +12,8 @@ var options = {
 
 var paths = {
     src: './',
-    js: './*.js'
+    game: './*.js',
+    js: ['./*.js', './**(!node_modules)/*.js']
 };
 
 gulp.task('default', ['todo', 'jshint'], defaultTask);

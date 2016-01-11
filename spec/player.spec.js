@@ -51,7 +51,7 @@ describe("Inventory", function() {
                 defense: 1,
                 speed: -5
             }
-        }
+        };
 
         expect(inv).to.eql(expectedBodyItem);
     });
@@ -88,7 +88,7 @@ describe("Inventory", function() {
 
                 expect(itemRemaining).to.equal(null);
                 expect(symbolOfRemovedItem).to.equal('#');
-            })
+            });
         });
 
         describe("Sad path of inventory transactions", function() {
