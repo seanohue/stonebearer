@@ -181,17 +181,17 @@ var lootInventory = {
 loot.getSpecificLoot = function(name) {
     if (!name) return;
     return lootInventory[name];
-}
+};
 
 loot.getLootBySymbol = function(symbol) {
     if (symbol) {
-        for (item in lootInventory) {
+        for (var item in lootInventory) {
             if (lootInventory[item].symbol === symbol) {
                 return lootInventory[item];
             }
         }
     }
-}
+};
 
 
 
@@ -202,7 +202,7 @@ loot.getLootBySymbol = function(symbol) {
 loot.onEquip = function(player, item) {
     if (item && item.effects) {
 
-        for (effect in item.effects) {
+        for (var effect in item.effects) {
             player.attributes[effect] += item.effects[effect];
         }
     }
@@ -210,7 +210,7 @@ loot.onEquip = function(player, item) {
 
 loot.onRemove = function(player, item) {
     if (item && item.effects) {
-        for (effect in item.effects) {
+        for (var effect in item.effects) {
             player.attributes[effect] -= item.effects[effect];
         }
     }

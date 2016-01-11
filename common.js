@@ -17,10 +17,10 @@ exports.levels = ['mine'];
 
 exports.extend = function extend(obj, extension) {
     obj = obj || {};
-    for (extra in extension) {
+    for (var extra in extension) {
         if (!obj.hasOwnProperty(extra)) {
             obj[extra] = extension[extra];
         }
     }
     return obj;
-}
+};

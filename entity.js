@@ -31,14 +31,14 @@ var Entity = module.exports = function(x, y, draw, options) {
     this._draw = draw;
     this._draw();
 
-}
+};
 
 // Helper function for the speed-based ROT.Scheduler
 Entity.prototype.getSpeed = function() {
     return this.attributes.speed;
-}
+};
 
 Entity.prototype.damage = function(amount) {
     this.attributes.health -= amount;
     return this.attributes.health;
-}
+};

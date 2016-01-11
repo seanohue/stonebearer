@@ -13,7 +13,7 @@ var options = {
 var paths = {
     src: './',
     js: './*.js'
-}
+};
 
 gulp.task('default', ['todo', 'jshint'], defaultTask);
 gulp.task('jshint', jsHintTask);

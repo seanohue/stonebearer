@@ -23,7 +23,6 @@ var Combat = module.exports = function(player, enemy) {
 
     function calculateEnemyAttackResult() {
         var enemyDamageRoll = rollForDamage(enemy, player);
-
         var playerHealth = player.damage(enemyDamageRoll);
         var dead = checkForPlayerDeath(playerHealth);
 
@@ -62,5 +61,4 @@ var Combat = module.exports = function(player, enemy) {
             return ceil(max(RNG.getNormal(averageDamage)));
         }
     }
-
-}
+};

@@ -17,14 +17,14 @@ Lore.pickupMsg = function(item, openInventorySpot) {
     var ending = "\n\nYou " + placeMsg[openInventorySpot] + " " + item.name + ".";
 
     return finalizeLootEncounter(dropMessage, ending);
-}
+};
 
 Lore.abandonMsg = function(item) {
     var dropMessage = randomDropMsg(item);
     var ending = "\n\nYou abandon " + item.name + ".";
 
     return finalizeLootEncounter(dropMessage, ending);
-}
+};
 
 function finalizeLootEncounter(msg, ending) {
     msg.text = msg.text + ending;
@@ -36,7 +36,7 @@ function finalizeLootEncounter(msg, ending) {
 
 // Picks a message to describe a random loot encounter.
 function randomDropMsg(item) {
-    var defaultLoot = FlavorText.loot['box'](item);
+    var defaultLoot = FlavorText.loot.box(item);
 
     if (item && item.name) {
         var msgTitle = RNG.getWeightedValue(FlavorText.loot.rarity);
@@ -63,21 +63,21 @@ var FlavorText = {
             return {
                 text: "You find a box with " + item.name + " in it.",
                 duration: 5000
-            }
+            };
         },
 
         'miner_corpse': function(item) {
             return {
                 text: "You find the corpse of a miner, its face a puffy blue, and limbs stiff with rigor mortis. You pry " + item.name + " from their stiff, cold hands.",
                 duration: 8000
-            }
+            };
         },
 
         'rubble_pile': function(item) {
             return {
                 text: "You see " + item.name + " peeking from under a pile of bloodstained rubble. A quick tug is all it takes to unearth the artifact.",
                 duration: 8000
-            }
+            };
         },
     }
-}
+};

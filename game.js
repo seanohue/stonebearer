@@ -87,7 +87,6 @@ var Game = {
 
         var digger = new ROT.Map.Digger(width, height, levelOptions);
         var freeCells = [];
-
         var digCallback = function(x, y, value) {
             if (value) {
                 return;
@@ -96,7 +95,8 @@ var Game = {
             var key = x + "," + y;
             this.map[key] = ".";
             freeCells.push(key);
-        }
+        };
+
         digger.create(digCallback.bind(this));
 
         this._generateLoot(freeCells, 45);
@@ -104,7 +104,7 @@ var Game = {
 
         this.player = this._createBeing(Player, freeCells);
         this._entities.push(this.player);
-        this._generateBeings("mine", freeCells, 10)
+        this._generateBeings("mine", freeCells, 10);
     },
 
     _generateBeings: function(level, freeCells, quantity) {
@@ -153,7 +153,7 @@ var Game = {
  * Player scripting
  */
 
-// TODO: Break handleEvent into various functions.
+//TODO: Break handleEvent into various functions.
 
 Player.prototype.handleEvent = function(ch, key) {
     if (typeof key === "undefined" || key === null) {
@@ -239,15 +239,16 @@ Player.prototype.handleEvent = function(ch, key) {
 
 
 
-    var dirMap = {};
-    dirMap["up"] = 0;
-    dirMap["pageup"] = 1;
-    dirMap["right"] = 2;
-    dirMap["pagedown"] = 3;
-    dirMap["down"] = 4;
-    dirMap["end"] = 5;
-    dirMap["left"] = 6;
-    dirMap["home"] = 7;
+    var dirMap = {
+        up: 0,
+        pageup: 1,
+        right: 2,
+        pagedown: 3,
+        down: 4,
+        end: 5,
+        left: 6,
+        home: 7
+    };
 
     if (!(name in dirMap)) {
         return;
@@ -269,11 +270,11 @@ Player.prototype.handleEvent = function(ch, key) {
 
     process.stdin.removeListener("keypress", this.handleEvent);
     Game.engine.unlock();
-}
+};
 
 Player.prototype._draw = function() {
     Game.display.draw(this._x, this._y, "@", "#ff0");
-}
+};
 
 Player.prototype._checkForItem = function() {
     var key = this._x + "," + this._y;
@@ -299,7 +300,7 @@ Player.prototype._checkForItem = function() {
         var message = {
             text: "That's useless.",
             duration: 1000
-        }
+        };
 
         var openInventory = Game.player.addToInventory(item);
 
@@ -319,13 +320,12 @@ Player.prototype._checkForItem = function() {
 
         Game.showMessage(message.text, message.duration);
     }
-
-}
+};
 
 Player.prototype.act = function() {
     Game.engine.lock();
     process.stdin.on("keypress", this.handleEvent);
-}
+};
 
 
 
@@ -345,7 +345,8 @@ Entities.Assassin = function(x, y) {
             damage: 5
         },
         action: Pathing.movesToPlayer
-    }
+    };
+
     return new Entity(x, y, drawEntity, options);
 };
 
@@ -360,7 +361,8 @@ Entities.Strangler = function(x, y) {
             speed: 30,
             damage: 4
         }
-    }
+    };
+
     return new Entity(x, y, drawEntity, options);
 };
 
@@ -374,7 +376,7 @@ var entityRarityTable = {
 
 function drawEntity(sym, col) {
     return Game.display.draw(this._x, this._y, this._symbol, this._color);
-};
+}
 
 
 
@@ -386,6 +388,7 @@ var Pathing = {
 
     none: function() {},
 
+    //TODO: Break into functions
     movesToPlayer: function() {
 
         var x = Game.player.getX();
@@ -393,7 +396,7 @@ var Pathing = {
 
         var passableCallback = function(x, y) {
             return (x + "," + y in Game.map);
-        }
+        };
         var astar = new ROT.Path.AStar(x, y, passableCallback, {
             topology: 4
         });
@@ -401,7 +404,7 @@ var Pathing = {
         var path = [];
         var pathCallback = function(x, y) {
             path.push([x, y]);
-        }
+        };
         astar.compute(this._x, this._y, pathCallback);
 
         path.shift();
@@ -418,7 +421,7 @@ var Pathing = {
             this._draw();
         }
     }
-}
+};
 
 
 

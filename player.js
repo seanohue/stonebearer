@@ -24,14 +24,14 @@ var Player = module.exports = function(x, y) {
         head: null,
         stone: null
     };
-}
+};
 
 Player.prototype.getX = function() {
     return this._x;
-}
+};
 Player.prototype.getY = function() {
     return this._y;
-}
+};
 
 
 
@@ -48,39 +48,39 @@ Player.prototype.getY = function() {
 Player.prototype.getAttributes = function(attr) {
     if (attr) return this.attributes[attr];
     return this.prettifiedAttributes();
-}
+};
 
 Player.prototype.prettifiedAttributes = function() {
     var attrString = "Attributes: \n";
-    for (attr in this.attributes) {
+    for (var attr in this.attributes) {
         var stat = this.attributes[attr];
         if (stat) {
             attrString += attr + ": " + stat + "\n";
         }
     }
     return attrString;
-}
+};
 
 // Helper function for the speed-based ROT.Scheduler
 Player.prototype.getSpeed = function() {
     return this.attributes.speed;
-}
+};
 
 Player.prototype.getInventory = function(key) {
     if (key) return this.inventory[key];
     return this.prettifiedInventory();
-}
+};
 
 Player.prototype.prettifiedInventory = function() {
     var inventoryString = "Inventory: \n";
-    for (location in this.inventory) {
+    for (var location in this.inventory) {
         var item = this.inventory[location];
         if (item) {
             inventoryString += location + ": " + item.name + "\n";
         }
     }
     return inventoryString;
-}
+};
 
 
 
@@ -107,8 +107,7 @@ Player.prototype.addToInventory = function(item) {
     }
 
     return false;
-
-}
+};
 
 Player.prototype.damage = function(amount){
     this.attributes.health -= amount;
@@ -122,4 +121,4 @@ Player.prototype.removeFromInventory = function(location) {
         this.inventory[location] = null;
         return item.symbol;
     }
-}
+};
