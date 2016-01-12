@@ -15,12 +15,11 @@ Use `npm test` in the project directory to run tests.
 
 
 #####TODO:
-* Task runner
 * Dynamic lighting based on stats/equipment.
-* Ability to manage inventory
-* Combat
-* Main Menu
+* Combat strategy via menu/commands
+* Ability to manage inventory via menu
+* Main menu
 * Scoring/high scores
 * Save/load games
-* Character Creation
+* Character creation
 * Procedurally-generated Story
