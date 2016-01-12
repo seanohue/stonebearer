@@ -1,6 +1,7 @@
 var common = require('../common');
-var Loot = require('../loot');
-var Player = require('../player');
+var gameDir = common.gameDir;
+var Loot = require(gameDir + 'loot.js');
+var Player = require(gameDir + 'player.js');
 var expect = common.expect;
 
 describe("getting randomized loot", function() {

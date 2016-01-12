@@ -1,6 +1,8 @@
 // This is built on the node roguelike tutorial found at http://www.roguebasin.com/index.php?title=Rot.js_tutorial
 // Thanks to its author, 'blinkdog'
 
+//TODO: Savegame
+
 /*
  * NPM modules
  */
@@ -20,7 +22,7 @@ var Entity = require('./entity.js');
 var Loot = require('./loot.js');
 var Lore = require('./lore.js');
 var Combat = require('./combat.js');
-var common = require('./common.js');
+var common = require('../common.js');
 
 
 /*

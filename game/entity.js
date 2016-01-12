@@ -1,4 +1,4 @@
-var extend = require('./common.js').extend;
+var extend = require('../common.js').extend;
 
 var Entity = module.exports = function(x, y, draw, options) {
 

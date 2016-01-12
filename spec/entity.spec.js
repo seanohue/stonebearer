@@ -1,5 +1,6 @@
-var Entity = require('../entity.js');
 var common = require('../common.js');
+var gameDir = common.gameDir;
+var Entity = require(gameDir + 'entity.js');
 var expect = common.expect;
 
 var drawStub = function() {

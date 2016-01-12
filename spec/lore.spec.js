@@ -1,5 +1,6 @@
-var Lore = require('../lore.js');
 var common = require('../common.js');
+var gameDir = common.gameDir;
+var Lore = require(gameDir + 'lore.js');
 var expect = common.expect;
 
 var testMsg;

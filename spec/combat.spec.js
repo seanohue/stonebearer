@@ -1,7 +1,8 @@
 var common = require('../common');
-var Player = require('../player');
-var Entity = require('../entity');
-var Combat = require('../combat');
+var gameDir = common.gameDir;
+var Player = require(gameDir + 'player');
+var Entity = require(gameDir + 'entity');
+var Combat = require(gameDir + 'combat');
 var expect = common.expect;
 
 var drawStub = function() {

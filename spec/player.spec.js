@@ -1,5 +1,6 @@
 var common = require('../common');
-var Player = require('../player');
+var gameDir = common.gameDir;
+var Player = require(gameDir + 'player');
 var expect = common.expect;
 
 var testPlayer;

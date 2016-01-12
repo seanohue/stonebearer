@@ -1,9 +1,10 @@
 var common = require('../common');
-var Game = require('../game');
-var Player = require('../player');
-var Entity = require('../entity');
-var Loot = require('../loot');
-var Lore = require('../lore');
+var gameDir = common.gameDir;
+var Game = require(gameDir + 'game');
+var Player = require(gameDir + 'player');
+var Entity = require(gameDir + 'entity');
+var Loot = require(gameDir + 'loot');
+var Lore = require(gameDir + 'lore');
 var ROT = require('rot-js');
 var expect = common.expect;
 
