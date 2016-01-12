@@ -17,7 +17,11 @@ exports.gameDir = '../game/';
 // Different levels or floors or whatnot go here, too.
 exports.levels = ['mine'];
 
-exports.extend = function extend(obj, extension) {
+exports.isJunk = isJunk
+
+exports.extend = extend
+
+function extend(obj, extension) {
     obj = obj || {};
     for (var extra in extension) {
         if (!obj.hasOwnProperty(extra)) {
@@ -25,4 +29,8 @@ exports.extend = function extend(obj, extension) {
         }
     }
     return obj;
-};
+}
+
+function isJunk(obj) {
+    return (typeof obj === "undefined" || obj === null);
+}

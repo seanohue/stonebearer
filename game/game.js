@@ -158,12 +158,13 @@ var Game = module.exports = {
 //TODO: Break handleEvent into various functions.
 
 Player.prototype.handleEvent = function(ch, key) {
-    if (typeof key === "undefined" || key === null) {
+    if (common.isJunk(key)) {
         return;
     }
+
     var name = key.name;
 
-    if (typeof name === "undefined" || name === null) {
+    if (common.isJunk(name)) {
         return;
     }
 
