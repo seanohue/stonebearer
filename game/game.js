@@ -22,7 +22,10 @@ var Entity = require('./entity.js');
 var Loot = require('./loot.js');
 var Lore = require('./lore.js');
 var Combat = require('./combat.js');
+var Maps = require('./maps.js');
+
 var common = require('../common.js');
+
 
 
 /*
@@ -134,36 +137,19 @@ var Game = module.exports = {
         lootQuantity = lootQuantity || 10;
 
         for (var i = 0; i < lootQuantity; i++) {
-            placeLoot.call(this, freeCells);
+            Maps.placeLoot.call(this, freeCells);
         }
     },
 
     _drawWholeMap: function() {
         for (var key in this.map) {
-            drawMapTile.call(this, key);
+            Maps.drawMapTile.call(this, key);
         }
 
     }
 };
 
 
-
-/*
- *   Map generation helper functions
- */
-
-function placeLoot(freeCells) {
-    var index = Math.floor(ROT.RNG.getUniform() * freeCells.length);
-    var key = freeCells.splice(index, 1)[0];
-    this.map[key] = "*";
-}
-
-function drawMapTile(key) {
-    var parts = key.split(",");
-    var x = parseInt(parts[0]);
-    var y = parseInt(parts[1]);
-    this.display.draw(x, y, this.map[key]);
-}
 
 /*
  * Player scripting
