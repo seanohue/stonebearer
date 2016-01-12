@@ -22,7 +22,7 @@
   },
   "scripts": {
     "test": "mocha .",
-    "play": "node game.js"
+    "play": "node game/game.js"
   },
   "repository": {
     "type": "git",
