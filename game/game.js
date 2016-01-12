@@ -168,111 +168,119 @@ Player.prototype.handleEvent = function(ch, key) {
         return;
     }
 
-    if (name === "return") {
-        this._checkForItem();
-        return;
-    }
+    checkIfValidCommand(name);
 
-    if (name === "space") {
-        process.stdin.removeListener("keypress", this.handleEvent);
-        Game.engine.unlock();
-        return;
-    }
-
-    if (name === "i") {
-        Game.showMessage(Game.player.getInventory(), 3500);
-        return;
-    }
-
-    if (name === "s") {
-        Game.showMessage(Game.player.getAttributes(), 3500);
-        return;
-    }
-
-    // Item removal hotkeys
-
-    if (name === "b") {
-        removeItemFrom('body');
-        return;
-    }
-
-    if (name === "p") {
-        removeItemFrom('backpack');
-    }
-
-    if (name === "h") {
-        removeItemFrom('held');
-    }
-
-    if (name === "f") {
-        removeItemFrom('feet');
-    }
-
-    function removeItemFrom(location) {
-
-        var item = Game.player.getInventory(location);
-        if (item && noItemInSpot()) {
-            Game.player.removeFromInventory(location);
-            if (location === "held") {
-                Game.showMessage("You drop " + item.name + ".");
-            } else {
-                Game.showMessage("You remove " + item.name + " from your " + location + " and drop it.");
-            }
-            addToSpot(item.symbol);
-
-        } else if (noItemInSpot()) {
-            Game.showMessage("You have no item equipped as " + location + ".");
-
-        } else {
-            Game.showMessage("There is already an item here, taking up space.");
-        }
-
-        return;
-
-        function addToSpot(symbol) {
-            var key = Game.player._x + "," + Game.player._y;
-            Game.map[key] = symbol;
-        }
-
-        function noItemInSpot() {
-            var key = Game.player._x + "," + Game.player._y;
-            return Game.map[key] == '.';
-        }
-    }
-
-
-
-    var dirMap = {
-        up: 0,
-        pageup: 1,
-        right: 2,
-        pagedown: 3,
-        down: 4,
-        end: 5,
-        left: 6,
-        home: 7
+    var commandMap = {
+        "return": this._checkForItem,
+        "space": waitOneTurn,
+        "i": checkInventory,
+        "s": checkStats,
+        "b": removeItemFrom('body'),
+        "f": removeItemFrom('feet'),
+        "w": removeItemFrom('held'),
+        "h": removeItemFrom('head')
     };
 
-    if (!(name in dirMap)) {
+    function checkIfValidCommand(name) {
+        if (commandMap[name]) {
+            runCommand(name);
+        } else {
+            movePlayer(name);
+        }
         return;
     }
 
-    var dir = ROT.DIRS[8][dirMap[name]];
-    var newX = this._x + dir[0];
-    var newY = this._y + dir[1];
-
-    var newKey = newX + "," + newY;
-    if (!(newKey in Game.map)) {
+    function runCommand(name) {
+        commandMap[name]();
         return;
     }
 
-    Game.display.draw(this._x, this._y, Game.map[this._x + "," + this._y]);
-    this._x = newX;
-    this._y = newY;
+    function waitOneTurn() {
+        process.stdin.removeListener("keypress", this.handleEvent);
+        Game.engine.unlock();
+    }
+
+    function checkInventory() {
+        Game.showMessage(Game.player.getInventory(), 3500);
+    }
+
+    function checkStats() {
+        Game.showMessage(Game.player.getAttributes(), 3500);
+    }
+
+    //TODO: Refactor removeItemFrom
+
+    function removeItemFrom(location) {
+        return function() {
+            var item = Game.player.getInventory(location);
+            if (item && noItemInSpot()) {
+                Game.player.removeFromInventory(location);
+                if (location === "held") {
+                    Game.showMessage("You drop " + item.name + ".");
+                } else {
+                    Game.showMessage("You remove " + item.name + " from your " + location + " and drop it.");
+                }
+                addToSpot(item.symbol);
+
+            } else if (noItemInSpot()) {
+                Game.showMessage("You have no item equipped as " + location + ".");
+
+            } else {
+                Game.showMessage("There is already an item here, taking up space.");
+            }
+
+            return;
+
+            function addToSpot(symbol) {
+                var key = Game.player._x + "," + Game.player._y;
+                Game.map[key] = symbol;
+            }
+
+            function noItemInSpot() {
+                var key = Game.player._x + "," + Game.player._y;
+                return Game.map[key] == '.';
+            }
+        }
+    }
+
+    function movePlayer(direction) {
+
+        var dirMap = {
+            up: 0,
+            pageup: 1,
+            right: 2,
+            pagedown: 3,
+            down: 4,
+            end: 5,
+            left: 6,
+            home: 7
+        };
+
+        if (!(direction in dirMap)) {
+            return;
+        }
+
+        var dir = ROT.DIRS[8][dirMap[direction]];
+        var newX = this._x + dir[0];
+        var newY = this._y + dir[1];
+
+        var newKey = newX + "," + newY;
+        if (!(newKey in Game.map)) {
+            return;
+        }
+
+
+        Game.display.draw(this._x, this._y, Game.map[this._x + "," + this._y]);
+        this._x = newX;
+        this._y = newY;
+
+    }
+
     this._draw();
 
     process.stdin.removeListener("keypress", this.handleEvent);
     Game.engine.unlock();
+
 };
 
 Player.prototype._draw = function() {
