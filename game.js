@@ -45,7 +45,7 @@ var Game = module.exports = {
         this._generateMap();
 
         var scheduler = new ROT.Scheduler.Speed();
-        this._entities.map(function(entity) {
+        this._entities.forEach(function(entity) {
             scheduler.add(entity, true);
         });
 
@@ -108,6 +108,7 @@ var Game = module.exports = {
     },
 
     _generateBeings: function(level, freeCells, quantity) {
+        quantity = quantity || 1;
         level = level || "mine";
         while (quantity) {
             var chosenBeing = ROT.RNG.getWeightedValue(entityRarityTable[level]);
@@ -131,14 +132,8 @@ var Game = module.exports = {
         lootQuantity = lootQuantity || 10;
 
         for (var i = 0; i < lootQuantity; i++) {
-            placeLoot.call(this);
+            placeLoot.call(this, freeCells);
         }
-
-        function placeLoot() {
-            var index = Math.floor(ROT.RNG.getUniform() * freeCells.length);
-            var key = freeCells.splice(index, 1)[0];
-            this.map[key] = "*";
-        };
     },
 
     _drawWholeMap: function() {
@@ -146,16 +141,27 @@ var Game = module.exports = {
             drawMapTile.call(this, key);
         }
 
-        function drawMapTile(key) {
-            var parts = key.split(",");
-            var x = parseInt(parts[0]);
-            var y = parseInt(parts[1]);
-            this.display.draw(x, y, this.map[key]);
-        }
     }
 };
 
 
+
+/*
+ *   Map generation helper functions
+ */
+
+function placeLoot(freeCells) {
+    var index = Math.floor(ROT.RNG.getUniform() * freeCells.length);
+    var key = freeCells.splice(index, 1)[0];
+    this.map[key] = "*";
+}
+
+function drawMapTile(key) {
+    var parts = key.split(",");
+    var x = parseInt(parts[0]);
+    var y = parseInt(parts[1]);
+    this.display.draw(x, y, this.map[key]);
+}
 
 /*
  * Player scripting

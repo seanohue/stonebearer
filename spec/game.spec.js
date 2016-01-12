@@ -23,7 +23,7 @@ describe("Game initialization station", function() {
 
         it("should have an array of entity objects", function() {
             expect(Game._entities).to.be.an.Array;
-
+            console.log("THERE ARE THIS MANY", Game._entities.length);
             //TODO: create mockEntity to put in mochaHelper.js to help with testing entities here and in the entity spec.
             for (var item in Game._entities) {
                 var entity = Game._entities[item];
@@ -50,9 +50,9 @@ xdescribe("Map generation station", function(){
 	it("creates a map", function(){});
 });
 
-describe("Being generation station", function(){
-
-})
+xdescribe("Entity generation station", function(){
+	it("creates a slew of entities", function(){});
+});
 
 
 
