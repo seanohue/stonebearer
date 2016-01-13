@@ -61,7 +61,7 @@ var Game = module.exports = {
     },
 
     redrawMap: function() {
-        this.display.clear()
+        this.display.clear();
         this._drawWholeMap();
         this._entities.forEach(function(entity) {
             try {
@@ -289,6 +289,7 @@ Player.prototype._draw = function() {
     Game.display.draw(this._x, this._y, "@", "#ff0");
 };
 
+//FIXME: There is a bug where trying to pick up an item that was abandoned (from '*') results in a message saying it was picked up this time around, but the item is not in the player's inventory or on the ground anymore.
 Player.prototype._checkForItem = function() {
     var key = this._x + "," + this._y;
     var item = Game.map[key];
