@@ -41,6 +41,8 @@ var Game = module.exports = {
     _entities: [],
 
     init: function() {
+
+        //TODO: See if its possible to export the display, scheduler, and so on in this function.
         this.display = new ROT.Display({
             width: process.stdout.columns,
             height: process.stdout.rows,
@@ -58,6 +60,19 @@ var Game = module.exports = {
         this.engine.start();
     },
 
+    redrawMap: function() {
+        this.display.clear()
+        this._drawWholeMap();
+        this._entities.forEach(function(entity) {
+            try {
+                entity._draw();
+            } catch (e) {
+                console.log("Entity: ", entity);
+                console.log("Exception: ", e);
+            }
+        });
+    },
+
     showMessage: function(message, duration, color) {
         color = color || "%c{#ff0}";
         duration = duration || 1000;
@@ -65,18 +80,10 @@ var Game = module.exports = {
         setTimeout((function() {
 
             //TODO: Use stuff like this for making menus cleaner
-            this.display.clear();
-            this._drawWholeMap();
-            this._entities.map(function(entity) {
-                try {
-                    entity._draw();
-                } catch (e) {
-                    console.log("Entity: ", entity);
-                    console.log("Exception: ", e);
-                }
-            });
+            this.redrawMap();
         }).bind(this), duration);
     },
+
 
     _generateMap: function() {
         var width = process.stdout.columns;
@@ -167,7 +174,7 @@ Player.prototype.handleEvent = function(ch, key) {
     }
 
     var commandMap = {
-        "return": this._checkForItem,
+        "return": Game.player._checkForItem.bind(Game.player),
         "space": waitOneTurn,
         "i": checkInventory,
         "s": checkStats,
@@ -183,7 +190,7 @@ Player.prototype.handleEvent = function(ch, key) {
         if (commandMap[name]) {
             runCommand(name);
         } else {
-            movePlayer(name);
+            movePlayer.call(Game.player, name);
         }
         return;
     }
@@ -206,8 +213,6 @@ Player.prototype.handleEvent = function(ch, key) {
         Game.showMessage(Game.player.getAttributes(), 3500);
     }
 
-    //TODO: Refactor removeItemFrom
-
     function removeItemFrom(location) {
         return function() {
             var item = Game.player.getInventory(location);
@@ -219,7 +224,6 @@ Player.prototype.handleEvent = function(ch, key) {
             } else {
                 Game.showMessage("There is already an item here, taking up space.");
             }
-
             return;
 
             function dropItem() {
@@ -245,7 +249,6 @@ Player.prototype.handleEvent = function(ch, key) {
     }
 
     function movePlayer(direction) {
-        var player = Game.player;
         var dirMap = {
             up: 0,
             pageup: 1,
@@ -262,17 +265,17 @@ Player.prototype.handleEvent = function(ch, key) {
         }
 
         var dir = ROT.DIRS[8][dirMap[direction]];
-        var newX = player._x + dir[0];
-        var newY = player._y + dir[1];
+        var newX = this._x + dir[0];
+        var newY = this._y + dir[1];
 
         var newKey = newX + "," + newY;
         if (!(newKey in Game.map)) {
             return;
         }
 
-        Game.display.draw(player._x, player._y, Game.map[player._x + "," + player._y]);
-        player._x = newX;
-        player._y = newY;
+        Game.display.draw(this._x, this._y, Game.map[this._x + "," + this._y]);
+        this._x = newX;
+        this._y = newY;
     }
 
     this._draw();
