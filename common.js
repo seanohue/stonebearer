@@ -4,7 +4,6 @@ var sinonChai = require("sinon-chai");
 chai.should();
 chai.use(sinonChai);
 
-// Common options go here as well.
 
 exports.chai = chai;
 exports.sinon = sinon;
@@ -14,12 +13,11 @@ exports.expect = chai.expect;
 
 exports.gameDir = '../game/';
 
-// Different levels or floors or whatnot go here, too.
 exports.levels = ['mine'];
 
-exports.isJunk = isJunk
+exports.isJunk = isJunk;
 
-exports.extend = extend
+exports.extend = extend;
 
 function extend(obj, extension) {
     obj = obj || {};

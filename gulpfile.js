@@ -1,5 +1,6 @@
 var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
+var shell = require('gulp-shell');
 
 var options = {
     todo: {
@@ -7,18 +8,20 @@ var options = {
     },
     jshint: {
         reporter: 'default'
-    }
+    },
 };
 
 var paths = {
     src: './',
-    game: './*.js',
+    spec: './spec/*.js',
+    game: './game/*.js',
     js: ['./*.js', './**(!node_modules)/*.js']
 };
 
 gulp.task('default', ['todo', 'jshint'], defaultTask);
 gulp.task('jshint', jsHintTask);
 gulp.task('todo', toDoTask);
+
 
 
 function defaultTask() {

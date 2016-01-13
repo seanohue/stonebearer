@@ -155,8 +155,6 @@ var Game = module.exports = {
  * Player scripting
  */
 
-//TODO: Break handleEvent into various functions.
-
 Player.prototype.handleEvent = function(ch, key) {
     if (common.isJunk(key)) {
         return;
@@ -214,14 +212,7 @@ Player.prototype.handleEvent = function(ch, key) {
         return function() {
             var item = Game.player.getInventory(location);
             if (item && noItemInSpot()) {
-                Game.player.removeFromInventory(location);
-                if (location === "held") {
-                    Game.showMessage("You drop " + item.name + ".");
-                } else {
-                    Game.showMessage("You remove " + item.name + " from your " + location + " and drop it.");
-                }
-                addToSpot(item.symbol);
-
+                dropItem();
             } else if (noItemInSpot()) {
                 Game.showMessage("You have no item equipped as " + location + ".");
 
@@ -230,6 +221,16 @@ Player.prototype.handleEvent = function(ch, key) {
             }
 
             return;
+
+            function dropItem() {
+                Game.player.removeFromInventory(location);
+                if (location === "held") {
+                    Game.showMessage("You drop " + item.name + ".");
+                } else {
+                    Game.showMessage("You remove " + item.name + " from your " + location + " and drop it.");
+                }
+                addToSpot(item.symbol);
+            }
 
             function addToSpot(symbol) {
                 var key = Game.player._x + "," + Game.player._y;
@@ -240,7 +241,7 @@ Player.prototype.handleEvent = function(ch, key) {
                 var key = Game.player._x + "," + Game.player._y;
                 return Game.map[key] == '.';
             }
-        }
+        };
     }
 
     function movePlayer(direction) {
@@ -295,7 +296,6 @@ Player.prototype._checkForItem = function() {
     }
 
     if (item === "*") {
-
         // generate loot from chest
         var newLoot = Loot.getRandomLoot();
         pickUp(newLoot);
@@ -324,7 +324,6 @@ Player.prototype._checkForItem = function() {
         } else {
             message = Lore.abandonMsg(item);
             Game.map[key] = item.symbol;
-
         }
 
         Game.showMessage(message.text, message.duration);
