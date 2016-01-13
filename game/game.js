@@ -168,8 +168,6 @@ Player.prototype.handleEvent = function(ch, key) {
         return;
     }
 
-    checkIfValidCommand(name);
-
     var commandMap = {
         "return": this._checkForItem,
         "space": waitOneTurn,
@@ -180,6 +178,8 @@ Player.prototype.handleEvent = function(ch, key) {
         "w": removeItemFrom('held'),
         "h": removeItemFrom('head')
     };
+
+    checkIfValidCommand(name);
 
     function checkIfValidCommand(name) {
         if (commandMap[name]) {
@@ -244,7 +244,7 @@ Player.prototype.handleEvent = function(ch, key) {
     }
 
     function movePlayer(direction) {
-
+        var player = Game.player;
         var dirMap = {
             up: 0,
             pageup: 1,
@@ -261,19 +261,17 @@ Player.prototype.handleEvent = function(ch, key) {
         }
 
         var dir = ROT.DIRS[8][dirMap[direction]];
-        var newX = this._x + dir[0];
-        var newY = this._y + dir[1];
+        var newX = player._x + dir[0];
+        var newY = player._y + dir[1];
 
         var newKey = newX + "," + newY;
         if (!(newKey in Game.map)) {
             return;
         }
 
-
-        Game.display.draw(this._x, this._y, Game.map[this._x + "," + this._y]);
-        this._x = newX;
-        this._y = newY;
-
+        Game.display.draw(player._x, player._y, Game.map[player._x + "," + player._y]);
+        player._x = newX;
+        player._y = newY;
     }
 
     this._draw();
