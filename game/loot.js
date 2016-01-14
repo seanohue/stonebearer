@@ -1,17 +1,10 @@
 var RNG = require('rot-js').RNG;
-var loot = module.exports = {};
-
-
-
-/* 
- *   Gets loot based on weighted value in rarity table and returns the corresponding item.
- *   Optional param "level" can be used to change which level of the dungeon the loot comes from. 
- */
-
-loot.getRandomLoot = function(level) {
-    level = level || 'mine';
-    var chosenLoot = RNG.getWeightedValue(lootRarityTable[level]);
-    return lootInventory[chosenLoot];
+var loot = module.exports = {
+    getRandomLoot: getRandomLoot,
+    getLootBySymbol: getLootBySymbol,
+    getSpecificLoot: getSpecificLoot,
+    onEquip: onEquip,
+    onRemove: onRemove,
 };
 
 
@@ -170,7 +163,16 @@ var lootInventory = {
     }
 };
 
+/* 
+ *   Gets loot based on weighted value in rarity table and returns the corresponding item.
+ *   Optional param "level" can be used to change which level of the dungeon the loot comes from. 
+ */
 
+function getRandomLoot(level) {
+    level = level || 'mine';
+    var chosenLoot = RNG.getWeightedValue(lootRarityTable[level]);
+    return lootInventory[chosenLoot];
+}
 
 /*
  *   These functions are for getting a specific kind of loot for 
@@ -178,12 +180,7 @@ var lootInventory = {
  *   Defaults to returning undefined upon error, basically.
  */
 
-loot.getSpecificLoot = function(name) {
-    if (!name) return;
-    return lootInventory[name];
-};
-
-loot.getLootBySymbol = function(symbol) {
+function getLootBySymbol(symbol) {
     if (symbol) {
         for (var item in lootInventory) {
             if (lootInventory[item].symbol === symbol) {
@@ -193,13 +190,17 @@ loot.getLootBySymbol = function(symbol) {
     }
 };
 
+function getSpecificLoot(name) {
+    if (!name) return;
+    return lootInventory[name];
+}
 
 
 /*
  *   Helper functions to add/remove status effects when equipping and removing items.
  */
 
-loot.onEquip = function(player, item) {
+function onEquip(player, item) {
     if (item && item.effects) {
 
         for (var effect in item.effects) {
@@ -208,7 +209,7 @@ loot.onEquip = function(player, item) {
     }
 };
 
-loot.onRemove = function(player, item) {
+function onRemove(player, item) {
     if (item && item.effects) {
         for (var effect in item.effects) {
             player.attributes[effect] -= item.effects[effect];

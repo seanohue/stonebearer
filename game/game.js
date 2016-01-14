@@ -2,7 +2,7 @@
 // Thanks to its author, 'blinkdog'
 
 //TODO: Savegame
-//FIXME: Some messages stay on the screen even when another message is displayed.
+//FIXME: Some messages stay on the screen even when another message is displayed. Handle two messages at once or create a message section, separate from the map.
 
 /*
  * NPM modules
