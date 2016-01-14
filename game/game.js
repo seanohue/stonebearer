@@ -2,6 +2,7 @@
 // Thanks to its author, 'blinkdog'
 
 //TODO: Savegame
+//FIXME: Some messages stay on the screen even when another message is displayed.
 
 /*
  * NPM modules
@@ -206,11 +207,11 @@ Player.prototype.handleEvent = function(ch, key) {
     }
 
     function checkInventory() {
-        Game.showMessage(Game.player.getInventory(), 3500);
+        Game.showMessage(Game.player.getInventory());
     }
 
     function checkStats() {
-        Game.showMessage(Game.player.getAttributes(), 3500);
+        Game.showMessage(Game.player.getAttributes());
     }
 
     function removeItemFrom(location) {
@@ -289,7 +290,6 @@ Player.prototype._draw = function() {
     Game.display.draw(this._x, this._y, "@", "#ff0");
 };
 
-//FIXME: There is a bug where trying to pick up an item that was abandoned (from '*') results in a message saying it was picked up this time around, but the item is not in the player's inventory or on the ground anymore.
 Player.prototype._checkForItem = function() {
     var key = this._x + "," + this._y;
     var item = Game.map[key];
@@ -317,20 +317,30 @@ Player.prototype._checkForItem = function() {
 
         var openInventory = Game.player.addToInventory(item);
 
-        if (openInventory && !wasDropped) {
-            message = Lore.pickupMsg(item, openInventory);
-            Game.map[key] = '.';
 
-        } else if (wasDropped) {
-            Game.map[key] = '.';
-            message.text = "You pick up " + item.name + " from the ground.";
-
-        } else {
+        if (leaveFoundItem()) {
             message = Lore.abandonMsg(item);
             Game.map[key] = item.symbol;
+        } else if (leaveDroppedItem()) {
+            message.text = "You must leave " + item.name + " behind.";
+        } else if (!wasDropped) {
+            message = Lore.pickupMsg(item, openInventory);
+            Game.map[key] = '.';
+        } else {
+            Game.map[key] = '.';
+            message.text = "You pick up " + item.name + " from the ground.";
         }
 
         Game.showMessage(message.text, message.duration);
+
+        function leaveDroppedItem() {
+            return (!openInventory && wasDropped);
+        }
+
+        function leaveFoundItem() {
+            return (!openInventory && !wasDropped);
+        }
+
     }
 };
 

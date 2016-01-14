@@ -94,7 +94,6 @@ Player.prototype.prettifiedInventory = function() {
 Player.prototype.addToInventory = function(item) {
     if (item) {
         item.location = item.location || 'backpack';
-
         if (!this.inventory[item.location]) {
             this.inventory[item.location] = item;
             loot.onEquip(this, item);

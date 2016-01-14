@@ -62,21 +62,21 @@ var FlavorText = {
         'box': function(item) {
             return {
                 text: "You find a box with " + item.name + " in it.",
-                duration: 5000
+                duration: 1000
             };
         },
 
         'miner_corpse': function(item) {
             return {
                 text: "You find the corpse of a miner, its face a puffy blue, and limbs stiff with rigor mortis. You pry " + item.name + " from their stiff, cold hands.",
-                duration: 8000
+                duration: 2000
             };
         },
 
         'rubble_pile': function(item) {
             return {
                 text: "You see " + item.name + " peeking from under a pile of bloodstained rubble. A quick tug is all it takes to unearth the artifact.",
-                duration: 8000
+                duration: 2000
             };
         },
     }
