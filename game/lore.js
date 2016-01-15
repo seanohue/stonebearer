@@ -7,7 +7,7 @@ var Lore = module.exports = {
 
 // Possible outcomes of finding an item.
 
-function pickupMsg (item, openInventorySpot) {
+function pickupMsg(item, openInventorySpot) {
 
     if (!item) return;
 
@@ -17,13 +17,16 @@ function pickupMsg (item, openInventorySpot) {
         'undefined': 'contemplate your existence while staring at'
     };
 
-    var dropMessage = randomDropMsg(item);
+    var dropMessage = {
+        text: randomDropMsg(item),
+        duration: 1500
+    };
     var ending = "\n\nYou " + placeMsg[openInventorySpot] + " " + item.name + ".";
 
     return finalizeLootEncounter(dropMessage, ending);
 }
 
-function abandonMsg (item) {
+function abandonMsg(item) {
     var dropMessage = randomDropMsg(item);
     var ending = "\n\nYou abandon " + item.name + ".";
 
@@ -40,17 +43,17 @@ function finalizeLootEncounter(msg, ending) {
 
 // Picks a message to describe a random loot encounter.
 function randomDropMsg(item) {
-    var defaultLoot = FlavorText.loot.box(item);
-
     if (item && item.name) {
-        var msgTitle = RNG.getWeightedValue(FlavorText.loot.rarity);
-        return FlavorText.loot[msgTitle](item) || defaultLoot;
+        var messageKey = RNG.getWeightedValue(FlavorText.loot.rarity);
+        var message = FlavorText.loot[messageKey];
+        return interpolateMessage(message, item) || interpolateMessage(item, FlavorText.box);
     }
-
-    return defaultLoot;
 }
 
 
+function interpolateMessage(message, item) {
+    return message.format(item.name);
+}
 
 // Messages for random encounters
 var FlavorText = {
@@ -61,27 +64,9 @@ var FlavorText = {
             'rubble_pile': 7
         },
 
-//TODO: Refactor to not need to use functions -- there has to be a more intuitive way of doing this.
-
-        'box': function(item) {
-            return {
-                text: "You find a box with " + item.name + " in it.",
-                duration: 1000
-            };
-        },
-
-        'miner_corpse': function(item) {
-            return {
-                text: "You find the corpse of a miner, its face a puffy blue, and limbs stiff with rigor mortis. You pry " + item.name + " from their stiff, cold hands.",
-                duration: 2000
-            };
-        },
-
-        'rubble_pile': function(item) {
-            return {
-                text: "You see " + item.name + " peeking from under a pile of bloodstained rubble. A quick tug is all it takes to unearth the artifact.",
-                duration: 2000
-            };
-        },
-    }
+        //TODO: Refactor to not need to use functions -- there has to be a more intuitive way of doing this. Maybe with string interpolation? 
+        'box': "You find a box with %s in it.",
+        'miner_corpse': "You find the corpse of a miner, its face a puffy blue, and limbs stiff with rigor mortis. You pry %s from their stiff, cold hands.",
+        'rubble_pile': "You see %s peeking from under a pile of bloodstained rubble. A quick tug is all it takes to unearth the artifact.",
+    },
 };

@@ -1,23 +1,22 @@
 var extend = require('../common.js').extend;
 
-var defaultOptions = {
-    name: "beast",
-
-    attributes: {
-        speed: 100,
-        health: 10,
-        damage: 2,
-        defense: 2
-    },
-    symbol: "&",
-    color: "red",
-
-    action: function() {},
-};
-
-
-
 var Entity = module.exports = function(x, y, draw, options) {
+
+    var defaultOptions = {
+        name: "beast",
+
+        attributes: {
+            speed: 100,
+            health: 10,
+            damage: 2,
+            defense: 2
+        },
+        symbol: "&",
+        color: "red",
+
+        action: function() {},
+    };
+
     options = extend(options, defaultOptions);
 
     this._x = x;

@@ -7,9 +7,13 @@ var drawStub = function() {
     console.log("Drawing");
 };
 
-describe("Initialization of entity", function() {
+var testEntity;
 
-    var testEntity = new Entity(42, 420, drawStub);
+describe("Initialization of entity", function() {
+    beforeEach(function() {
+        testEntity = new Entity(42, 420, drawStub);
+    });
+
     it("should be able to get speed for the scheduler", function() {
         expect(testEntity.getSpeed()).to.equal(100);
     });
