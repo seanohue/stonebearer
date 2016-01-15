@@ -1,5 +1,7 @@
 var RNG = require('rot-js').RNG;
 
+//TODO: Add potential to miss based on attacker's sight/speed and defender's speed/defense.
+
 /*
  *  Returns a message object with the results of combat.
  */

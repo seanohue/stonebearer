@@ -14,6 +14,8 @@ var loot = module.exports = {
  *  Sorted by dungeon level.
  */
 
+ //TODO: Find a way to include this in the table below.
+
 var lootRarityTable = {
     'mine': {
         'flashlight': 4,
@@ -36,6 +38,8 @@ var lootRarityTable = {
  *  The actual stats for each item. The key must match the
  *  key of the rarity table. 
  */
+
+ //TODO: Extract into a JSON file or summat.
 
 var lootInventory = {
     'shovel': {
@@ -188,7 +192,7 @@ function getLootBySymbol(symbol) {
             }
         }
     }
-};
+}
 
 function getSpecificLoot(name) {
     if (!name) return;
@@ -200,6 +204,8 @@ function getSpecificLoot(name) {
  *   Helper functions to add/remove status effects when equipping and removing items.
  */
 
+//TODO: Add ability to have effects that stack in procedurally generated items. So, an item will be made with a prefix and postfix (i.e. "The Lightning-Quick Dagger of Bloodletting"), and the prefix effects (i.e. +2 to speed) will be added to the default effects and the postfix effects (i.e. +2 to damage). Use common.extends for this and have a function that creates rare procedurally-generated items.
+
 function onEquip(player, item) {
     if (item && item.effects) {
 
@@ -207,7 +213,7 @@ function onEquip(player, item) {
             player.attributes[effect] += item.effects[effect];
         }
     }
-};
+}
 
 function onRemove(player, item) {
     if (item && item.effects) {
@@ -215,4 +221,4 @@ function onRemove(player, item) {
             player.attributes[effect] -= item.effects[effect];
         }
     }
-};
+}

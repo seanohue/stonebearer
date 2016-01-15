@@ -1,6 +1,8 @@
 var RNG = require('rot-js').RNG;
 var Lore = module.exports = {};
 
+//TODO: Do a thing to reorganize this the way it was done in the loot module.
+
 // Possible outcomes of finding an item.
 
 Lore.pickupMsg = function(item, openInventorySpot) {

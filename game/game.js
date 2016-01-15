@@ -2,7 +2,11 @@
 // Thanks to its author, 'blinkdog'
 
 //TODO: Savegame
-//FIXME: Some messages stay on the screen even when another message is displayed. Handle two messages at once or create a message section, separate from the map.
+//TODO: FOV computation for player char
+//TODO: FOV computation for MOBs
+//TODO: More variation in AI
+//TODO: Lighting, affected by character's sight stat
+//FIXME: Some messages stay on the screen even when another message is displayed. Handle two messages at once or create a message section of the display, separate from the map.
 
 /*
  * NPM modules
