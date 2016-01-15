@@ -1,11 +1,13 @@
 var RNG = require('rot-js').RNG;
-var Lore = module.exports = {};
+var Lore = module.exports = {
+    pickupMsg: pickupMsg,
+    abandonMsg: abandonMsg
+};
 
-//TODO: Do a thing to reorganize this the way it was done in the loot module.
 
 // Possible outcomes of finding an item.
 
-Lore.pickupMsg = function(item, openInventorySpot) {
+function pickupMsg (item, openInventorySpot) {
 
     if (!item) return;
 
@@ -19,14 +21,14 @@ Lore.pickupMsg = function(item, openInventorySpot) {
     var ending = "\n\nYou " + placeMsg[openInventorySpot] + " " + item.name + ".";
 
     return finalizeLootEncounter(dropMessage, ending);
-};
+}
 
-Lore.abandonMsg = function(item) {
+function abandonMsg (item) {
     var dropMessage = randomDropMsg(item);
     var ending = "\n\nYou abandon " + item.name + ".";
 
     return finalizeLootEncounter(dropMessage, ending);
-};
+}
 
 function finalizeLootEncounter(msg, ending) {
     msg.text = msg.text + ending;
@@ -59,7 +61,7 @@ var FlavorText = {
             'rubble_pile': 7
         },
 
-
+//TODO: Refactor to not need to use functions -- there has to be a more intuitive way of doing this.
 
         'box': function(item) {
             return {
