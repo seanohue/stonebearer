@@ -8,6 +8,8 @@ var Lore = module.exports = {
 // Possible outcomes of finding an item.
 
 function pickupMsg(item, openInventorySpot) {
+    console.log("In pickup: item: ", item);
+    console.log("In pickup: openInventorySpot: ", openInventorySpot);
 
     if (!item) return;
 
@@ -44,9 +46,10 @@ function finalizeLootEncounter(msg, ending) {
 // Picks a message to describe a random loot encounter.
 function randomDropMsg(item) {
     if (item && item.name) {
-        var messageKey = RNG.getWeightedValue(FlavorText.loot.rarity);
+        var defaultLoot = interpolateMessage(FlavorText.loot.box, item);
+        var messageKey = RNG.getWeightedValue(FlavorText.loot.rarity) || 'box';
         var message = FlavorText.loot[messageKey];
-        return interpolateMessage(message, item) || interpolateMessage(item, FlavorText.box);
+        return interpolateMessage(message, item);
     }
 }
 
