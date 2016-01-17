@@ -2,6 +2,7 @@
 // Thanks to its author, 'blinkdog'
 
 //TODO: Savegame
+//TODO: Menu
 //TODO: FOV computation for player char
 //TODO: FOV computation for MOBs
 //TODO: More variation in AI
@@ -28,6 +29,7 @@ var Loot = require('./loot.js');
 var Lore = require('./lore.js');
 var Combat = require('./combat.js');
 var Maps = require('./maps.js');
+var Menus = require('./menus.js');
 
 var common = require('../common.js');
 
@@ -225,7 +227,6 @@ Player.prototype.handleEvent = function(ch, key) {
                 dropItem();
             } else if (noItemInSpot()) {
                 Game.showMessage("You have no item equipped as " + location + ".");
-
             } else {
                 Game.showMessage("There is already an item here, taking up space.");
             }
@@ -410,6 +411,7 @@ function drawEntity(sym, col) {
  *   Entity scripting
  */
 
+//TODO: Extract into module.
 var Pathing = {
 
     none: function() {},

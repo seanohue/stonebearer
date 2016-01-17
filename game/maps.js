@@ -6,7 +6,6 @@ var Maps = module.exports = {
     placeLoot: placeLoot
 }; 
 
-//TODO: Refactor modules to use a consistent style if possible (i.e. constructors vs. libraries)
 
 function drawMapTile(key) {
     var parts = key.split(",");
@@ -14,6 +13,7 @@ function drawMapTile(key) {
     var y = parseInt(parts[1]);
     this.display.draw(x, y, this.map[key]);
 }
+
 
 function placeLoot(freeCells) {
     var index = Math.floor(ROT.RNG.getUniform() * freeCells.length);

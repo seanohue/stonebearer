@@ -4,6 +4,9 @@ var Lore = module.exports = {
     abandonMsg: abandonMsg
 };
 
+
+
+// Public methods
 function pickupMsg(item, openInventorySpot) {
     if (!item) return;
     var placeMsg = {
@@ -19,18 +22,20 @@ function pickupMsg(item, openInventorySpot) {
     return finalizeLootEncounter(dropMessage, ending);
 }
 
+
 function abandonMsg(item) {
     var dropMessage = randomDropMsg(item);
     var ending = "\n\nYou abandon " + item.name + ".";
     return finalizeLootEncounter(dropMessage, ending);
 }
 
+
+// Helper functions
 function finalizeLootEncounter(msg, ending) {
     msg.text = msg.text + ending;
     msg.duration = msg.duration || 2000;
     return msg;
 }
-
 
 
 function randomDropMsg(item) {
