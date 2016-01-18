@@ -28,6 +28,13 @@ describe("Random item encounter ->", function() {
 
     });
 
+    it("Returns a string if the item needs to be abandoned", function(){
+        testMsg = Lore.abandonMsg({
+            name: "a potato cannon"
+        });
+        expect(testMsg).to.be.a.String;
+    });
+
     it("Returns undefined if item is undefined.", function() {
         testMsg = Lore.pickupMsg();
         expect(testMsg).to.equal(undefined);
