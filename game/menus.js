@@ -17,5 +17,14 @@ function startMainMenu() {
         ],
     };
 
+    var mainMenuPromptList = [
+        mainMenuPrompt
+    ];
 
+    inquirer.prompt(mainMenuPromptList, mainMenuResponseHandler);
+}
+
+function mainMenuResponseHandler(input) {
+    console.log("input");
+    return true;
 }

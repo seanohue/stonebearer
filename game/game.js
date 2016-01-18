@@ -49,6 +49,9 @@ var Game = module.exports = {
 
     init: function() {
 
+        //FIXME: Make the menu so that the game does not init until after the menu is done. 
+        // Menus.startMainMenu();
+
         //TODO: See if its possible to export the display, scheduler, and so on in this function.
         this.display = new ROT.Display({
             width: process.stdout.columns,
