@@ -1,4 +1,5 @@
 var inquirer = require('inquirer');
+var Q = require('Q');
 
 
 var Menus = module.exports = {
@@ -6,6 +7,7 @@ var Menus = module.exports = {
 };
 
 function startMainMenu() {
+	var deferred = Q.defer();
     var mainMenuPrompt = {
         type: 'list',
         name: 'mainPrompt',
@@ -22,9 +24,19 @@ function startMainMenu() {
     ];
 
     inquirer.prompt(mainMenuPromptList, mainMenuResponseHandler);
-}
 
-function mainMenuResponseHandler(input) {
-    console.log("input");
-    return true;
+    return deferred.promise;
+
+    function mainMenuResponseHandler(input) {
+        console.log("Player input: ", input);
+        if (input.mainPrompt === 'New Game') deferred.resolve();
+        if (input.mainPrompt === 'Quit') quitGame();
+    }
+
+    function quitGame() {
+    	deferred.reject();
+        console.log(":(");
+        process.exit();
+    }
+
 }

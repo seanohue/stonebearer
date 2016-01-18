@@ -15,7 +15,7 @@
 
 var ROT = require('rot-js');
 var keypress = require('keypress');
-var inquirer = require("inquirer");
+var Q = require('Q');
 
 
 
@@ -49,10 +49,6 @@ var Game = module.exports = {
 
     init: function() {
 
-        //FIXME: Make the menu so that the game does not init until after the menu is done. 
-        // Menus.startMainMenu();
-
-        //TODO: See if its possible to export the display, scheduler, and so on in this function.
         this.display = new ROT.Display({
             width: process.stdout.columns,
             height: process.stdout.rows,
@@ -84,14 +80,16 @@ var Game = module.exports = {
     },
 
     showMessage: function(message, duration, color) {
-        color = color || "%c{#ff0}";
-        duration = duration || 1000;
-        this.display.drawText(0, 1, (color + message));
-        setTimeout((function() {
+        if (message) {
+            color = color || "%c{#ff0}";
+            duration = duration || 1000;
+            this.display.drawText(0, 1, (color + message));
+            setTimeout((function() {
 
-            //TODO: Use stuff like this for making menus cleaner
-            this.redrawMap();
-        }).bind(this), duration);
+                //TODO: Use stuff like this for making menus cleaner
+                this.redrawMap();
+            }).bind(this), duration);
+        }
     },
 
 
@@ -308,7 +306,6 @@ Player.prototype._checkForItem = function() {
     }
 
     if (item === "*") {
-        // generate loot from chest
         var newLoot = Loot.getRandomLoot();
         pickUp(newLoot);
 
@@ -327,7 +324,7 @@ Player.prototype._checkForItem = function() {
 
 
         if (leaveFoundItem()) {
-            message = Lore.abandonMsg(item);
+            message.text = Lore.abandonMsg(item);
             Game.map[key] = item.symbol;
         } else if (leaveDroppedItem()) {
             message.text = "You must leave " + item.name + " behind.";
@@ -339,6 +336,8 @@ Player.prototype._checkForItem = function() {
             message.text = "You pick up " + item.name + " from the ground.";
         }
 
+
+        console.log("Back in game.js, message is ", message);
         Game.showMessage(message.text, message.duration);
 
         function leaveDroppedItem() {
@@ -493,3 +492,6 @@ function setupKeypress() {
 
 setupKeypress();
 Game.init();
+//FIXME: Get this to work. Right now it hangs after the menu.
+// Q.fcall(Menus.startMainMenu)
+//     .then(Game.init);

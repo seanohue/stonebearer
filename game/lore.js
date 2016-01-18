@@ -30,8 +30,11 @@ function abandonMsg(item) {
 }
 
 
+
 // Helper functions
 function finalizeLootEncounter(msg, ending) {
+    console.log("Msg is ", msg);
+    console.log("ending is", ending);
     msg.text = msg.text + ending;
     msg.duration = msg.duration || 2000;
     return msg;
@@ -49,8 +52,11 @@ function randomDropMsg(item) {
 
 
 function interpolateMessage(message, item) {
+    console.log(message, item);
     return message.format(item.name);
 }
+
+
 
 // Messages for random encounters
 var FlavorText = {
