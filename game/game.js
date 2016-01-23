@@ -32,6 +32,7 @@ var Lore = require('./lore.js');
 var Combat = require('./combat.js');
 var Maps = require('./maps.js');
 var Menus = require('./menus.js');
+var Pathing = require('./pathing.js');
 
 var common = require('../common.js');
 
@@ -40,6 +41,9 @@ var common = require('../common.js');
 /*
  * Game engine/scheduler, methods, and main loop
  */
+
+
+
 
 var Game = module.exports = {
     display: null,
@@ -68,10 +72,6 @@ var Game = module.exports = {
         this.engine.start();
     },
 
-    get: function(property) {
-        return this[property] || undefined;
-    },
-
     redrawMap: function() {
         this.display.clear();
         this._drawWholeMap();
@@ -89,8 +89,8 @@ var Game = module.exports = {
         if (message) {
             color = color || "%c{#ff0}";
             duration = duration || 1000;
-            this.display.drawText(0, 1, (color + message));
-            setTimeout(this.redrawMap.bind(this), duration);
+            Game.display.drawText(0, 1, (color + message));
+            setTimeout(Game.redrawMap.bind(Game), duration);
         }
     },
 
@@ -204,7 +204,7 @@ Player.prototype.handleEvent = function(ch, key) {
     }
 
     function endTurn() {
-        process.stdin.removeListener("keypress", this.handleEvent);
+        process.stdin.removeListener("keypress", Game.player.handleEvent);
         Game.engine.unlock();
     }
 
@@ -404,50 +404,6 @@ function drawEntity(sym, col) {
  */
 
 //TODO: Extract into module.
-var Pathing = {
-
-    none: function() {},
-
-    movesToPlayer: function() {
-
-        var player = Game.get('player');
-
-        var x = player.getX();
-        var y = player.getY();
-
-        var isPassableCallback = function(x, y) {
-            return (x + "," + y in Game.map);
-        };
-
-        var pathingOptions = {
-            topology: 4
-        };
-
-        var astar = new ROT.Path.AStar(x, y, isPassableCallback, pathingOptions);
-
-        var path = [];
-        var pathCallback = function(x, y) {
-            path.push([x, y]);
-        };
-        astar.compute(this._x, this._y, pathCallback);
-
-        path.shift();
-
-        //TODO: At some point, better player detection.
-        if (path.length <= 1) {
-            var combatResult = new Combat(player, this, Game.showMessage);
-            Game.showMessage(combatResult.text, combatResult.duration);
-            //TODO: A combat-resolution function (death/victory)
-        } else {
-            x = path[0][0];
-            y = path[0][1];
-            Game.display.draw(this._x, this._y, Game.map[this._x + "," + this._y]);
-            this._x = x;
-            this._y = y;
-            this._draw();
-        }
-    }
-};
 
 
 
@@ -465,8 +421,7 @@ function setupKeypress() {
     process.stdin.on("keypress", exitIfEscapeChars);
 
     function exitIfEscapeChars(ch, key) {
-        var escapeChars = ["\u0003", "\u001b"];
-        if (ch in escapeChars) {
+        if (ch === "\u0003" || ch === "\u001b") {
             process.exit(0);
         }
     }
@@ -484,12 +439,20 @@ function setupKeypress() {
 
 
 
+// Exported methods
+exports.get = _get;
+
+function _get(property) {
+    return Game[property] || undefined;
+}
+
+
 /*
  *   Set up necessary handlers and begin game loop
  */
 
 setupKeypress();
 Game.init();
-//FIXME: Get this to work. Right now it hangs after the menu.
+//FIXME: Get this to work. Right now it hangs after the menu. Idea: Have the menu.js be where the game is started from. Menu then calls Game.init. Or make an index.js or main.js.
 // Q.fcall(Menus.startMainMenu)
 //     .then(Game.init);
