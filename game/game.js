@@ -3,10 +3,11 @@
 
 //TODO: Savegame
 //TODO: Menu
-//TODO: FOV computation for player char
+//TODO: FOV computation for player char (fog of war)
 //TODO: FOV computation for MOBs
 //TODO: More variation in AI
 //TODO: Lighting, affected by character's sight stat
+//TODO: Extract everything to do with map into its own module.
 //FIXME: Some messages stay on the screen even when another message is displayed. Handle two messages at once or create a message section of the display, separate from the map.
 
 /*
@@ -72,9 +73,9 @@ var Game = module.exports = {
         this._entities.forEach(function(entity) {
             try {
                 entity._draw();
-            } catch (e) {
+            } catch (exception) {
                 console.log("Entity: ", entity);
-                console.log("Exception: ", e);
+                console.log("Exception: ", exception);
             }
         });
     },
@@ -84,11 +85,7 @@ var Game = module.exports = {
             color = color || "%c{#ff0}";
             duration = duration || 1000;
             this.display.drawText(0, 1, (color + message));
-            setTimeout((function() {
-
-                //TODO: Use stuff like this for making menus cleaner
-                this.redrawMap();
-            }).bind(this), duration);
+            setTimeout(this.redrawMap.bind(this), duration);
         }
     },
 
@@ -97,16 +94,9 @@ var Game = module.exports = {
         var width = process.stdout.columns;
         var height = process.stdout.rows;
 
-        var levelOptions = {
-            roomWidth: [2, 20],
-            roomHeight: [2, 20],
-            corridorLength: [3, 6],
-            dugPercentage: 0.5,
-            timeLimit: 1500
-        };
-
+        var levelOptions = Maps.getOptions('mines');
         var digger = new ROT.Map.Digger(width, height, levelOptions);
-        var freeCells = [];
+        var freeCells = []; //TODO: Store on game object to pass into Pathing functions.
         var digCallback = function(x, y, value) {
             if (value) {
                 return;
@@ -140,9 +130,9 @@ var Game = module.exports = {
     },
 
     _createBeing: function(being, freeCells) {
-        var index = Math.floor(ROT.RNG.getUniform() * freeCells.length);
-        var key = freeCells.splice(index, 1)[0];
-        var coords = key.split(",");
+        var randomFreeCell = Math.floor(ROT.RNG.getUniform() * freeCells.length);
+        var cellKey = freeCells.splice(randomFreeCell, 1)[0];
+        var coords = cellKey.split(",");
         var x = parseInt(coords[0]);
         var y = parseInt(coords[1]);
         return new being(x, y);
@@ -171,19 +161,19 @@ var Game = module.exports = {
  */
 
 Player.prototype.handleEvent = function(ch, key) {
-    if (common.isJunk(key)) {
+    if (common.isUndefined(key)) {
         return;
     }
 
     var name = key.name;
 
-    if (common.isJunk(name)) {
+    if (common.isUndefined(name)) {
         return;
     }
 
     var commandMap = {
         "return": Game.player._checkForItem.bind(Game.player),
-        "space": waitOneTurn,
+        "space": endTurn,
         "i": checkInventory,
         "s": checkStats,
         "b": removeItemFrom('body'),
@@ -208,7 +198,7 @@ Player.prototype.handleEvent = function(ch, key) {
         return;
     }
 
-    function waitOneTurn() {
+    function endTurn() {
         process.stdin.removeListener("keypress", this.handleEvent);
         Game.engine.unlock();
     }
@@ -287,8 +277,7 @@ Player.prototype.handleEvent = function(ch, key) {
 
     this._draw();
 
-    process.stdin.removeListener("keypress", this.handleEvent);
-    Game.engine.unlock();
+    endTurn();
 
 };
 

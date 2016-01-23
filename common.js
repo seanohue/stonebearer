@@ -13,10 +13,9 @@ exports.expect = chai.expect;
 
 exports.gameDir = '../game/';
 
-exports.levels = ['mine'];
+exports.levels = ['mine']; //TODO: put this in maps module
 
-exports.isJunk = isJunk;
-
+exports.isUndefined = isUndefined;
 exports.extend = extend;
 
 function extend(obj, extension) {
@@ -29,6 +28,6 @@ function extend(obj, extension) {
     return obj;
 }
 
-function isJunk(obj) {
+function isUndefined(obj) {
     return (typeof obj === "undefined" || obj === null);
 }
