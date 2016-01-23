@@ -3,8 +3,9 @@
 
 //TODO: Savegame
 //TODO: Menu
+//TODO: Combat works (player/mobs can die)
 //TODO: FOV computation for player char (fog of war)
-//TODO: FOV computation for MOBs
+//TODO: FOV computation for mobs
 //TODO: More variation in AI
 //TODO: Lighting, affected by character's sight stat
 //TODO: Extract everything to do with map into its own module.
@@ -276,7 +277,6 @@ Player.prototype.handleEvent = function(ch, key) {
     }
 
     this._draw();
-
     endTurn();
 
 };

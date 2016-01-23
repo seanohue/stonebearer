@@ -18,7 +18,7 @@ var diggerOptions = {
 };
 
 function getOptions(map) {
-    return diggerOptions[map]
+    return diggerOptions[map];
 }
 
 
