@@ -1,8 +1,8 @@
 #Getting Started
 Clone this repo.
-In the repo's directory, run `npm install` then `node game.js` to play the demo.
+In the repo's directory, run `npm install` to install dependencies.
 
-`npm run-script play` will launch the game.
+`npm run-script play` will also launch the game.
 
 ###Game Engine
 This game is built on node and rot.js.
@@ -13,13 +13,5 @@ This game's story will be based on [this reddit post](https://www.reddit.com/r/r
 ###Tests
 Use `npm test` in the project directory to run tests.
 
-
-#####TODO:
-* Dynamic lighting based on stats/equipment.
-* Combat strategy via menu/commands
-* Ability to manage inventory via menu
-* Main menu
-* Scoring/high scores
-* Save/load games
-* Character creation
-* Procedurally-generated Story
+###Planned Features
+See TODO.md

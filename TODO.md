@@ -25,4 +25,4 @@
 | Filename | line # | FIXME
 |:------|:------:|:------
 | /Users/seanodonohue/myProjects/rlp/game/game.js | 12 | Some messages stay on the screen even when another message is displayed. Handle two messages at once or create a message section of the display, separate from the map.
-| /Users/seanodonohue/myProjects/rlp/game/game.js | 491 | Get this to work. Right now it hangs after the menu.
+| /Users/seanodonohue/myProjects/rlp/game/game.js | 493 | Get this to work. Right now it hangs after the menu.
