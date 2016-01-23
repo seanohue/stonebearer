@@ -68,6 +68,10 @@ var Game = module.exports = {
         this.engine.start();
     },
 
+    get: function(property) {
+        return this[property] || undefined;
+    },
+
     redrawMap: function() {
         this.display.clear();
         this._drawWholeMap();
@@ -286,8 +290,8 @@ Player.prototype._draw = function() {
 };
 
 Player.prototype._checkForItem = function() {
-    var key = this._x + "," + this._y;
-    var item = Game.map[key];
+    var playerLocationKey = this._x + "," + this._y;
+    var item = Game.map[playerLocationKey];
 
     if (item === ".") {
         Game.showMessage("There are no items here");
@@ -309,8 +313,7 @@ Player.prototype._checkForItem = function() {
             duration: 1000
         };
 
-        var openInventory = Game.player.addToInventory(item);
-
+        var openInventoryLocation = Game.player.addToInventory(item);
 
         if (leaveFoundItem()) {
             message.text = Lore.abandonMsg(item);
@@ -318,23 +321,21 @@ Player.prototype._checkForItem = function() {
         } else if (leaveDroppedItem()) {
             message.text = "You must leave " + item.name + " behind.";
         } else if (!wasDropped) {
-            message = Lore.pickupMsg(item, openInventory);
             Game.map[key] = '.';
+            message = Lore.pickupMsg(item, openInventoryLocation);
         } else {
             Game.map[key] = '.';
             message.text = "You pick up " + item.name + " from the ground.";
         }
 
-
-        console.log("Back in game.js, message is ", message);
         Game.showMessage(message.text, message.duration);
 
         function leaveDroppedItem() {
-            return (!openInventory && wasDropped);
+            return (!openInventoryLocation && wasDropped);
         }
 
         function leaveFoundItem() {
-            return (!openInventory && !wasDropped);
+            return (!openInventoryLocation && !wasDropped);
         }
 
     }
@@ -346,7 +347,7 @@ Player.prototype.act = function() {
 };
 
 
-
+//TODO: Extract entities to module(s)
 /*
  *   Non-player Entities
  */
@@ -358,11 +359,11 @@ Entities.Assassin = function(x, y) {
         name: "assassin",
         symbol: "A",
         color: "red",
+        action: Pathing.movesToPlayer,
         attributes: {
             defense: 5,
             damage: 5
         },
-        action: Pathing.movesToPlayer
     };
 
     return new Entity(x, y, drawEntity, options);
@@ -407,18 +408,22 @@ var Pathing = {
 
     none: function() {},
 
-    //TODO: Break into functions
     movesToPlayer: function() {
 
-        var x = Game.player.getX();
-        var y = Game.player.getY();
+        var player = Game.get('player');
 
-        var passableCallback = function(x, y) {
+        var x = player.getX();
+        var y = player.getY();
+
+        var isPassableCallback = function(x, y) {
             return (x + "," + y in Game.map);
         };
-        var astar = new ROT.Path.AStar(x, y, passableCallback, {
+
+        var pathingOptions = {
             topology: 4
-        });
+        };
+
+        var astar = new ROT.Path.AStar(x, y, isPassableCallback, pathingOptions);
 
         var path = [];
         var pathCallback = function(x, y) {
@@ -428,8 +433,8 @@ var Pathing = {
 
         path.shift();
 
-        if (path.length <= 1) {
-            var combatResult = new Combat(Game.player, this, Game.showMessage);
+        if (path.length <= 1) { //TODO: At some point, better player detection.
+            var combatResult = new Combat(player, this, Game.showMessage);
             Game.showMessage(combatResult.text, combatResult.duration);
         } else {
             x = path[0][0];
