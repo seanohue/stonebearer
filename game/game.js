@@ -7,6 +7,7 @@
 //TODO: FOV computation for player char (fog of war)
 //TODO: FOV computation for mobs
 //TODO: More variation in AI
+//TODO: Use get/getMultiple in modules instead of passing in as args, when appropriate.
 //TODO: Lighting, affected by character's sight stat
 //TODO: Extract everything to do with map into its own module.
 //FIXME: Some messages stay on the screen even when another message is displayed. Handle two messages at once or create a message section of the display, separate from the map.
@@ -290,8 +291,8 @@ Player.prototype._draw = function() {
 };
 
 Player.prototype._checkForItem = function() {
-    var playerLocationKey = this._x + "," + this._y;
-    var item = Game.map[playerLocationKey];
+    var key = this._x + "," + this._y;
+    var item = Game.map[key];
 
     if (item === ".") {
         Game.showMessage("There are no items here");
@@ -441,6 +442,15 @@ function setupKeypress() {
 
 // Exported methods
 exports.get = _get;
+exports.getMultiple = _getMultiple;
+
+function _getMultiple(properties) {
+    var gameObj = {};
+    properties.forEach(function(property){
+        gameObj[property] = _get(property);
+    });
+    return gameObj;
+}
 
 function _get(property) {
     return Game[property] || undefined;
