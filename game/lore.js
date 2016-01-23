@@ -33,8 +33,6 @@ function abandonMsg(item) {
 
 // Helper functions
 function finalizeLootEncounter(msg, ending) {
-    console.log("Msg is ", msg);
-    console.log("ending is", ending);
     msg.text = msg.text + ending;
     msg.duration = msg.duration || 2000;
     return msg;
