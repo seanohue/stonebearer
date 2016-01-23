@@ -433,9 +433,11 @@ var Pathing = {
 
         path.shift();
 
-        if (path.length <= 1) { //TODO: At some point, better player detection.
+        //TODO: At some point, better player detection.
+        if (path.length <= 1) {
             var combatResult = new Combat(player, this, Game.showMessage);
             Game.showMessage(combatResult.text, combatResult.duration);
+            //TODO: A combat-resolution function (death/victory)
         } else {
             x = path[0][0];
             y = path[0][1];
@@ -463,7 +465,8 @@ function setupKeypress() {
     process.stdin.on("keypress", exitIfEscapeChars);
 
     function exitIfEscapeChars(ch, key) {
-        if (ch === "\u0003" || ch === "\u001b") {
+        var escapeChars = ["\u0003", "\u001b"];
+        if (ch in escapeChars) {
             process.exit(0);
         }
     }
@@ -475,6 +478,7 @@ function setupKeypress() {
     function handleExit() {
         process.stdout.write("\x1b[" + (process.stdout.rows + 1) + ";1H");
         process.stdout.write("\x1b[?25h");
+        console.log("Goodbye. For now.");
     }
 }
 
