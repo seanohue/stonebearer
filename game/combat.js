@@ -1,7 +1,6 @@
 var RNG = require('rot-js').RNG;
 
 //TODO: Add potential to miss based on attacker's sight/speed and defender's speed/defense.
-//FIXME: -1 damage can be dealt. Damage should never be lower than 0.
 
 
 /*
@@ -66,7 +65,7 @@ var Combat = module.exports = function(player, enemy) {
                 return ceil(
                     max(
                         RNG.getNormal(averageDamage),
-                        minDamage);
+                        minDamage));
                 }
             }
         };

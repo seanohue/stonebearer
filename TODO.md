@@ -25,6 +25,5 @@
 ### FIXMEs
 | Filename | line # | FIXME
 |:------|:------:|:------
-| /Users/seanodonohue/myProjects/rlp/game/combat.js | 4 | -1 damage can be dealt. Damage should never be lower than 0.
 | /Users/seanodonohue/myProjects/rlp/game/game.js | 13 | Some messages stay on the screen even when another message is displayed. Handle two messages at once or create a message section of the display, separate from the map.
 | /Users/seanodonohue/myProjects/rlp/game/game.js | 466 | Get this to work. Right now it hangs after the menu. Idea: Have the menu.js be where the game is started from. Menu then calls Game.init. Or make an index.js or main.js.
