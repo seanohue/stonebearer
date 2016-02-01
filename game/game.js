@@ -348,6 +348,22 @@ Player.prototype.act = function() {
 };
 
 
+
+// Kill functions
+
+Entity.prototype.kill = function() {
+    var self = this;
+    var newEntities = Game._entities.filter(function thingIsNotDead(thing, index){
+        return thing.id !== self.id;
+    });
+    Game._entities = newEntities;
+}
+
+Player.prototype.kill = function() {
+    // just call the close function but also log a game over message.
+}
+
+
 //TODO: Extract entities to module(s)
 /*
  *   Non-player Entities

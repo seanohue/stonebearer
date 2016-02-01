@@ -43,3 +43,4 @@ Entity.prototype.damage = function(amount) {
     this.attributes.health -= amount;
     return this.attributes.health;
 };
+
