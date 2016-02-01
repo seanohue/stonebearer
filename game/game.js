@@ -30,7 +30,6 @@ var Player = require('./player.js');
 var Entity = require('./entity.js');
 var Loot = require('./loot.js');
 var Lore = require('./lore.js');
-var Combat = require('./combat.js');
 var Maps = require('./maps.js');
 var Menus = require('./menus.js');
 var Pathing = require('./pathing.js');

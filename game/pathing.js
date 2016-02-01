@@ -35,7 +35,8 @@ var Pathing = module.exports = {
         if (path.length <= 1) {
             var combatResult = new Combat(game.player, this, game.showMessage);
             game.showMessage(combatResult.text, combatResult.duration);
-            //TODO: A combat-resolution function (death/victory)
+            if (combatResult.victory) this.kill();
+            if (combatResult.death) game.player.kill();
         } else {
             x = path[0][0];
             y = path[0][1];

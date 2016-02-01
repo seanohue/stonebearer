@@ -1,8 +1,8 @@
 var extend = require('../common.js').extend;
 
-var Entity = module.exports = function(x, y, draw, options) {
+var Entity = module.exports = function(x, y, draw, template) {
 
-    var defaultOptions = {
+    var defaultTemplate = {
         name: "beast",
 
         attributes: {
@@ -17,17 +17,17 @@ var Entity = module.exports = function(x, y, draw, options) {
         action: function() {},
     };
 
-    options = extend(options, defaultOptions);
+    options = extend(template, defaultTemplate);
 
     this._x = x;
     this._y = y;
 
-    this._name = options.name;
-    this.act = options.action;
-    this.attributes = options.attributes;
+    this._name = template.name;
+    this.act = template.action;
+    this.attributes = template.attributes;
 
-    this._symbol = options.symbol;
-    this._color = options.color;
+    this._symbol = template.symbol;
+    this._color = template.color;
     this._draw = draw;
     this._draw();
 
