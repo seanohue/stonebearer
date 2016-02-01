@@ -130,6 +130,7 @@ var Game = module.exports = {
             var being = Entities[chosenBeing];
 
             this._entities.push(this._createBeing(being, freeCells));
+            this._entities[quantity].id = quantity;
             quantity--;
         }
     },
