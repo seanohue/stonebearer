@@ -1,0 +1,28 @@
+{
+  "name": "stonebearer",
+  "version": "0.0.1",
+  "description": "a roguelike using typescript and phaser",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/seanohue/stonebearer.git"
+  },
+  "keywords": [
+    "roguelike",
+    "game",
+    "typescript",
+    "phaser",
+    "procedural",
+    "html5",
+    "rotjs"
+  ],
+  "author": "Sean O'Donohue",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/seanohue/stonebearer/issues"
+  },
+  "homepage": "https://github.com/seanohue/stonebearer#readme"
+}
