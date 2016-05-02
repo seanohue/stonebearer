@@ -27,5 +27,8 @@
   "homepage": "https://github.com/seanohue/stonebearer#readme",
   "dependencies": {
     "phaser": "^2.4.7"
+  },
+  "devDependencies": {
+    "tern": "^0.18.0"
   }
 }
