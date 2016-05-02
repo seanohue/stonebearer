@@ -1,6 +1,6 @@
 /// <reference path="../node_modules/phaser/typescript/phaser.d.ts" />
 
-class SimpleGame {
+class Game {
 
   constructor() {
     const width = 800;
@@ -29,5 +29,5 @@ class SimpleGame {
 }
 
 window.onload = () => {
-  var game = new SimpleGame();
+  var game = new Game();
 };
