@@ -22,4 +22,6 @@ var Game = (function () {
 }());
 window.onload = function () {
     var game = new Game();
+    game.preload();
+    game.create();
 };

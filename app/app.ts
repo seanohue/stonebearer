@@ -18,16 +18,18 @@ class Game {
   game: Phaser.Game;
 
   preload() {
-      this.game.load.image('logo', 'phaser2.png');
+    this.game.load.image('logo', 'phaser2.png');
   }
 
   create() {
-      const logo = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'logo');
-      logo.anchor.setTo(0.5, 0.5);
+    const logo = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'logo');
+    logo.anchor.setTo(0.5, 0.5);
   }
 
 }
 
 window.onload = () => {
   var game = new Game();
+  game.preload();
+  game.create();
 };
