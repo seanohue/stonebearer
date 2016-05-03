@@ -15,12 +15,18 @@ var Stonebearer;
             _super.call(this, width, height, renderer, parentElement, null);
             this.state.add('Boot', Stonebearer.Boot, false);
             this.state.add('Preloader', Stonebearer.Preloader, false);
-            this.state.start('boot');
         }
+        Game.prototype.create = function () {
+            this.state.start('Boot');
+        };
         return Game;
     }(Phaser.Game));
     Stonebearer.Game = Game;
 })(Stonebearer || (Stonebearer = {}));
+window.onload = function () {
+    var game = new Stonebearer.Game();
+    game.create();
+};
 var Stonebearer;
 (function (Stonebearer) {
     var Boot = (function (_super) {
