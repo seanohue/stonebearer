@@ -1,35 +1,69 @@
 /// <reference path="../node_modules/phaser/typescript/phaser.d.ts" />
 
-class Game {
+ /*
+  *
+  */
 
-  constructor() {
-    const width = 800;
-    const height = 600;
-    const renderer = Phaser.AUTO;
-    const parentElement = 'content';
-    const gameStates = {
-      preload: this.preload,
-      create: this.create,
-    };
+module Stonebearer {
 
-    this.game = new Phaser.Game(width, height, renderer, parentElement, gameStates);
-  }
+  export class Game extends Phaser.Game {
 
-  game: Phaser.Game;
+    constructor() {
 
-  preload() {
-    this.game.load.image('logo', 'phaser2.png');
-  }
+      const width = 800;
+      const height = 600;
+      const renderer = Phaser.AUTO;
+      const parentElement = 'content';
 
-  create() {
-    const logo = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'logo');
-    logo.anchor.setTo(0.5, 0.5);
+      super(width, height, renderer, parentElement, null);
+
+      this.state.add('Boot', Boot, false);
+      this.state.add('Preloader', Preloader, false);
+      // this.state.add('MainMenu', MainMenu, false);
+      // this.state.add('Level1', Level1, false);
+
+      this.state.start('boot');
+
+    }
+
   }
 
 }
 
-window.onload = () => {
-  var game = new Game();
-  game.preload();
-  game.create();
-};
+// class Game {
+//
+//     constructor() {
+//
+//     }
+//
+//     game: Phaser.Game;
+//
+//     preload() {
+//         this.game.load.image('logo', 'corp-playtime.jpg');
+//     }
+//
+//     create() {
+//         const logo = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'logo');
+//         logo.anchor.setTo(0.5, 0.5);
+//         logo.scale.setTo(0.2, 0.2);
+//
+//         const introTween = () => {
+//             const endScale = { x: 1, y: 1 };
+//             const duration = 2000;
+//             const animation = Phaser.Easing.Bounce.Out;
+//             this.game.add
+//                 .tween(logo.scale)
+//                 .to(endScale, duration, animation, true);
+//         };
+//
+//         introTween();
+//
+//     }
+//
+// }
+
+// window.onload = () => {
+//     var game = new Game();
+//     game.preload();
+//     game.create();
+// };
