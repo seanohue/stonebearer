@@ -15,6 +15,7 @@ var Stonebearer;
             _super.call(this, width, height, renderer, parentElement, null);
             this.state.add('Boot', Stonebearer.Boot, false);
             this.state.add('Preloader', Stonebearer.Preloader, false);
+            this.state.add('MainMenu', Stonebearer.MainMenu, false);
             this.state.start('Boot');
         }
         return Game;
@@ -32,7 +33,7 @@ var Stonebearer;
             _super.apply(this, arguments);
         }
         Boot.prototype.preload = function () {
-            this.load.image('logo', 'assets/stf94_conscription.jpg');
+            this.load.image('splash', 'assets/corp-playtime.jpg');
             this.load.image('preloadBar', 'assets/loader.png');
         };
         Boot.prototype.create = function () {
@@ -50,6 +51,40 @@ var Stonebearer;
 })(Stonebearer || (Stonebearer = {}));
 var Stonebearer;
 (function (Stonebearer) {
+    var MainMenu = (function (_super) {
+        __extends(MainMenu, _super);
+        function MainMenu() {
+            _super.apply(this, arguments);
+        }
+        MainMenu.prototype.create = function () {
+            this.background = this.add.sprite(0, 0, 'titlepage');
+            this.background.alpha = 0;
+            this.logo = this.add.sprite(this.world.centerX, -300, 'logo');
+            this.logo.anchor.setTo(0.5, 0.5);
+            var duration = 2000;
+            this.add.tween(this.background)
+                .to({ alpha: 1 }, duration, Phaser.Easing.Bounce.InOut, true);
+            this.add.tween(this.logo)
+                .to({ y: 220 }, duration, Phaser.Easing.Elastic.Out, true, duration);
+            this.input.onDown.addOnce(this.fadeOut, this);
+        };
+        MainMenu.prototype.fadeOut = function () {
+            var duration = 2000;
+            this.add.tween(this.background)
+                .to({ alpha: 0 }, duration, Phaser.Easing.Linear.None, true);
+            var logoBounce = this.add.tween(this.logo)
+                .to({ y: 800 }, duration, Phaser.Easing.Linear.None, true);
+            logoBounce.onComplete.add(this.startGame, this);
+        };
+        MainMenu.prototype.startGame = function () {
+            console.log('yey');
+        };
+        return MainMenu;
+    }(Phaser.State));
+    Stonebearer.MainMenu = MainMenu;
+})(Stonebearer || (Stonebearer = {}));
+var Stonebearer;
+(function (Stonebearer) {
     var Preloader = (function (_super) {
         __extends(Preloader, _super);
         function Preloader() {
@@ -58,6 +93,7 @@ var Stonebearer;
         Preloader.prototype.preload = function () {
             this.preloadBar = this.add.sprite(200, 250, 'preloadBar');
             this.load.setPreloadSprite(this.preloadBar);
+            this.load.image('logo', 'assets/logo.png');
             this.load.image('titlepage', 'assets/titlepage.jpg');
             this.load.audio('music', 'assets/title.mp3', true);
             this.load.spritesheet('simon', 'assets/simon.png', 58, 96, 5);
@@ -84,7 +120,7 @@ var Stonebearer;
                     .to(endScale, duration, animation, true);
             };
             introAnimation();
-            console.log('lol');
+            this.game.state.start('MainMenu', true, false);
         };
         return Preloader;
     }(Phaser.State));

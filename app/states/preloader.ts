@@ -1,3 +1,8 @@
+/*  Art credits:
+ *  Title page from Stephen Sanders (http://www.conceptart.org/forums/showthread.php/266427-Symbiosis-a-Creative-Commons-art-book)
+ *  Logo from /u/stimpyrules (https://www.reddit.com/r/glitch_art/comments/4gy7sk/i_accidentally_optimized_a_model_too_much_and/)
+ */
+
 module Stonebearer {
 
     export class Preloader extends Phaser.State {
@@ -11,6 +16,7 @@ module Stonebearer {
             this.load.setPreloadSprite(this.preloadBar);
 
             // Load our actual games assets
+            this.load.image('logo', 'assets/logo.png');
             this.load.image('titlepage', 'assets/titlepage.jpg');
             this.load.audio('music', 'assets/title.mp3', true);
             this.load.spritesheet('simon', 'assets/simon.png', 58, 96, 5);
@@ -48,8 +54,7 @@ module Stonebearer {
 
             introAnimation();
 
-            console.log('lol');
-            //this.game.state.start('MainMenu', true, false);
+            this.game.state.start('MainMenu', true, false);
 
         }
 

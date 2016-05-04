@@ -8,7 +8,7 @@ module Stonebearer {
   export class Boot extends Phaser.State {
 
     preload() {
-      this.load.image('logo', 'assets/stf94_conscription.jpg');
+      this.load.image('splash', 'assets/corp-playtime.jpg');
       this.load.image('preloadBar', 'assets/loader.png');
     }
 
