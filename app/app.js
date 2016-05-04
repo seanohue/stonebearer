@@ -15,33 +15,14 @@ var Stonebearer;
             _super.call(this, width, height, renderer, parentElement, null);
             this.state.add('Boot', Stonebearer.Boot, false);
             this.state.add('Preloader', Stonebearer.Preloader, false);
-        }
-        Game.prototype.preload = function () {
-            this.load.image('logo', 'corp-playtime.jpg');
-        };
-        Game.prototype.create = function () {
-            var _this = this;
-            var logo = this.add.sprite(this.world.centerX, this.world.centerY, 'logo');
-            logo.anchor.setTo(0.5, 0.5);
-            logo.scale.setTo(0.2, 0.2);
-            var introAnimation = function () {
-                var endScale = { x: 1, y: 1 };
-                var duration = 2000;
-                var animation = Phaser.Easing.Bounce.Out;
-                _this.add.tween(logo.scale)
-                    .to(endScale, duration, animation, true);
-            };
-            introAnimation();
             this.state.start('Boot');
-        };
+        }
         return Game;
     }(Phaser.Game));
     Stonebearer.Game = Game;
 })(Stonebearer || (Stonebearer = {}));
 window.onload = function () {
     var game = new Stonebearer.Game();
-    game.preload();
-    game.create();
 };
 var Stonebearer;
 (function (Stonebearer) {
@@ -51,6 +32,7 @@ var Stonebearer;
             _super.apply(this, arguments);
         }
         Boot.prototype.preload = function () {
+            this.load.image('logo', 'assets/corp-playtime.jpg');
             this.load.image('preloadBar', 'assets/corp-playtime.jpg');
         };
         Boot.prototype.create = function () {
@@ -86,6 +68,18 @@ var Stonebearer;
             loadingTween.onComplete.add(this.startMainMenu, this);
         };
         Preloader.prototype.startMainMenu = function () {
+            var _this = this;
+            var logo = this.game.add.sprite(this.world.centerX, this.world.centerY, 'logo');
+            logo.anchor.setTo(0.5, 0.5);
+            logo.scale.setTo(0.2, 0.2);
+            var introAnimation = function () {
+                var endScale = { x: 1, y: 1 };
+                var duration = 2000;
+                var animation = Phaser.Easing.Bounce.Out;
+                _this.game.add.tween(logo.scale)
+                    .to(endScale, duration, animation, true);
+            };
+            introAnimation();
             console.log('lol');
         };
         return Preloader;
