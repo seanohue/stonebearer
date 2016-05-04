@@ -16,7 +16,7 @@ module Stonebearer {
             this.load.setPreloadSprite(this.preloadBar);
 
             // Load our actual games assets
-            this.load.image('logo', 'assets/logo.png');
+            this.load.image('logo', 'assets/logo2.png');
             this.load.image('titlepage', 'assets/titlepage.jpg');
             this.load.audio('music', 'assets/title.mp3', true);
             this.load.spritesheet('simon', 'assets/simon.png', 58, 96, 5);

@@ -93,7 +93,7 @@ var Stonebearer;
         Preloader.prototype.preload = function () {
             this.preloadBar = this.add.sprite(200, 250, 'preloadBar');
             this.load.setPreloadSprite(this.preloadBar);
-            this.load.image('logo', 'assets/logo.png');
+            this.load.image('logo', 'assets/logo2.png');
             this.load.image('titlepage', 'assets/titlepage.jpg');
             this.load.audio('music', 'assets/title.mp3', true);
             this.load.spritesheet('simon', 'assets/simon.png', 58, 96, 5);

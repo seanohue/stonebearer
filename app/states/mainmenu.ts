@@ -16,7 +16,7 @@ module Stonebearer {
             const duration = 2000;
 
             this.add.tween(this.background)
-                .to({ alpha: 1}, duration, Phaser.Easing.Bounce.InOut, true);
+                .to({ alpha: 1 }, duration, Phaser.Easing.Bounce.InOut, true);
             this.add.tween(this.logo)
                 .to({ y: 220 }, duration, Phaser.Easing.Elastic.Out, true, duration);
 
