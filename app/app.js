@@ -32,8 +32,8 @@ var Stonebearer;
             _super.apply(this, arguments);
         }
         Boot.prototype.preload = function () {
-            this.load.image('logo', 'assets/corp-playtime.jpg');
-            this.load.image('preloadBar', 'assets/corp-playtime.jpg');
+            this.load.image('logo', 'assets/stf94_conscription.jpg');
+            this.load.image('preloadBar', 'assets/loader.png');
         };
         Boot.prototype.create = function () {
             this.input.maxPointers = 1;
@@ -58,6 +58,10 @@ var Stonebearer;
         Preloader.prototype.preload = function () {
             this.preloadBar = this.add.sprite(200, 250, 'preloadBar');
             this.load.setPreloadSprite(this.preloadBar);
+            this.load.image('titlepage', 'assets/titlepage.jpg');
+            this.load.audio('music', 'assets/title.mp3', true);
+            this.load.spritesheet('simon', 'assets/simon.png', 58, 96, 5);
+            this.load.image('level1', 'assets/level1.png');
         };
         Preloader.prototype.create = function () {
             var settings = { alpha: 0 };
@@ -69,14 +73,14 @@ var Stonebearer;
         };
         Preloader.prototype.startMainMenu = function () {
             var _this = this;
-            var logo = this.game.add.sprite(this.world.centerX, this.world.centerY, 'logo');
-            logo.anchor.setTo(0.5, 0.5);
-            logo.scale.setTo(0.2, 0.2);
+            var splash = this.game.add.sprite(this.world.centerX, this.world.centerY, 'splash');
+            splash.anchor.setTo(0.5, 0.5);
+            splash.scale.setTo(0.2, 0.2);
             var introAnimation = function () {
                 var endScale = { x: 1, y: 1 };
                 var duration = 2000;
                 var animation = Phaser.Easing.Bounce.Out;
-                _this.game.add.tween(logo.scale)
+                _this.game.add.tween(splash.scale)
                     .to(endScale, duration, animation, true);
             };
             introAnimation();
