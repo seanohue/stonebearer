@@ -100,16 +100,13 @@ var Stonebearer;
             this.load.image('level1', 'assets/level1.png');
         };
         Preloader.prototype.create = function () {
+            var _this = this;
             var settings = { alpha: 0 };
             var duration = 1000;
             var animation = Phaser.Easing.Linear.None;
             var loadingTween = this.add.tween(this.preloadBar)
                 .to(settings, duration, animation, true);
-            loadingTween.onComplete.add(this.startMainMenu, this);
-        };
-        Preloader.prototype.startMainMenu = function () {
-            var _this = this;
-            var splash = this.game.add.sprite(this.world.centerX, this.world.centerY, 'splash');
+            var splash = this.add.sprite(this.world.centerX, this.world.centerY, 'splash');
             splash.anchor.setTo(0.5, 0.5);
             splash.scale.setTo(0.2, 0.2);
             var introAnimation = function () {
@@ -117,9 +114,12 @@ var Stonebearer;
                 var duration = 2000;
                 var animation = Phaser.Easing.Bounce.Out;
                 _this.game.add.tween(splash.scale)
-                    .to(endScale, duration, animation, true);
+                    .to(endScale, duration, animation, true)
+                    .onComplete.add(_this.startMainMenu, _this);
             };
-            introAnimation();
+            loadingTween.onComplete.add(introAnimation, this);
+        };
+        Preloader.prototype.startMainMenu = function () {
             this.game.state.start('MainMenu', true, false);
         };
         return Preloader;
