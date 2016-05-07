@@ -34,7 +34,7 @@ var Stonebearer;
         }
         Boot.prototype.preload = function () {
             this.load.image('splash', 'assets/corp-playtime.jpg');
-            this.load.image('preloadBar', 'assets/loader.png');
+            this.load.image('preloadBar', 'assets/corp-playtime.jpg');
         };
         Boot.prototype.create = function () {
             this.input.maxPointers = 1;

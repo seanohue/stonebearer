@@ -34,20 +34,7 @@ module Stonebearer {
                 this.add.tween(this.preloadBar)
                     .to(settings, duration, animation, true);
 
-            const splash = this.add.sprite(this.world.centerX, this.world.centerY, 'splash');
-            splash.anchor.setTo(0.5, 0.5);
-            splash.scale.setTo(0.2, 0.2);
-
-            const introAnimation = () => {
-                const endScale = { x: 1, y: 1 };
-                const duration = 2000;
-                const animation = Phaser.Easing.Bounce.Out;
-                this.game.add.tween(splash.scale)
-                    .to(endScale, duration, animation, true)
-                    .onComplete.add(this.startMainMenu, this);
-            };
-
-            loadingTween.onComplete.add(introAnimation, this);
+            loadingTween.onComplete.add(this.startMainMenu, this);
 
         }
 

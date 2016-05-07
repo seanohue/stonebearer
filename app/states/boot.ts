@@ -9,7 +9,7 @@ module Stonebearer {
 
     preload() {
       this.load.image('splash', 'assets/corp-playtime.jpg');
-      this.load.image('preloadBar', 'assets/loader.png');
+      this.load.image('preloadBar', 'assets/corp-playtime.jpg');
     }
 
     create() {
