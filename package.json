@@ -26,7 +26,8 @@
   },
   "homepage": "https://github.com/seanohue/stonebearer#readme",
   "dependencies": {
-    "phaser": "^2.4.7"
+    "phaser": "^2.4.7",
+    "rot-js": "^0.6.2"
   },
   "devDependencies": {
     "tern": "^0.18.0"
