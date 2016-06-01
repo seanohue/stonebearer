@@ -47,4 +47,3 @@ module Stonebearer {
     }
 
 }
-}
