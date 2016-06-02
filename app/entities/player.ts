@@ -17,11 +17,11 @@ module Stonebearer {
         }
 
         update() {
-
+            console.log(this);
             this.body.velocity.x = 0;
 
-            // Helper functions for keypress events.
-            const pressed = key => this.game.input.keyboard.isDown(key);
+            // Helper functions for controller events.
+            const pressed = button => this.game.input.keyboard.isDown(button);
             const move = direction => {
                 this.body.velocity.x = 150 * direction.x;
                 this.animations.play('walk');

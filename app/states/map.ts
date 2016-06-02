@@ -12,7 +12,11 @@ module Stonebearer {
             this.music = this.add.audio('music', 1, false);
             this.music.play;
 
+            this.game.physics.startSystem(Phaser.Physics.P2JS);
+
             this.player = new Player(this.game, 130, 284);
+
+            this.game.physics.enable(this.player, Phaser.Physics.P2JS)
 
         }
 

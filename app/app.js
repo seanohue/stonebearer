@@ -41,8 +41,9 @@ var Stonebearer;
         }
         Player.prototype.update = function () {
             var _this = this;
+            console.log(this);
             this.body.velocity.x = 0;
-            var pressed = function (key) { return _this.game.input.keyboard.isDown(key); };
+            var pressed = function (button) { return _this.game.input.keyboard.isDown(button); };
             var move = function (direction) {
                 _this.body.velocity.x = 150 * direction.x;
                 _this.animations.play('walk');
@@ -143,7 +144,9 @@ var Stonebearer;
             this.background = this.add.sprite(0, 0, 'level1');
             this.music = this.add.audio('music', 1, false);
             this.music.play;
+            this.game.physics.startSystem(Phaser.Physics.P2JS);
             this.player = new Stonebearer.Player(this.game, 130, 284);
+            this.game.physics.enable(this.player, Phaser.Physics.P2JS);
         };
         return Map;
     }(Phaser.State));
